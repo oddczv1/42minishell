@@ -30,15 +30,16 @@
 
 typedef struct		s_data{
 	int		argc;
+	char	**cmds;//if call the func, output is stored this variable.
 	char	**argv;//split by semiclone
-	char	**cmd;//if call the func, output is stored this variable.
+	char	**cmd;
 	char	**envp;
 	char	**export;
 	int		ret;
 	char	*str;
-	char	**cmds;
+	
 }					t_data;
 
-int		ft_read_str(t_data *d, char *buf);
-
+int					ft_read_str(t_data *d, char *buf);
+void        		parse(t_data *d);
 #endif
