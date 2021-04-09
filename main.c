@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
-
+//
 static void	init_data(t_data *d, char **argv, char **env)
 {
 	d->argv = argv;
