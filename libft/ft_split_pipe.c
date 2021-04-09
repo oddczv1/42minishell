@@ -14,7 +14,7 @@
 
 int		is_space_pipe(char c)
 {
-	if (c == ' ' || c == '\t')
+	if (c == '|')
 		return (1);
 	return (0);
 }

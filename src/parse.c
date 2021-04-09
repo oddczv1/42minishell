@@ -12,9 +12,28 @@
 
 #include "../minishell.h"
 
-void		ft_check_argv(char *str)
+
+int		ft_check_word(char *str, int i)
 {
 	
+	return (i);
+}
+
+void		ft_check_argv(char *str)
+{
+	int i;
+
+	i = 0;
+	while (str[i])
+	{
+		while (ft_isspace(str[i]))
+			i++;
+		if (str[i] == '\0')
+			break ;
+		i = ft_check_word(str, i);
+		if (i == -1)
+			break ;
+	}		
 }
 
 void        parse(t_data *d)
@@ -32,7 +51,7 @@ void        parse(t_data *d)
 		{
 			ft_check_argv(d->argv[j]);
 			d->cmd = ft_split_space(d->argv[j]);
-			//ft_command(&d);
+			//ft_check_env($d);
 			//ft_free();			
         }
 		//ft_free();
