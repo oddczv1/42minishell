@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: youngrch <youngrch@student.42seoul.kr      +#+  +:+       +#+        */
+/*   By: huchoi <huchoi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 14:56:36 by youngrch          #+#    #+#             */
-/*   Updated: 2021/04/06 14:56:42 by youngrch         ###   ########.fr       */
+/*   Updated: 2021/04/09 14:51:39 by huchoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,10 @@
 # define MINISHELL_H
 
 # include "./libft/libft.h"
+
+# define huchoi 111
+
+# include <unistd.h>
 
 # include <unistd.h>
 # include <stdio.h>
@@ -26,14 +30,16 @@
 
 typedef struct		s_data{
 	int		argc;
-	char	**argv;
+	char	**cmds;//if call the func, output is stored this variable.
+	char	**argv;//split by semiclone
+	char	**cmd;
 	char	**envp;
 	char	**export;
 	int		ret;
 	char	*str;
-	char	**cmds;
+	
 }					t_data;
 
-int		ft_read_str(t_data *d, char *buf);
-
+int					ft_read_str(t_data *d, char *buf);
+void        		parse(t_data *d);
 #endif
