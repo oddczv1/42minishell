@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-static void	init_data(t_data *d, char **argv, char **env)
+static void	init_data(t_data *d, char **argv, char **env, char test)
 {
 	d->argv = argv;
 	d->ret = 0;
