@@ -31,7 +31,9 @@
 
 typedef struct		s_data{
 	int		argc;
-	char	**argv;
+	char	**argv;//split by semiclone
+	char	**cmd;//if call the func, output is stored this variable.
+
 	char	**envp;
 	char	**export;
 	int		ret;
