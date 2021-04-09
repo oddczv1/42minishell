@@ -6,7 +6,7 @@
 /*   By: youngrch <youngrch@student.42seoul.kr      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 14:56:36 by youngrch          #+#    #+#             */
-/*   Updated: 2021/04/06 14:56:42 by youngrch         ###   ########.fr       */
+/*   Updated: 2021/04/09 11:53:55 by youngrch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define MINISHELL_H
 
 # include "./libft/libft.h"
+# include <unistd.h>
 
 # include <unistd.h>
 # include <stdio.h>
