@@ -37,6 +37,7 @@ typedef struct		s_data{
 	char	**export;
 	int		ret;
 	char	*str;
+	int		fd[2];
 	
 }					t_data;
 

@@ -17,6 +17,8 @@ static void	init_data(t_data *d, char **argv, char **env)
 	d->argv = argv;
 	d->ret = 0;
 	d->str = 0;
+	d->fd[0] = 0;
+	d->fd[1] = 0;
 	(void)env;
 	//*d->env = ft_env(envp, 0);
 	d->export = (char **)malloc(sizeof(char *) + 1);
