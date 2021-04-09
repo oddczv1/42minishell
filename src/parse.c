@@ -14,7 +14,7 @@
 
 void		ft_check_argv(char *str)
 {
-	str[0] = 'h';
+	
 }
 
 void        parse(t_data *d)
@@ -31,9 +31,11 @@ void        parse(t_data *d)
 		while (d->argv[++j])
 		{
 			ft_check_argv(d->argv[j]);
-			//d->cmd = ft_split_space(d->argv[j]);
+			d->cmd = ft_split_space(d->argv[j]);
 			//ft_command(&d);
-				
+			//ft_free();			
         }
+		//ft_free();
     }
+	//ft_free();
 }
