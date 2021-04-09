@@ -6,14 +6,14 @@
 /*   By: youngrch <youngrch@student.42seoul.kr      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 14:40:55 by youngrch          #+#    #+#             */
-/*   Updated: 2021/04/09 11:53:34 by youngrch         ###   ########.fr       */
+/*   Updated: 2021/04/09 12:06:05 by youngrch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 /*
 #define MAX 50
-//
+
 int main(void)
 {
 	int len;
