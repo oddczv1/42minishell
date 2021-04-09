@@ -14,7 +14,7 @@
 # define MINISHELL_H
 
 # include "./libft/libft.h"
-
+# define huchoi 111
 # include <unistd.h>
 # include <stdio.h>
 # include <stdlib.h>
