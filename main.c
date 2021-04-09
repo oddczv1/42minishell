@@ -13,7 +13,7 @@
 #include "minishell.h"
 /*
 #define MAX 50
-
+#define hucho 100
 int main(void)
 {
 	int len;
