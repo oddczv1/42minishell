@@ -1,3 +1,2 @@
-alias check="git checkout"
-alias gitpwd="git branch"
+alias check="git checkout" && alias gitpwd="git branch"
 bash
