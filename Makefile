@@ -12,7 +12,9 @@
 
 NAME		= test
 
-SRCS		= ./main.c ./util.c
+SRCS		= ./main.c \
+				./src/util.c \
+				./src/parse.c 
 
 OBJS		= $(SRCS:.c=.o)
 
