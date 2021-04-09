@@ -6,7 +6,7 @@
 /*   By: huchoi <huchoi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 14:56:36 by youngrch          #+#    #+#             */
-/*   Updated: 2021/04/09 14:49:08 by huchoi           ###   ########.fr       */
+/*   Updated: 2021/04/09 14:51:39 by huchoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ typedef struct		s_data{
 	int		argc;
 	char	**argv;//split by semiclone
 	char	**cmd;//if call the func, output is stored this variable.
-
 	char	**envp;
 	char	**export;
 	int		ret;
