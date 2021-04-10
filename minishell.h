@@ -33,7 +33,7 @@ typedef struct		s_data{
 	char			**cmds;//if call the func, output is stored this variable.
 	char			**argv;//split by semiclone
 	char			**cmd;
-	char			**envp;
+	char			**env;
 	char			**export;
 	int				ret;
 	char			*str;
@@ -42,7 +42,9 @@ typedef struct		s_data{
 }					t_data;
 
 int					ft_read_str(t_data *d, char *buf);
+char				**ft_get_env(char **env);
 void        		parse(t_data *d);
+
 
 void				ft_check_quote(char *str, int *i, int d);
 void				ft_check_redirection_one(char *str, int *i);

@@ -58,6 +58,19 @@ void		ft_check_argv(char *str)
 	}		
 }
 
+void		ft_check_env(char *str)
+{
+	int i;
+
+	i = 0;
+	while (str[i])
+	{
+	//	if (str[i] == '$' && ( || ))
+	//		printf("asd\n");
+		i++;
+	}		
+}
+
 void        parse(t_data *d)
 {
     int i;
@@ -72,9 +85,9 @@ void        parse(t_data *d)
 		while (d->argv[++j])
 		{
 			ft_check_argv(d->argv[j]);
+			ft_check_env(d->argv[j]);
 			printf("%s\n", d->argv[j]);
-			d->cmd = ft_split_space(d->argv[j]);
-			//ft_check_env(d);
+			//d->cmd = ft_split_space(d->argv[j]);
 			//ft_check_redirection(d);
 			//ft_free();			
         }
