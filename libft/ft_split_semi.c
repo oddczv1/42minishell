@@ -12,10 +12,14 @@
 
 #include "libft.h"
 
-int		is_space_semi(char c)
+int		is_space_semi(char *str)
 {
-	if (c == ';')
+	if (*str == ';')
+	{
+		if (*(str - 1) == '\\')
+			return (0);
 		return (1);
+	}
 	return (0);
 }
 
@@ -26,11 +30,11 @@ int		count_word_semi(char *str)
 	count = 0;
 	while (*str)
 	{
-		while (is_space_semi(*str))
+		while (is_space_semi(str))
 			str++;
 		if (*str == '\0')
 			break ;
-		while (!is_space_semi(*str) && *str != '\0')
+		while (!is_space_semi(str) && *str != '\0')
 			str++;
 		count++;
 	}
@@ -65,12 +69,12 @@ char	**ft_split_semi(char *str)
 	i = 0;
 	while (*str)
 	{
-		while (is_space_semi(*str))
+		while (is_space_semi(str))
 			str++;
 		if (*str == '\0')
 			break ;
 		word_start = str;
-		while (!is_space_semi(*str) && *str != '\0')
+		while (!is_space_semi(str) && *str != '\0')
 			str++;
 		array[i] = ft_strndup_semi(word_start, str - word_start);
 		i++;

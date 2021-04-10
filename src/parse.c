@@ -13,10 +13,33 @@
 #include "../minishell.h"
 
 
-int		ft_check_word(char *str, int i)
+void		ft_check_word(char *str, int *i)
 {
-	
-	return (i);
+	if (str[(*i) - 1] != '\\' && str[*i] == '\'')
+		ft_check_quote(str, i, 1);
+	else if (str[(*i) - 1] != '\\' && str[*i] == '\"')
+		ft_check_quote(str, i, 2);
+	else if (str[(*i) - 1] != '\\' && str[*i] == '>' && str[*i + 1] != '>')
+		ft_check_redirection_one(str, i);
+	else if (str[(*i) - 1] != '\\' && str[*i] == '<' && str[*i + 1] != '<')
+		ft_check_redirection_one(str, i);
+	else if (str[(*i) - 1] != '\\' && str[*i] == '>' && str[*i + 1] == '>')
+		ft_check_redirection_two(str, i);
+	else if (str[(*i) - 1] != '\\' && str[*i] == '<' && str[*i + 1] == '<')
+		ft_check_redirection_two(str, i);
+	else if (str[*i] == '\\' && str[*i + 1] != '\\' )
+	{
+		ft_memmove(str + *i , str + *i + 1, ft_strlen(str + *i + 1));
+		str[ft_strlen(str) - 1] = 0;
+	}
+	else if (str[*i] == '\\' && str[*i + 1] == '\\' )
+	{
+		ft_memmove(str + *i , str + *i + 1, ft_strlen(str + *i + 1));
+		str[ft_strlen(str) - 1] = 0;
+		(*i)++;
+	}
+	else
+		(*i)++;
 }
 
 void		ft_check_argv(char *str)
@@ -30,9 +53,8 @@ void		ft_check_argv(char *str)
 			i++;
 		if (str[i] == '\0')
 			break ;
-		i = ft_check_word(str, i);
-		if (i == -1)
-			break ;
+		while(str[i] && !ft_isspace(str[i]))
+			ft_check_word(str, &i);
 	}		
 }
 
@@ -50,8 +72,10 @@ void        parse(t_data *d)
 		while (d->argv[++j])
 		{
 			ft_check_argv(d->argv[j]);
+			printf("%s\n", d->argv[j]);
 			d->cmd = ft_split_space(d->argv[j]);
-			//ft_check_env($d);
+			//ft_check_env(d);
+			//ft_check_redirection(d);
 			//ft_free();			
         }
 		//ft_free();

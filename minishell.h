@@ -29,18 +29,23 @@
 # include <errno.h>
 
 typedef struct		s_data{
-	int		argc;
-	char	**cmds;//if call the func, output is stored this variable.
-	char	**argv;//split by semiclone
-	char	**cmd;
-	char	**envp;
-	char	**export;
-	int		ret;
-	char	*str;
-	int		fd[2];
+	int				argc;
+	char			**cmds;//if call the func, output is stored this variable.
+	char			**argv;//split by semiclone
+	char			**cmd;
+	char			**envp;
+	char			**export;
+	int				ret;
+	char			*str;
+	int				fd[2];
 	
 }					t_data;
 
 int					ft_read_str(t_data *d, char *buf);
 void        		parse(t_data *d);
+
+void				ft_check_quote(char *str, int *i, int d);
+void				ft_check_redirection_one(char *str, int *i);
+void				ft_check_redirection_two(char *str, int *i);
+
 #endif

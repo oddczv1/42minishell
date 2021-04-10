@@ -12,10 +12,14 @@
 
 #include "libft.h"
 
-int		is_space_pipe(char c)
+int		is_space_pipe(char *str)
 {
-	if (c == '|')
+	if (*str == '|')
+	{
+		if (*(str - 1) == '\\')
+			return (0);
 		return (1);
+	}
 	return (0);
 }
 
@@ -26,11 +30,11 @@ int		count_word_pipe(char *str)
 	count = 0;
 	while (*str)
 	{
-		while (is_space_pipe(*str))
+		while (is_space_pipe(str))
 			str++;
 		if (*str == '\0')
 			break ;
-		while (!is_space_pipe(*str) && *str != '\0')
+		while (!is_space_pipe(str) && *str != '\0')
 			str++;
 		count++;
 	}
@@ -65,12 +69,12 @@ char	**ft_split_pipe(char *str)
 	i = 0;
 	while (*str)
 	{
-		while (is_space_pipe(*str))
+		while (is_space_pipe(str))
 			str++;
 		if (*str == '\0')
 			break ;
 		word_start = str;
-		while (!is_space_pipe(*str) && *str != '\0')
+		while (!is_space_pipe(str) && *str != '\0')
 			str++;
 		array[i] = ft_strndup_pipe(word_start, str - word_start);
 		i++;
