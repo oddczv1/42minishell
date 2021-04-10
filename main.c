@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
-//
+
 static void	init_data(t_data *d, char **argv, char **env)
 {
 	d->argv = argv;
@@ -19,8 +19,7 @@ static void	init_data(t_data *d, char **argv, char **env)
 	d->str = 0;
 	d->fd[0] = 0;
 	d->fd[1] = 0;
-	(void)env;
-	//*d->env = ft_env(envp, 0);
+	d->env = ft_get_env(env);
 	d->export = (char **)malloc(sizeof(char *) + 1);
 }
 
@@ -32,6 +31,12 @@ int			main(int argc, char **argv, char **env)
 	if (argc != 1)
 		return (1);
 	init_data(&d, argv, env);
+	int i = 0;
+	while (d.env[i])
+	{
+		printf("%s\n", d.env[i]);
+		i++;
+	}
 	while (1)
 	{
 		write(1, ">>> ~% ", 7);
