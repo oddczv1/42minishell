@@ -46,6 +46,7 @@ void        		parse(t_data *d);
 
 
 void				ft_check_quote(char *str, int *i, int d);
+void				ft_check_braceparam(char *str, int *i);
 void				ft_check_redirection_one(char *str, int *i);
 void				ft_check_redirection_two(char *str, int *i);
 

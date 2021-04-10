@@ -28,7 +28,7 @@ CFLAGS		= -Wall -Wextra -Werror
 
 $(NAME) : $(OBJS)
 	make all -C ./libft
-	$(CC) $(CFLAGS) -O0 -o $(NAME) $(OBJS) ./libft/libft.a
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) ./libft/libft.a
 
 all : $(NAME)
 

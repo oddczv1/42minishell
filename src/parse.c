@@ -12,6 +12,19 @@
 
 #include "../minishell.h"
 
+	/*
+	if (str[*i] == '\\' && str[*i + 1] != '\\' )
+	{
+		ft_memmove(str + *i , str + *i + 1, ft_strlen(str + *i + 1));
+		str[ft_strlen(str) - 1] = 0;
+	}
+	else if (str[*i] == '\\' && str[*i + 1] == '\\' )
+	{
+		ft_memmove(str + *i , str + *i + 1, ft_strlen(str + *i + 1));
+		str[ft_strlen(str) - 1] = 0;
+		(*i)++;
+	}
+	*/
 
 void		ft_check_word(char *str, int *i)
 {
@@ -27,17 +40,6 @@ void		ft_check_word(char *str, int *i)
 		ft_check_redirection_two(str, i);
 	else if (str[(*i) - 1] != '\\' && str[*i] == '<' && str[*i + 1] == '<')
 		ft_check_redirection_two(str, i);
-	else if (str[*i] == '\\' && str[*i + 1] != '\\' )
-	{
-		ft_memmove(str + *i , str + *i + 1, ft_strlen(str + *i + 1));
-		str[ft_strlen(str) - 1] = 0;
-	}
-	else if (str[*i] == '\\' && str[*i + 1] == '\\' )
-	{
-		ft_memmove(str + *i , str + *i + 1, ft_strlen(str + *i + 1));
-		str[ft_strlen(str) - 1] = 0;
-		(*i)++;
-	}
 	else
 		(*i)++;
 }
@@ -53,21 +55,69 @@ void		ft_check_argv(char *str)
 			i++;
 		if (str[i] == '\0')
 			break ;
+		ft_memmove(str + i + 1, str + i, ft_strlen(str + i));
+		str[i] = '|';
+		i++;
 		while(str[i] && !ft_isspace(str[i]))
 			ft_check_word(str, &i);
+
 	}		
 }
 
-void		ft_check_env(char *str)
+void		ft_put_env_value(t_data *d, char *str, int *j, int start, int num)
 {
 	int i;
 
-	i = 0;
-	while (str[i])
+	i = -1;
+	while (d->env[++i])
 	{
-	//	if (str[i] == '$' && ( || ))
-	//		printf("asd\n");
-		i++;
+		if (!ft_strncmp(d->env[i], str + start, *j - start) && d->env[i][*j - start] == '=')
+			d->cmd[num] = ft_meminsert(str, d->env[i] + *j - start + 1, *j, start);
+	}
+	ft_memmove(str + start - 1, str + *j + 1, ft_strlen(str + *j + 1));
+	str[start + ft_strlen(str + *j + 1) - 1] = 0;
+}
+
+void		ft_put_env(t_data *d, char *str, int *i, int num)
+{
+	int start;
+
+	(*i)++;
+	if (str[*i] != '{')
+	{
+		start = *i;
+		while (str[*i] != ' ' && str[*i] != '\0' && str[*i] != '\"')
+			(*i)++;
+		ft_put_env_value(d, str, i, start, num);
+	}	
+	else if (str[*i] == '{')
+	{
+		start = *i + 1;
+		ft_check_braceparam(str, i);
+		ft_put_env_value(d, str, i, start, num); //here!!
+	}
+}
+
+void		ft_check_env(t_data *d)
+{
+	int i;
+	int j;
+	int quote;
+
+	i = -1;
+	while (d->cmd[++i])
+	{
+		j = 0;
+		quote = 1;
+		while (d->cmd[i][j])
+		{
+			if (d->cmd[i][j] == '\'' && d->cmd[i][j - 1] != '\\')
+				quote *= -1;
+			if (d->cmd[i][j] == '$' && quote != -1)
+				ft_put_env(d, d->cmd[i], &j, i);
+			else
+				j++;
+		}
 	}		
 }
 
@@ -85,10 +135,21 @@ void        parse(t_data *d)
 		while (d->argv[++j])
 		{
 			ft_check_argv(d->argv[j]);
-			ft_check_env(d->argv[j]);
-			printf("%s\n", d->argv[j]);
-			//d->cmd = ft_split_space(d->argv[j]);
+			d->cmd = ft_split_pipe(d->argv[j]);
+			ft_check_env(d);
+			
+			int k = 0;
+			while (d->cmd[k])
+			{
+				printf("%s\n", d->cmd[k]);
+				d->cmd[k] = 0;
+				k++;
+			}
+					
+			// 역슬러시 없애고
+			// 따운표를뺴주고
 			//ft_check_redirection(d);
+			//ft_command(d);
 			//ft_free();			
         }
 		//ft_free();
