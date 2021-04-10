@@ -31,12 +31,6 @@ int			main(int argc, char **argv, char **env)
 	if (argc != 1)
 		return (1);
 	init_data(&d, argv, env);
-	int i = 0;
-	while (d.env[i])
-	{
-		printf("%s\n", d.env[i]);
-		i++;
-	}
 	while (1)
 	{
 		write(1, ">>> ~% ", 7);
