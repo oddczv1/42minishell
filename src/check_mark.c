@@ -44,9 +44,6 @@ void		ft_check_braceparam(char *str, int *i)
 		(*i)++;
 	if (!str[*i])
 		ft_putstr_fd("Non finished braceparam\n", 1);
-	else
-		(*i)++;
-
 }
 
 void		ft_check_redirection_one(char *str, int *i)
