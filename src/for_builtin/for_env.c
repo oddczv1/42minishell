@@ -10,7 +10,6 @@ int     match_key(char *key_value, char *str)//검증필요
     return (FALSE);
 }
 
-char 
 /*                                               */
 /*                                               */
 /*                                               */
@@ -40,8 +39,6 @@ int     findenv(t_data *data, char *buf)
     return (-1)
 }
 
-
-//for export, unset command
 void    renewer_env(char **env, char *key, char *str, int size)
 {
     new_env = malloc(sizeof(char *) * size);
@@ -52,12 +49,12 @@ void    renewer_env(char **env, char *key, char *str, int size)
     {//delete one env
         while (env[idx])
         {
-            if (match_key(key, env[idx]) == TRUE)//not copy this key, value
-            {
+            if (match_key(key, env[idx]) == TRUE)
+            {//not copy
                 free(env[idx]);
                 idx++;
             }
-            else//copy this key, value
+            else//copy
                 new_env[count++] = env[idx++];
         }
         new_env[count] = NULL;//size == count?
@@ -92,7 +89,7 @@ int     add_env(t_data *data, char *key_value)
             return (-1);
         }
     }
-    //renewer_env(data->env, NULL, data->cmd[1], idx + 1 + 1);
+    //renewer_env(data->env, NULL, data->cmd[1], idx + 1 + 1);//이게 더 나을수도...?
     renewer_env(data->env, key_value, data->cmd[1], idx + 1 + 1);
     return (1);
 }

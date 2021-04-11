@@ -12,3 +12,16 @@ int check_apos(char *str)
 	}
 	return (start);
 }
+
+void	delete_last_newline(char **cmd)
+{
+	int idx = 0;
+	while (cmd[idx])
+		idx++;
+	char *str = cmd[idx - 1];
+	idx = 0;
+	while (str[idx])
+		idx++;
+	if (str[idx - 1] == '\n')
+		str[idx] = '\0';
+}
