@@ -22,6 +22,7 @@ SRCS	=	ft_atoi.c \
 			ft_itoa.c \
 			ft_memccpy.c \
 			ft_meminsert.c \
+			ft_removechar.c \
 			ft_memchr.c \
 			ft_memcmp.c \
 			ft_memcpy.c \

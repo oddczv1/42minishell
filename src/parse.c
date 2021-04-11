@@ -52,12 +52,12 @@ void		ft_check_argv(char *str)
 	while (str[i])
 	{
 		while (ft_isspace(str[i]))
+		{
+			str[i] = '|';
 			i++;
+		}
 		if (str[i] == '\0')
 			break ;
-		ft_memmove(str + i + 1, str + i, ft_strlen(str + i));
-		str[i] = '|';
-		i++;
 		while(str[i] && !ft_isspace(str[i]))
 			ft_check_word(str, &i);
 
@@ -83,11 +83,12 @@ void		ft_put_env_value(t_data *d, char *str, int *end, int start, int brac)
 	{
 		while (d->env[++i])
 		{
-			if (!ft_strncmp(d->env[i], str + start, *end - start) && d->env[i][*end - start] == '=')
-				d->cmd[d->num] = ft_meminsert(str, d->env[i] + *end - start + 1, *end, start);
+							
+			if (!ft_strncmp(d->env[i], str + start + 1, *end - start - 1) && d->env[i][*end - start - 1] == '=')
+				d->cmd[d->num] = ft_meminsert(str, d->env[i] + *end - start, *end + 1, start);
 		}
-		ft_memmove(str + start - 2, str + *end + 1, ft_strlen(str + *end + 1));
-		str[start -2 + ft_strlen(str + *end + 1)] = 0;
+		ft_memmove(str + start - 1, str + *end, ft_strlen(str + *end));
+		str[start -2 + ft_strlen(str + *end)] = 0;
 	}
 
 }
@@ -108,8 +109,7 @@ void		ft_put_env(t_data *d, char *str, int *i)
 	{
 		start = *i;
 		ft_check_braceparam(str, i);
-		*i -= 1;
-		ft_put_env_value(d, str + 1, i, start, 1); //here!!
+		ft_put_env_value(d, str, i, start, 1);
 	}
 }
 
@@ -138,7 +138,23 @@ void		ft_check_env(t_data *d)
 		}
 	}		
 }
+void		ft_remove_mark(t_data *d)
+{
+	int i;
+	
+	i = -1;
+	while (d->cmd[++i])
+	{
+		ft_removechar(d->cmd[i], '\\');
+	}	
 
+	i = -1;
+	while (d->cmd[++i])
+	{
+		ft_removechar(d->cmd[i], '\'');
+		ft_removechar(d->cmd[i], '\"');
+	}		
+}
 void        parse(t_data *d)
 {
     int i;
@@ -155,17 +171,17 @@ void        parse(t_data *d)
 			ft_check_argv(d->argv[j]);
 			d->cmd = ft_split_pipe(d->argv[j]);
 			ft_check_env(d);
-			
+			ft_remove_mark(d);
+
+			// 역슬러시 없애고
+			// 따운표를뺴주고
 			int k = 0;
 			while (d->cmd[k])
 			{
 				printf("%s\n", d->cmd[k]);
 				d->cmd[k] = 0;
 				k++;
-			}
-					
-			// 역슬러시 없애고
-			// 따운표를뺴주고
+			}								
 			//ft_check_redirection(d);
 			//ft_command(d);
 			//ft_free();			
