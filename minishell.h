@@ -38,6 +38,7 @@ typedef struct		s_data{
 	int				ret;
 	char			*str;
 	int				fd[2];
+	int				num;
 }					t_data;
 
 int					ft_read_str(t_data *d, char *buf);

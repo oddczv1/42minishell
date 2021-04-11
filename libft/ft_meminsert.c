@@ -12,16 +12,16 @@
 
 #include "libft.h"
 #include <stdio.h>
-void		*ft_meminsert(char *dest, char *src, int a, int tem)
+void		*ft_meminsert(char *dest, char *src, int end, int start)
 {
 	char *tem1;
 	char *tem2;
 
-	dest[tem -1] = 0;
+	dest[start - 1] = 0;
 	tem1 = ft_strjoin(dest, src);
-	tem2 = ft_strjoin(tem1, dest + a);
-	free(tem1);
-	free(dest);
+	tem2 = ft_strjoin(tem1, dest + end);
+	//free(tem1);
+	//free(dest);
 	dest = tem2;
 	return (dest);
 }
