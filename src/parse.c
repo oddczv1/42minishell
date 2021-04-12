@@ -28,9 +28,11 @@
 
 void		ft_check_word(char *str, int *i)
 {
-	if (str[(*i) - 1] != '\\' && str[*i] == '\'')
+	if ((str[(*i) - 1] != '\\' && str[*i] == '\'') || 
+		(str[(*i) - 2] == '\\' && str[(*i) - 1] == '\\' && str[*i] == '\''))
 		ft_check_quote(str, i, 1);
-	else if (str[(*i) - 1] != '\\' && str[*i] == '\"')
+	else if ((str[(*i) - 1] != '\\' && str[*i] == '\"') || 
+		(str[(*i) - 2] == '\\' && str[(*i) - 1] == '\\' && str[*i] == '\"'))
 		ft_check_quote(str, i, 2);
 	else if (str[(*i) - 1] != '\\' && str[*i] == '>' && str[*i + 1] != '>')
 		ft_check_redirection_one(str, i);
@@ -171,7 +173,7 @@ void        parse(t_data *d)
 			ft_check_argv(d->argv[j]);
 			d->cmd = ft_split_pipe(d->argv[j]);
 			ft_check_env(d);
-			ft_remove_mark(d);
+			//ft_remove_mark(d);
 
 			// 역슬러시 없애고
 			// 따운표를뺴주고

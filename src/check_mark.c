@@ -27,7 +27,8 @@ void		ft_check_quote(char *str, int *i, int d)
 	else if (d == 2)
 	{
 		(*i)++;
-		while (str[*i] && !(str[(*i) - 1] != '\\' && str[*i] == '\"'))
+		while (str[*i] && !((str[(*i) - 1] != '\\' && str[*i] == '\"') || 
+		(str[(*i) - 2] == '\\' && str[(*i) - 1] == '\\' && str[*i] == '\"')))
 			(*i)++;
 		if (!str[*i])
 			ft_putstr_fd("Non finished dquote\n", 1);
