@@ -15,6 +15,7 @@ NAME		= test
 SRCS		= ./main.c \
 				./src/util.c \
 				./src/check_mark.c \
+				./src/parse_env.c \
 				./src/parse.c 
 
 OBJS		= $(SRCS:.c=.o)

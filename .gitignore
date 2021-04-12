@@ -6,3 +6,4 @@ libft/libft.a
 test
 minishell
 minishell.dSYM
+ex.c

@@ -64,6 +64,8 @@ char	**ft_split_semi(char *str)
 	char	*word_start;
 	char	**array;
 
+	if (!str)
+		return (0);
 	word_count = count_word_semi(str);
 	array = (char**)malloc((word_count + 1) * sizeof(char *));
 	i = 0;

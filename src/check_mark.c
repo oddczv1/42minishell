@@ -12,6 +12,24 @@
 
 #include "../minishell.h"
 
+void		ft_remove_mark(t_data *d)
+{
+	int i;
+	
+	i = -1;
+	while (d->cmd[++i])
+	{
+		ft_removechar(d->cmd[i], '\\');
+	}	
+
+	i = -1;
+	while (d->cmd[++i])
+	{
+		ft_removechar(d->cmd[i], '\'');
+		ft_removechar(d->cmd[i], '\"');
+	}		
+}
+
 void		ft_check_quote(char *str, int *i, int d)
 {
 	if (d == 1)

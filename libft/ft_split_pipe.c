@@ -63,7 +63,9 @@ char	**ft_split_pipe(char *str)
 	int		word_count;
 	char	*word_start;
 	char	**array;
-
+	
+	if (!str)
+		return (0);
 	word_count = count_word_pipe(str);
 	array = (char**)malloc((word_count + 1) * sizeof(char *));
 	i = 0;
