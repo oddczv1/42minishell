@@ -1,6 +1,6 @@
 #include "../minishell.h"
 
-int check_apos(char *str)
+/*int check_apos(char *str)
 {
 	int size = ft_strlen(str);
 	int start = 0;
@@ -11,7 +11,7 @@ int check_apos(char *str)
 			str[size - 1] = '\0';
 	}
 	return (start);
-}
+}*/
 
 void	delete_last_newline(char **cmd)
 {
@@ -24,4 +24,14 @@ void	delete_last_newline(char **cmd)
 		idx++;
 	if (str[idx - 1] == '\n')
 		str[idx] = '\0';
+}
+
+int		is_newline(char *str)
+{
+	int idx = 0;
+	while (str[idx])
+		idx++;
+	if (str[idx - 1] == '\n')
+		return (1);
+	return (0);
 }

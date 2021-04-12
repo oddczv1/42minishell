@@ -1,11 +1,12 @@
 #include "../minishell.h"
-
+#define TRUE 1
+#define FALSE 0
 int     match_key(char *key_value, char *str)//검증필요
 {
     int size = 0;
     while (key_value[size] != 0 && key_value[size] != '=')
         size++;
-    if (!ft_strncmp(key, str, size - 1) && (str[size] == '=' || str[size] == '\0'))
+    if (!ft_strncmp(key_value, str, size - 1) && (str[size] == '=' || str[size] == '\0'))
         return (TRUE);
     return (FALSE);
 }
@@ -20,7 +21,7 @@ void    get_value(char *str, char *buf)
     int idx = 0;
     char *p;
     p = ft_strchr(str, '=');
-    ft_strcpy(buf, p + 1);
+    ft_strlcpy(buf, p + 1, 1024);
 }
 
 int     findenv(t_data *data, char *buf)
@@ -30,18 +31,18 @@ int     findenv(t_data *data, char *buf)
     char *key = data->cmd[1];
     while (data->env[idx])
     {
-        if (match_key(key, data->env[idx] == TRUE)
+        if (match_key(key, data->env[idx]) == TRUE)
         {
             get_value(data->env[idx], buf);
             return (1);
         }
     }
-    return (-1)
+    return (-1);
 }
 
 void    renewer_env(char **env, char *key, char *str, int size)
 {
-    new_env = malloc(sizeof(char *) * size);
+    char **new_env = malloc(sizeof(char *) * size);
     new_env[size - 1] = NULL;
     int idx = 0;
     int count = 0;
@@ -61,7 +62,7 @@ void    renewer_env(char **env, char *key, char *str, int size)
     }
     else
     {//add one env
-        while (data->env[idx])
+        while (env[idx])
             new_env[count++] = env[idx++];
         new_env[count++] = ft_strdup(str);
         new_env[count] = NULL;//size == count?
@@ -75,7 +76,7 @@ int    delete_env(t_data *data, char *key)
     while (data->env[idx])
         idx++;
     renewer_env(data->env, key, NULL, idx + 1 - 1);
-    return (1)
+    return (1);
 }
 
 int     add_env(t_data *data, char *key_value)
