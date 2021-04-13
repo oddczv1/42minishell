@@ -35,3 +35,42 @@ int		is_newline(char *str)
 		return (1);
 	return (0);
 }
+
+void	my_putstr_fd(char *str, int fd)
+{
+	int idx = 0;
+	while (str[idx])
+	{
+		if (!ft_strncmp(&str[idx], "\\n", 2))
+		{
+			//write(fd, &str[idx], 2);
+			write(1, "\n", 1);
+			idx+=2;
+		}
+		else if (!ft_strncmp(&str[idx], "\\f", 2))
+		{
+			write(1, "\f", 1);
+			idx+=2;
+		}
+		else if (!ft_strncmp(&str[idx], "\\t", 2))
+		{
+			write(1, "\t", 1);
+			idx+=2;
+		}
+		else if (!ft_strncmp(&str[idx], "\\v", 2))
+		{
+			write(1, "\v", 1);
+			idx+=2;
+		}
+		else if (!ft_strncmp(&str[idx], "\\r", 2))
+		{
+			write(1, "\r", 1);
+			idx+=2;
+		}
+		else
+		{
+			write(fd, &str[idx], 1);
+			idx++;
+		}
+	}
+}

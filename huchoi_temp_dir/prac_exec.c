@@ -9,13 +9,16 @@ int main(void)
     int status;
     int fd[2];
     pipe(fd);
-    args = ft_split("ls -al", ' ');
+    args = ft_split("cat", ' ');
+    int input = open("test.txt", O_RDONLY);
+    //int input = dup(0);
     if (0 == (p1 = fork()))
     {//close 꼭 해주기.
         close(fd[0]);
         dup2(fd[1], 1);
+        dup2(input ,0);
         close(fd[1]);
-        if (0 > execve("/bin/ls", args, NULL))
+        if (0 > execve("/bin/cat", args, NULL))
             ft_putstr_fd("err", 1);
         exit(0);
     }
@@ -25,7 +28,7 @@ int main(void)
         printf("close test : %d\n", ret);
         ret = close(fd[1]);
         printf("close test : %d\n", ret); //p1에서 close된줄 알았는데 여기선 또 close가 안되어있다.*/
-        args2 = ft_split("grep seoul ", ' ');
+        args2 = ft_split("grep 05 ", ' ');
         //waitpid(p1, &status, 0);//여기서 이 함수 호출하면 안되나...?
         if (0 == (p2 = fork()))
         {
