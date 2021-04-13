@@ -114,7 +114,6 @@ void		ft_check_argv(char *str)
 			break ;
 		while(str[i] && !ft_isspace(str[i]))
 			ft_check_word(str, &i);
-
 	}		
 }
 
@@ -138,7 +137,6 @@ void        parse(t_data *d)
 			ft_check_env(d);
 			ft_remove_mark(d);							
 			ft_check_redirection(d);
-			printf("%s\n", d->cmd[0]);
 			//ft_command(d);					
 			ft_free(d->cmd);			
         }
