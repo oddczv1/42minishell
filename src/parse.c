@@ -12,20 +12,6 @@
 
 #include "../minishell.h"
 
-void		ft_free(char **array)
-{
-	int i;
-
-	i = 0;
-	while (array[i])
-	{
-		free(array[i]);
-		i++;
-	}
-	free(array);
-}
-
-
 void		ft_check_redirection(t_data *d)
 {
 	int i;
@@ -35,34 +21,33 @@ void		ft_check_redirection(t_data *d)
 	{
 		if (ft_memcmp(d->cmd[i], "<", 2) == 0)
 		{
-			d->fd = open(d->cmd[i + 1], O_RDONLY);
-			if (d->fd < 0)
+			d->fd[0] = open(d->cmd[i + 1], O_RDONLY);
+			if (d->fd[0] < 0)
 				ft_putstr_fd("err\n", 2);  //read err
-			char buffer[20];
-			int read_size;
-			//dup2(d->fd, 0);
-			while ((read_size = read(d->fd, buffer, 20)) > 0)
-				buffer[read_size] = 0;
-			ft_putstr_fd(buffer, 1);
-			close(d->fd);
+			d->fd[1] = dup(0);
+			dup2(d->fd[0], 0);
+			d->cmd[i] = 0;	
+			//int read_size;
+			//char buffer[5000];
+			//read_size = read(d->fd[0], buffer, 5000);
+			//buffer[read_size] = 0;
+			//close(d->fd[0]);
 			break;
 		}	
 		else if (ft_memcmp(d->cmd[i], ">", 2) == 0)
 		{
-			d->fd = open(d->cmd[i + 1], O_WRONLY | O_CREAT | O_TRUNC, 0666);
-			char buffer[20] = "1111\n";
-			//dup2(d->fd, 1);
-			write(d->fd,  buffer, strlen(buffer));
-			close(d->fd);
+			d->fd[0] = open(d->cmd[i + 1], O_WRONLY | O_CREAT | O_TRUNC, 0666);
+			d->fd[1] = dup(1);
+			dup2(d->fd[0], 1);
+			d->cmd[i] = 0;
 			break;
 		}	
 		else if (ft_memcmp(d->cmd[i], ">>", 3) == 0)
 		{
-			d->fd = open(d->cmd[i + 1], O_WRONLY | O_CREAT | O_APPEND, 0666);
-			char buffer[20] = "2222\n";
-			//dup2(d->fd, 1);
-			write(d->fd,  buffer, strlen(buffer));
-			close(d->fd);
+			d->fd[0] = open(d->cmd[i + 1], O_WRONLY | O_CREAT | O_APPEND, 0666);
+			d->fd[1] = dup(1);
+			dup2(d->fd[0], 1);
+			d->cmd[i] = 0;
 			break;
 		}	
 	}
@@ -153,7 +138,7 @@ void        parse(t_data *d)
 			ft_check_env(d);
 			ft_remove_mark(d);							
 			ft_check_redirection(d);
-			//ft_command(d);
+			//ft_command(d);					
 			ft_free(d->cmd);			
         }
 		ft_free(d->argv);

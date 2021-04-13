@@ -33,12 +33,13 @@ typedef struct		s_data{
 	char			**export;
 	int				ret;
 	char			*str;
-	int				fd;
+	int				fd[2];
 	int				num;
 }					t_data;
 
 int					ft_read_str(t_data *d, char *buf);
 char				**ft_get_env(char **env);
+void				ft_free(char **array);
 void        		parse(t_data *d);
 
 

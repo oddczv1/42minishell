@@ -38,7 +38,7 @@ void		ft_check_quote(char *str, int *i, int d)
 		while (str[*i] && str[*i] != '\'')
 			(*i)++;
 		if (!str[*i])
-			ft_putstr_fd("Non finished quote\n", 1);
+			ft_putstr_fd("Non finished quote\n", 2);
 		else
 			(*i)++;
 	}
@@ -49,7 +49,7 @@ void		ft_check_quote(char *str, int *i, int d)
 		(str[(*i) - 2] == '\\' && str[(*i) - 1] == '\\' && str[*i] == '\"')))
 			(*i)++;
 		if (!str[*i])
-			ft_putstr_fd("Non finished dquote\n", 1);
+			ft_putstr_fd("Non finished dquote\n", 2);
 		else
 			(*i)++;
 	}
@@ -62,7 +62,7 @@ void		ft_check_braceparam(char *str, int *i)
 	while (str[*i] && !(str[(*i) - 1] != '\\' && str[*i] == '}'))
 		(*i)++;
 	if (!str[*i])
-		ft_putstr_fd("Non finished braceparam\n", 1);
+		ft_putstr_fd("Non finished braceparam\n", 2);
 }
 
 void		ft_check_redirection_one(char *str, int *i)
