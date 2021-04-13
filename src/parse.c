@@ -24,8 +24,8 @@ void		ft_check_redirection(t_data *d)
 			d->fd[0] = open(d->cmd[i + 1], O_RDONLY);
 			if (d->fd[0] < 0)
 				ft_putstr_fd("err\n", 2);  //read err
-			d->fd[1] = dup(0);
-			dup2(d->fd[0], 0);
+			//d->fd[1] = dup(0);
+			//dup2(d->fd[0], 0);
 			d->cmd[i] = 0;	
 			//int read_size;
 			//char buffer[5000];
@@ -138,6 +138,7 @@ void        parse(t_data *d)
 			ft_check_env(d);
 			ft_remove_mark(d);							
 			ft_check_redirection(d);
+			printf("%s\n", d->cmd[0]);
 			//ft_command(d);					
 			ft_free(d->cmd);			
         }

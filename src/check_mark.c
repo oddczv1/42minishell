@@ -56,15 +56,6 @@ void		ft_check_quote(char *str, int *i, int d)
 
 }
 
-void		ft_check_braceparam(char *str, int *i)
-{
-	(*i)++;
-	while (str[*i] && !(str[(*i) - 1] != '\\' && str[*i] == '}'))
-		(*i)++;
-	if (!str[*i])
-		ft_putstr_fd("Non finished braceparam\n", 2);
-}
-
 void		ft_check_redirection_one(char *str, int *i)
 {
 	if (!ft_isspace(str[(*i) - 1]) && ft_isspace(str[(*i) + 1]))
