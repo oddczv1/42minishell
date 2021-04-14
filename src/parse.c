@@ -177,12 +177,12 @@ void        parse(t_data *d)
 {
 	int fd_std[2];
 	int fd_cmd[2];
-			pipe(fd_std);
-			pipe(fd_cmd);
-			fd_std[0] = dup(0);
-			fd_std[1] = dup(1);
-	//int status;
-	//pid_t pid = 0;
+	pipe(fd_std);
+	pipe(fd_cmd);
+	fd_std[0] = dup(0);
+	fd_std[1] = dup(1);
+	int status;
+	pid_t pid = 0;
 	int pipe1 = 0;
     int i;
 	int j;
@@ -197,9 +197,9 @@ void        parse(t_data *d)
 		//if (d->cmds[1] != NULL)
 		//{
 
-
-			//if (fork() == 0)
-			//{
+			if ((pid = fork()) == 0)
+			{
+				j = -1;
 				while (d->argv[++j])
 				{
 					ft_check_argv(d->argv[j]);
@@ -225,11 +225,11 @@ void        parse(t_data *d)
 					//process(d);				
 					ft_free(d->cmd);			
         		}			
-			//}
-			//else
-				//waitpid(pid, &status, 0);
+			}
+			else
+				waitpid(pid, &status, 0);
 		//}
-		
+		/*
 		else
 		{
 			j = -1;
@@ -241,21 +241,12 @@ void        parse(t_data *d)
 				ft_remove_mark(d);							
 				ft_check_redirection(d);		
 				pipe1 = 0;
-				/*
-				int k = -1;
 
-				while (d->cmd[++k])
-				{
-					ft_putstr_fd(d->cmd[k],2);
-					ft_putstr_fd("\n",2);
-				}*/
-
-				ft_command(d, fd_std, fd_cmd, pipe1);	
-				//process(d);				
+				ft_command(d, fd_std, fd_cmd, pipe1);					
 				ft_free(d->cmd);			
         	}
 			ft_free(d->argv);
-    	}
+    	}*/
 	}
 	ft_free(d->cmds);
 	return ;
