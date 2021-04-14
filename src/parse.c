@@ -177,12 +177,12 @@ void        parse(t_data *d)
 {
 	int fd_std[2];
 	int fd_cmd[2];
-	pipe(fd_std);
+	//pipe(fd_std);
 	pipe(fd_cmd);
 	fd_std[0] = dup(0);
 	fd_std[1] = dup(1);
-	int status;
-	pid_t pid = 0;
+	//int status;
+	//pid_t pid = 0;
 	int pipe1 = 0;
     int i;
 	int j;
@@ -194,11 +194,11 @@ void        parse(t_data *d)
 	while (d->cmds[++i])
 	{			
 		d->argv = ft_split_pipe(d->cmds[i]);
-		//if (d->cmds[1] != NULL)
-		//{
+		if (d->argv[1] != NULL)
+		{
 
-			if ((pid = fork()) == 0)
-			{
+			//if ((pid = fork()) == 0)
+			//{
 				j = -1;
 				while (d->argv[++j])
 				{
@@ -225,11 +225,10 @@ void        parse(t_data *d)
 					//process(d);				
 					ft_free(d->cmd);			
         		}			
-			}
-			else
-				waitpid(pid, &status, 0);
-		//}
-		/*
+			//}
+			//else
+			//	waitpid(pid, &status, 0);
+		}
 		else
 		{
 			j = -1;
@@ -246,7 +245,7 @@ void        parse(t_data *d)
 				ft_free(d->cmd);			
         	}
 			ft_free(d->argv);
-    	}*/
+    	}
 	}
 	ft_free(d->cmds);
 	return ;
