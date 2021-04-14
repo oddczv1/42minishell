@@ -1,16 +1,5 @@
-#include <stdio.h>
-#include <unistd.h>
-#include <sys/wait.h>//for wait function
 #include "../minishell.h"
-void	delete_last_newline(char **cmd);
-int     match_key(char *key_value, char *str);
-void    get_value(char *str, char *buf);
-int     findenv(t_data *data, char *buf);
-void    renewer_env(char **env, char *key, char *str, int size);
-int    delete_env(t_data *data, char *key);
-int     add_env(t_data *data, char *key_value);
-int		is_newline(char *str);
-void	my_putstr_fd(char *str, int fd);
+
 void	process_builtin(t_data *data)//fork()사용하면 절대 안됨.
 {
 	char buf[1024];
@@ -157,8 +146,26 @@ void	process_usr_exec(t_data *data)//이 부분 내일 geek for geek 보면서 �
 	return ;
 }
 
-
-
+int		is_builtin(t_data *data)
+{
+	char *cmd = data->cmd[0];
+	if (ft_strncmp(data->cmd, "echo", 5))
+		return (1);
+	else if (ft_strncmp(data->cmd, "env", 4))
+		return (1);
+	else if (ft_strncmp(data->cmd, "export", 7))
+		return (1);
+	else if (ft_strncmp(data->cmd, "unset", 6))
+		return (1);
+	else if (ft_strncmp(data->cmd, "exit", 5))
+		return (1);
+	else if (ft_strncmp(data->cmd, "pwd", 4))
+		return (1);
+	else if (ft_strncmp(data->cmd, "cd", 3))
+		return (1);
+	else
+		return (0);
+}
 void allocat_env(t_data *data, char **env)
 {
 	int size = 0;
@@ -176,17 +183,15 @@ void allocat_env(t_data *data, char **env)
 
 void	process(t_data *data)
 {
-	pid_t	pid;
-	int		status;
-	if (is_builtin(data->cmd))
+	if (is_builtin(data))
 	{
 		process_builtin(data);
 	}
-	else if (is_exec_usr(data->cmd))
+	else if (is_exec_usr(data))
 	{
 		process_usr_exec(data);
 	}
-	else if (is_exec_bin(data->cmd))
+	else if (is_exec_bin(data))
 	{
 		process_bin_exec(data);
 	}
@@ -208,12 +213,12 @@ void allocat_cmd(t_data *data, char **arg)
 	}
 	data->cmd[size] = NULL;
 }
-/*int main(int argc, char *argv[], char *env[])
-{
-	t_data data;
-	allocat_cmd(&data, argv);
+//int main(int argc, char *argv[], char *env[])
+//{
+	//t_data data;
+	//allocat_cmd(&data, argv);
 	//data.cmd = ft_split("echo test\n", ' ');
-	process_builtin(&data);
+	//process_builtin(&data);
 	/*data.cmd = ft_split("export test=testing", ' ');
 	allocat_env(&data, env);
 	process_builtin(&data);

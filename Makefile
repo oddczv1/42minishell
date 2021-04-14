@@ -16,7 +16,9 @@ SRCS		= ./main.c \
 				./src/util.c \
 				./src/check_mark.c \
 				./src/parse_env.c \
-				./src/parse.c 
+				./src/parse.c \
+				./src/for_echo.c ./src/for_env.c \
+				./src/process.c
 
 OBJS		= $(SRCS:.c=.o)
 

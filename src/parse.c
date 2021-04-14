@@ -190,10 +190,8 @@ void        parse(t_data *d)
 				ft_putstr_fd(d->cmd[k],2);
 				ft_putstr_fd("\n",2);
 			}*/
-			//	ft_putchar_fd(pipe, 2);
-			//	ft_putstr_fd("\n",2);
 			//ft_command(d, fd_std, fd_cmd, pipe);	
-			//ft_command(d);				
+			process(d);				
 			ft_free(d->cmd);			
         }
 		ft_free(d->argv);
