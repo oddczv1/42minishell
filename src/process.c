@@ -148,20 +148,19 @@ void	process_usr_exec(t_data *data)//이 부분 내일 geek for geek 보면서 �
 
 int		is_builtin(t_data *data)
 {
-	char *cmd = data->cmd[0];
-	if (ft_strncmp(data->cmd, "echo", 5))
+	if (ft_strncmp(data->cmd[0], "echo", 5))
 		return (1);
-	else if (ft_strncmp(data->cmd, "env", 4))
+	else if (ft_strncmp(data->cmd[0], "env", 4))
 		return (1);
-	else if (ft_strncmp(data->cmd, "export", 7))
+	else if (ft_strncmp(data->cmd[0], "export", 7))
 		return (1);
-	else if (ft_strncmp(data->cmd, "unset", 6))
+	else if (ft_strncmp(data->cmd[0], "unset", 6))
 		return (1);
-	else if (ft_strncmp(data->cmd, "exit", 5))
+	else if (ft_strncmp(data->cmd[0], "exit", 5))
 		return (1);
-	else if (ft_strncmp(data->cmd, "pwd", 4))
+	else if (ft_strncmp(data->cmd[0], "pwd", 4))
 		return (1);
-	else if (ft_strncmp(data->cmd, "cd", 3))
+	else if (ft_strncmp(data->cmd[0], "cd", 3))
 		return (1);
 	else
 		return (0);
