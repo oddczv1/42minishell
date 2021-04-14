@@ -15,10 +15,6 @@
 
 # include "./libft/libft.h"
 
-# define huchoi 111
-
-# include <unistd.h>
-
 # include <unistd.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -38,16 +34,20 @@ typedef struct		s_data{
 	int				ret;
 	char			*str;
 	int				fd[2];
-	
+	int				num;
 }					t_data;
 
 int					ft_read_str(t_data *d, char *buf);
 char				**ft_get_env(char **env);
+void				ft_free(char **array);
 void        		parse(t_data *d);
-
 
 void				ft_check_quote(char *str, int *i, int d);
 void				ft_check_redirection_one(char *str, int *i);
 void				ft_check_redirection_two(char *str, int *i);
+void				ft_remove_mark(t_data *d);
+
+void				ft_put_env_value(t_data *d, char *str, int *end, int start, int brac);
+void				ft_put_env(t_data *d, char *str, int *i);
 
 #endif

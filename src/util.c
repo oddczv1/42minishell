@@ -42,3 +42,16 @@ char	**ft_get_env(char **env)
 	dest[len] = 0;
 	return (dest);
 }
+
+void		ft_free(char **array)
+{
+	int i;
+
+	i = 0;
+	while (array[i])
+	{
+		free(array[i]);
+		i++;
+	}
+	free(array);
+}
