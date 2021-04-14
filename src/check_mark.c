@@ -77,8 +77,7 @@ void		ft_check_redirection_one(char *str, int *i)
 		ft_memmove(str + *i + 2, str + *i + 1, ft_strlen(str + *i + 1));
 		str[*i + 2] = '|';
 		*i += 3;
-	}
-		
+	}		
 }
 
 void		ft_check_redirection_two(char *str, int *i)
