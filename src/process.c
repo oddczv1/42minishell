@@ -79,23 +79,85 @@ void	process_builtin(t_data *data)//fork()사용하면 절대 안됨.
 		ft_putstr_fd("error", 1);
 }
 
-/*void	process_bin(t_data *p_data)//이 부분 내일 geek for geek 보면서 공부.
+int		is_exec_usr(t_data *data)
+{
+	DIR *dir_ptr = NULL; 
+    struct dirent *file = NULL; 
+    char dir[1024];
+	int ret = 0;
+	int size= ft_strlen(data->cmd[0]);
+    strncpy(dir, "/usr/bin/", sizeof(dir));
+    if((dir_ptr = opendir(dir)) == NULL) 
+    { 
+        fprintf(stderr, "%s directory 정보를 읽을 수 없습니다.\n", dir); 
+        return -1; 
+    } /* 디렉토리의 처음부터 파일 또는 디렉토리명을 순서대로 한개씩 읽습니다. */ 
+    while((file = readdir(dir_ptr)) != NULL) 
+    { /* * struct dirent *의 구조체에서 d_name 이외에는 * 시스템마다 항목이 없을 수 있으므로 무시하고 이름만 사용합니다. */ 
+        printf("%s\n", file->d_name);
+		if (ft_strncmp(file->d_name, data->cmd[0], size + 1))
+			ret = 1;
+    } /* open된 directory 정보를 close 합니다. */ 
+    closedir(dir_ptr); 
+    return ret; 
+}
+
+int		is_exec_bin(t_data *data)
+{
+	DIR *dir_ptr = NULL; 
+    struct dirent *file = NULL; 
+    char dir[1024];
+	int ret = 0;
+	int size= ft_strlen(data->cmd[0]);
+    strncpy(dir, "/bin/", sizeof(dir));
+    if((dir_ptr = opendir(dir)) == NULL) 
+    { 
+        fprintf(stderr, "%s directory 정보를 읽을 수 없습니다.\n", dir); 
+        return -1; 
+    } /* 디렉토리의 처음부터 파일 또는 디렉토리명을 순서대로 한개씩 읽습니다. */ 
+    while((file = readdir(dir_ptr)) != NULL) 
+    { /* * struct dirent *의 구조체에서 d_name 이외에는 * 시스템마다 항목이 없을 수 있으므로 무시하고 이름만 사용합니다. */ 
+        printf("%s\n", file->d_name);
+		if (ft_strncmp(file->d_name, data->cmd[0], size + 1))
+			ret = 1;
+    } /* open된 directory 정보를 close 합니다. */ 
+    closedir(dir_ptr); 
+    return ret; 
+}
+
+void	process_bin_exec(t_data *data)//이 부분 내일 geek for geek 보면서 공부.
 {
 	int status;
 	pid_t pid;
-	int fd[4];
-
-	pipe(fd);
+	char *execfile = ft_strjoin("/bin/", data->cmd[0]);
 	if ((pid = fork()) == 0)
 	{
-		execve("/bin/bash", cmd, NULL);
+		execve(execfile, data->cmd, NULL);
 	}
 	else
 	{
 		waitpid(pid, &status, 0);
 	}
 	return ;
-}*/
+}
+
+void	process_usr_exec(t_data *data)//이 부분 내일 geek for geek 보면서 공부.
+{
+	int status;
+	pid_t pid;
+	char *execfile = ft_strjoin("/usr/bin/", data->cmd[0]);
+	if ((pid = fork()) == 0)
+	{
+		execve(execfile, data->cmd, NULL);
+	}
+	else
+	{
+		waitpid(pid, &status, 0);
+	}
+	return ;
+}
+
+
 
 void allocat_env(t_data *data, char **env)
 {
@@ -112,6 +174,26 @@ void allocat_env(t_data *data, char **env)
 	data->env[size] = NULL;
 }
 
+void	process(t_data *data)
+{
+	pid_t	pid;
+	int		status;
+	if (is_builtin(data->cmd))
+	{
+		process_builtin(data);
+	}
+	else if (is_exec_usr(data->cmd))
+	{
+		process_usr_exec(data);
+	}
+	else if (is_exec_bin(data->cmd))
+	{
+		process_bin_exec(data);
+	}
+	else
+		ft_putstr_fd("wrong command", 1);
+}
+
 void allocat_cmd(t_data *data, char **arg)
 {
 	int size = 1;
@@ -126,8 +208,7 @@ void allocat_cmd(t_data *data, char **arg)
 	}
 	data->cmd[size] = NULL;
 }
-
-int main(int argc, char *argv[], char *env[])
+/*int main(int argc, char *argv[], char *env[])
 {
 	t_data data;
 	allocat_cmd(&data, argv);
@@ -150,5 +231,5 @@ int main(int argc, char *argv[], char *env[])
 	int idx = 0;
 	//while (data.env[idx])
 		//printf("%s\n", data.env[idx++]);*/
-	return (0);
-}
+	//return (0);
+//}
