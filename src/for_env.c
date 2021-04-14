@@ -25,7 +25,7 @@ int     match_key(char *key_value, char *str)//검증필요
 
 void    get_value(char *str, char *buf)
 {
-    int idx = 0;
+    //int idx = 0;
     char *p;
     p = ft_strchr(str, '=');
     ft_strlcpy(buf, p + 1, 1024);
@@ -34,7 +34,7 @@ void    get_value(char *str, char *buf)
 int     findenv(t_data *data, char *buf)
 {
     int idx = 0;
-    char *str;
+    //char *str;
     char *key = data->cmd[1];
     while (data->env[idx])
     {

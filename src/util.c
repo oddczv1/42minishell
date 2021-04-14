@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_addchr.c                                        :+:      :+:    :+:   */
+/*   util.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: huchoi <huchoi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/10 15:33:49 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/10 15:54:47 by parmarti         ###   ########.fr       */
+/*   Updated: 2021/04/14 14:06:08 by huchoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,19 @@ char	**ft_get_env(char **env)
 	i = -1;
 	while (++i < len)
 		dest[i] = ft_strdup(env[i]);
-	dest[len] = 0;
+	dest[len] = NULL;
 	return (dest);
+}
+
+void		ft_free(char **array)
+{
+	int i;
+
+	i = 0;
+	while (array[i])
+	{
+		free(array[i]);
+		i++;
+	}
+	free(array);
 }

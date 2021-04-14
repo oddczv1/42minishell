@@ -18,7 +18,7 @@ static void	init_data(t_data *d, char **argv, char **env)
 	d->ret = 0;
 	d->str = 0;
 	d->fd[0] = 0;
-	d->fd[1] = 0;
+	d->num = 0;
 	d->env = ft_get_env(env);
 	d->export = (char **)malloc(sizeof(char *) + 1);
 }
@@ -33,7 +33,7 @@ int			main(int argc, char **argv, char **env)
 	init_data(&d, argv, env);
 	while (1)
 	{
-		write(1, ">>> ~% ", 7);
+		write(2, ">>> ~% ", 7);
 		while ((read(0, buf, 1)) && buf[0]!= '\n' )
 			ft_read_str(&d, buf);
 		parse(&d);
