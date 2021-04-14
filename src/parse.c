@@ -117,21 +117,16 @@ void		ft_check_argv(char *str)
 	}		
 }
 
-
-void		ft_command(t_data *d)
+/*
+void		ft_command(t_data *d, int *fd_std, int *fd_cmd, int pipe)
 {
-
 	int status;
 	pid_t pid;
-	int fd_std[2];
-	int fd_cmd[2];
 	char buf[1000];
-	pipe(fd_std);
-	pipe(fd_cmd);
+
 	fd_std[0] = dup(0);
 	fd_std[1] = dup(1);
 	dup2(fd_cmd[1], 1);
-	
 	if ((pid = fork()) == 0)
 	{
 		close(fd_cmd[0]);
@@ -144,16 +139,27 @@ void		ft_command(t_data *d)
 	{
 		close(fd_cmd[1]);
 		read(fd_cmd[0], buf, 999);
-		dup2(fd_std[0], 0);
-		dup2(fd_std[1], 1);
-		ft_putstr_fd(buf, 1);
+
+		if (pipe == 0)
+		{
+			dup2(fd_std[0], 0);
+			dup2(fd_std[1], 1);
+			ft_putstr_fd(buf, 1);
+			close(fd_cmd[0]);
+			close(fd_cmd[1]);		
+		}
 		waitpid(pid, &status, 0);
 	}
 }
-
+*/
 
 void        parse(t_data *d)
 {
+	//int fd_std[2];
+	//int fd_cmd[2];
+	//pipe(fd_std);
+	//pipe(fd_cmd);
+	//char pipe = '0';
     int i;
 	int j;
 
@@ -172,13 +178,22 @@ void        parse(t_data *d)
 			ft_check_env(d);
 			ft_remove_mark(d);							
 			ft_check_redirection(d);
-			int k = 0;
+			/*
+			if (d->argv[j + 1] != 0)
+				pipe = '1';
+			else
+				pipe = '0';
+
+			int k = -1;
 			while (d->cmd[++k])
 			{
 				ft_putstr_fd(d->cmd[k],2);
 				ft_putstr_fd("\n",2);
-			}
-			ft_command(d);					
+			}*/
+			//	ft_putchar_fd(pipe, 2);
+			//	ft_putstr_fd("\n",2);
+			//ft_command(d, fd_std, fd_cmd, pipe);	
+			//ft_command(d);				
 			ft_free(d->cmd);			
         }
 		ft_free(d->argv);
