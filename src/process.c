@@ -10,21 +10,33 @@ void	process_builtin(t_data *data)//fork()사용하면 절대 안됨.
 		idx = 1;
 		if (!ft_strncmp(data->cmd[idx], "-n", 3))
 			idx++;
-		while (data->cmd[idx])
+		while (data->cmd[idx + 1])
 		{
 			my_putstr_fd(data->cmd[idx], 1);//하나씩 write하다보니까 개행을 출력하지 못하는 문제가 발생. 따라서 my_putstr_fd 함수 생성.
 			idx++;
-			if (data->cmd[idx])
-				ft_putstr_fd(" ", 1);
+			ft_putstr_fd(" ", 1);
 		}
 		if (ft_strncmp(data->cmd[1], "-n", 3) != 0)
+		{
+			my_putstr_fd(data->cmd[idx], 1);
 			write(1, "\n", 2);
+		}
+		else//-n옵션 있을때 %개행처리? 이거 어떻게 하는건지..?
+		{
+			if (0 == fork())
+			{
+				my_putstr_fd(data->cmd[idx], 1);
+			}
+			else
+				wait(NULL);
+		}
 	}
 	else if (!ft_strncmp(data->cmd[0], "pwd", 4))
 	{
 		if (0 == getcwd(buf, 1024))
 			ft_putstr_fd("err", 1);
 		ft_putstr_fd(buf, 1);//표준출력 디라이렉션 처리는 영리치님2의 몫임.
+		write(1, "\n", 2);
 	}
 	else if (!ft_strncmp(data->cmd[0], "env", 4))//getenv()함수 쓰면 절대 안됨.local에 저장된 env db사용한다고 생각하자.
 	{
