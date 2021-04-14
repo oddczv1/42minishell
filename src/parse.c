@@ -117,19 +117,38 @@ void		ft_check_argv(char *str)
 	}		
 }
 
-/*
-void		ft_command(t_data *d, int *fd_std, int *fd_cmd, int pipe)
+
+void		ft_command(t_data *d, int *fd_std, int *fd_cmd, int pipe1)
 {
 	int status;
 	pid_t pid;
-	char buf[1000];
+	if (pipe1 == 1)
+	{
+	ft_putstr_fd(ft_itoa(fd_std[0]), 2);
+	ft_putchar_fd( ',', 2);
+	ft_putstr_fd(ft_itoa(fd_std[1]), 2);
+	ft_putchar_fd( ',', 2);
+	ft_putstr_fd(ft_itoa(fd_cmd[0]), 2);
+	ft_putchar_fd( ',', 2);
+	ft_putstr_fd(ft_itoa(fd_cmd[1]), 2);
+	ft_putchar_fd( '\n', 2);
+	}
 
-	fd_std[0] = dup(0);
-	fd_std[1] = dup(1);
-	dup2(fd_cmd[1], 1);
+
 	if ((pid = fork()) == 0)
 	{
-		close(fd_cmd[0]);
+		if (pipe1 == 0)
+		{
+			dup2(fd_cmd[0], 0);
+			close(fd_cmd[0]);
+			close(fd_cmd[1]);
+		}
+		else
+		{
+			close(fd_cmd[0]);
+			dup2(fd_cmd[1], 1);
+			close(fd_cmd[1]);
+		}
 		if (ft_memcmp(d->cmd[0], "ls", 3) == 0)
 			execve("/bin/ls", d->cmd, NULL);
 		if (ft_memcmp(d->cmd[0], "grep", 5) == 0)
@@ -137,67 +156,107 @@ void		ft_command(t_data *d, int *fd_std, int *fd_cmd, int pipe)
 	}
 	else
 	{
-		close(fd_cmd[1]);
-		read(fd_cmd[0], buf, 999);
-
-		if (pipe == 0)
+		//close(fd_cmd[1]);
+		if (pipe1 == 0)
 		{
 			dup2(fd_std[0], 0);
 			dup2(fd_std[1], 1);
-			ft_putstr_fd(buf, 1);
 			close(fd_cmd[0]);
-			close(fd_cmd[1]);		
+			close(fd_cmd[1]);
 		}
+		else
+		{
+			close(fd_cmd[1]);//
+		}
+		//close(fd_cmd[0]);
 		waitpid(pid, &status, 0);
 	}
 }
-*/
 
 void        parse(t_data *d)
 {
-	//int fd_std[2];
-	//int fd_cmd[2];
-	//pipe(fd_std);
-	//pipe(fd_cmd);
-	//char pipe = '0';
+	int fd_std[2];
+	int fd_cmd[2];
+			pipe(fd_std);
+			pipe(fd_cmd);
+			fd_std[0] = dup(0);
+			fd_std[1] = dup(1);
+	//int status;
+	//pid_t pid = 0;
+	int pipe1 = 0;
     int i;
 	int j;
-
+	
 	i = -1;
 	d->cmds = ft_split_semi(d->str);
 	if (!d->cmds)
 		return ;
 	while (d->cmds[++i])
-	{
+	{			
 		d->argv = ft_split_pipe(d->cmds[i]);
-		j = -1;
-		while (d->argv[++j])
-		{
-			ft_check_argv(d->argv[j]);
-			d->cmd = ft_split_pipe(d->argv[j]);
-			ft_check_env(d);
-			ft_remove_mark(d);							
-			ft_check_redirection(d);
-			/*
-			if (d->argv[j + 1] != 0)
-				pipe = '1';
-			else
-				pipe = '0';
+		//if (d->cmds[1] != NULL)
+		//{
 
-			int k = -1;
-			while (d->cmd[++k])
+
+			//if (fork() == 0)
+			//{
+				while (d->argv[++j])
+				{
+					ft_check_argv(d->argv[j]);
+					d->cmd = ft_split_pipe(d->argv[j]);
+					ft_check_env(d);
+					ft_remove_mark(d);							
+					ft_check_redirection(d);
+			
+					if (d->argv[j + 1] != 0)
+						pipe1 = 1;
+					else
+						pipe1 = 0;
+					/*
+					int k = -1;
+
+					while (d->cmd[++k])
+					{
+						ft_putstr_fd(d->cmd[k],2);
+						ft_putstr_fd("\n",2);
+					}*/
+
+					ft_command(d, fd_std, fd_cmd, pipe1);	
+					//process(d);				
+					ft_free(d->cmd);			
+        		}			
+			//}
+			//else
+				//waitpid(pid, &status, 0);
+		//}
+		
+		else
+		{
+			j = -1;
+			while (d->argv[++j])
 			{
-				ft_putstr_fd(d->cmd[k],2);
-				ft_putstr_fd("\n",2);
-			}*/
-			//	ft_putchar_fd(pipe, 2);
-			//	ft_putstr_fd("\n",2);
-			//ft_command(d, fd_std, fd_cmd, pipe);	
-			//ft_command(d);				
-			ft_free(d->cmd);			
-        }
-		ft_free(d->argv);
-    }
+				ft_check_argv(d->argv[j]);
+				d->cmd = ft_split_pipe(d->argv[j]);
+				ft_check_env(d);
+				ft_remove_mark(d);							
+				ft_check_redirection(d);		
+				pipe1 = 0;
+				/*
+				int k = -1;
+
+				while (d->cmd[++k])
+				{
+					ft_putstr_fd(d->cmd[k],2);
+					ft_putstr_fd("\n",2);
+				}*/
+
+				ft_command(d, fd_std, fd_cmd, pipe1);	
+				//process(d);				
+				ft_free(d->cmd);			
+        	}
+			ft_free(d->argv);
+    	}
+	}
 	ft_free(d->cmds);
 	return ;
 }
