@@ -81,7 +81,6 @@ void		ft_check_env(t_data *d)
 	}		
 }
 
-
 void		ft_check_word(char *str, int *i)
 {
 	if ((str[(*i) - 1] != '\\' && str[*i] == '\'') || 
