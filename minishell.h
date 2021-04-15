@@ -34,6 +34,7 @@ typedef struct		s_data{
 	int				ret;
 	char			*str;
 	int				fd[2];
+	int				ft_std[2];
 	int				num;
 }					t_data;
 
@@ -67,6 +68,7 @@ void		ft_check_redirection(t_data *d);
 void		ft_check_env(t_data *d);
 void		ft_check_word(char *str, int *i);
 void		ft_check_argv(char *str);
+void		ft_check_pipe(char *str);
 void		ft_command(t_data *d, int *fd_std, int *fd_cmd, int pipe1);
 
 int		is_exec_bin(t_data *data);

@@ -81,7 +81,6 @@ void		ft_check_env(t_data *d)
 	}		
 }
 
-
 void		ft_check_word(char *str, int *i)
 {
 	if ((str[(*i) - 1] != '\\' && str[*i] == '\'') || 
@@ -122,16 +121,20 @@ void		ft_check_argv(char *str)
 void        parse(t_data *d)
 {
 	int status;
-	pid_t pid = 0;
+	pid_t pid;
     int i;
 	int j;
 	
 	i = -1;
+	pid = 0;
+	d->ft_std[0] = dup(0);
+	d->ft_std[1] = dup(1);
 	d->cmds = ft_split_semi(d->str);
 	if (!d->cmds)
 		return ;
 	while (d->cmds[++i])
-	{			
+	{
+		ft_check_pipe(d->cmds[i]);
 		d->argv = ft_split_pipe(d->cmds[i]);
 		if (d->argv[1] != NULL)
 		{

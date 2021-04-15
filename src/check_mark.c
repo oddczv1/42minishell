@@ -30,6 +30,26 @@ void		ft_remove_mark(t_data *d)
 	}		
 }
 
+void		ft_check_pipe(char *str)
+{
+	int i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[(i) - 1] != '\\' && str[i] == '|')
+		{
+			(i)++;
+			while (ft_isspace(str[i]))
+				(i)++;
+			if(!str[i])
+				ft_putstr_fd("pipe error\n", 2);
+		}
+		else
+			(i)++;
+	}
+}
+
 void		ft_check_quote(char *str, int *i, int d)
 {
 	if (d == 1)
