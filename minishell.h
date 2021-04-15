@@ -6,7 +6,7 @@
 /*   By: huchoi <huchoi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 14:56:36 by youngrch          #+#    #+#             */
-/*   Updated: 2021/04/15 13:50:37 by huchoi           ###   ########.fr       */
+/*   Updated: 2021/04/15 14:41:23 by huchoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,4 +73,5 @@ int		is_exec_bin(t_data *data);
 int		is_exec_usr(t_data *data);
 int		is_builtin(t_data *data);
 void	process_builtin(t_data *data);
+void		ft_check_split(t_data *d, int idx);
 #endif

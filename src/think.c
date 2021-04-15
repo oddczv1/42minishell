@@ -37,19 +37,16 @@ void    process_pipe(t_data *d)
     int fx[4];
     while (d->argv[idx + 1] != NULL)
     {
-        ft_check_argv(d->argv[idx]);
+        /*ft_check_argv(d->argv[idx]);
 		d->cmd = ft_split_pipe(d->argv[idx]);
 		ft_check_env(d);
 		ft_remove_mark(d);							
-		ft_check_redirection(d);
+		ft_check_redirection(d);*/
+        ft_check_split(d, idx);
         fd = pipe_func(d, fx, fd, idx);
         idx++;
     }
-    ft_check_argv(d->argv[idx]);
-	d->cmd = ft_split_pipe(d->argv[idx]);
-	ft_check_env(d);
-	ft_remove_mark(d);							
-	ft_check_redirection(d);
+    ft_check_split(d, idx);
     dup2(fd, 0);
     close(fd);
     close(fx[CUR(idx-1)]);
