@@ -24,6 +24,9 @@
 # include <fcntl.h>
 # include <errno.h>
 
+#define TRUE 1
+#define FALSE 0
+
 typedef struct		s_data{
 	int				argc;
 	char			**cmds;//if call the func, output is stored this variable.
@@ -76,4 +79,15 @@ int		is_exec_usr(t_data *data);
 int		is_builtin(t_data *data);
 void	process_builtin(t_data *data);
 void		ft_check_split(t_data *d, int idx);
+
+void	porcess_echo(t_data *data);
+void	recover_std(t_data *d);
+void    process_pwd(t_data *data);
+void    process_env(t_data *data);
+void    process_cd(t_data *data);
+void    process_export(t_data *data);
+void    process_unset(t_data *data);
+int		is_exec_usr(t_data *data);
+int		is_exec_bin(t_data *data);
+int		is_builtin(t_data *data);
 #endif

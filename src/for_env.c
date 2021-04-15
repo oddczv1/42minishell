@@ -104,3 +104,27 @@ int     add_env(t_data *data, char *key_value)
         renewer_env(data, key_value, data->cmd[1], idx + 1 + 1);
     return (1);
 }
+
+void    process_env(t_data *data)
+{
+    int idx;
+    //char buf[1025];
+
+    if (data->cmd[1] == NULL)
+	{
+		idx = 0;
+		while (data->env[idx])
+		{
+			ft_putstr_fd(data->env[idx], 1);
+			ft_putstr_fd("\n", 1);
+			idx++;
+		}
+	}
+	/*else
+	{
+		if (-1 == findenv(data, buf))
+			ft_putstr_fd("not found that env", 2);
+		ft_putstr_fd(buf, 1);
+	}*///이런 케이스 들어오면 안됨.. 멘데토리에 명시..
+	recover_std(data);
+}

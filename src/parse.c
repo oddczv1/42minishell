@@ -15,7 +15,7 @@
 void		ft_check_split(t_data *d, int idx)
 {
 	ft_check_argv(d->argv[idx]);
-	d->cmd = ft_split_pipe(d->argv[idx]);
+	d->cmd = ft_split_pipe(d->argv[idx]);//편의를 위해 여기서도 그냥 ft_split_pipe쓴것 그냥 스페이스로 나눈다고 생각하면됨.
 	ft_check_env(d);
 	ft_remove_mark(d);							
 	ft_check_redirection(d);
@@ -139,14 +139,18 @@ void        parse(t_data *d)
 		if (d->argv[1] != NULL)
 		{
 			if ((pid = fork()) == 0)
-				process_pipe(d);
+				process_pipe(d);//여기안에선 recover_std()함수호출 필요없을듯..? 독립이니까..
 			else
+			{
 				waitpid(pid, &status, 0);
+				ft_free(d->argv);
+				//recover_std(d);//혹시나해서 넣어두긴하는데 필요없을듯
+			}
 		}
 		else
 		{
 			j = -1;
-			while (d->argv[++j])
+			while (d->argv[++j])//반복문을 쓸 필요가 없는데...?
 			{
 				ft_check_split(d, j);			
 				process(d);

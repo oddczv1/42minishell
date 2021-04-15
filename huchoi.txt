@@ -1,0 +1,2 @@
+-rwxr-xr-x   1 huchoi  2020_seoul  70288 Apr 15 23:35 test
+-rw-r--r--   1 huchoi  2020_seoul     28 Apr 15 01:44 test.txt
