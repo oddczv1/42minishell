@@ -6,7 +6,7 @@
 /*   By: huchoi <huchoi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 14:56:36 by youngrch          #+#    #+#             */
-/*   Updated: 2021/04/09 14:51:39 by huchoi           ###   ########.fr       */
+/*   Updated: 2021/04/15 13:50:37 by huchoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,4 +60,17 @@ int    delete_env(t_data *data, char *key);
 int     add_env(t_data *data, char *key_value);
 int		is_newline(char *str);
 void	my_putstr_fd(char *str, int fd);
+void	process_pipe(t_data *d);
+int     pipe_func(t_data *data, int *fx, int fd, int idx);
+
+void		ft_check_redirection(t_data *d);
+void		ft_check_env(t_data *d);
+void		ft_check_word(char *str, int *i);
+void		ft_check_argv(char *str);
+void		ft_command(t_data *d, int *fd_std, int *fd_cmd, int pipe1);
+
+int		is_exec_bin(t_data *data);
+int		is_exec_usr(t_data *data);
+int		is_builtin(t_data *data);
+void	process_builtin(t_data *data);
 #endif

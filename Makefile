@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: youngrch <youngrch@student.42seoul.kr      +#+  +:+       +#+         #
+#    By: huchoi <huchoi@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/04/06 15:02:07 by youngrch          #+#    #+#              #
-#    Updated: 2021/04/06 15:02:30 by youngrch         ###   ########.fr        #
+#    Updated: 2021/04/15 13:45:12 by huchoi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ SRCS		= ./main.c \
 				./src/parse_env.c \
 				./src/parse.c \
 				./src/for_echo.c ./src/for_env.c \
-				./src/process.c
+				./src/process.c ./src/think.c
 
 OBJS		= $(SRCS:.c=.o)
 

@@ -31,43 +31,43 @@ int     pipe_func(t_data *data, int *fx, int fd, int idx)
     }
     return (fx[CUR(idx)]);
 }
-int     process_pipe(t_data *data)
+void    process_pipe(t_data *d)
 {
+    pid_t pid;
+    int status;
     int fd = dup(0);
     int idx = 0;
     int fx[4];
-    while (data.argv[idx + 1] != NULL)
+    while (d->argv[idx + 1] != NULL)
     {
-        ///////////////////////////////////////
-        ft_check_argv(d->argv[j]);
-		d->cmd = ft_split_pipe(d->argv[j]);
+        ft_check_argv(d->argv[idx]);
+		d->cmd = ft_split_pipe(d->argv[idx]);
 		ft_check_env(d);
 		ft_remove_mark(d);							
 		ft_check_redirection(d);
-        ////////////////////////////////////////
-        fd = pipe_func(&data, fx, fd, idx);
+        fd = pipe_func(d, fx, fd, idx);
+        printf("test : %d\n ", fd);
+        sleep(10);
         idx++;
     }
-    pid_t pid;
-    int status;
-    data.cmd = ft_split(data.argv[idx], ' ');
+    //d->cmd = ft_split(d->argv[idx], ' ');
     if (0 == (pid = fork()))
     {
         dup2(fd, 0);//표준출력 리다이렉션은 하지않음.
         close(fd);
         close(fx[CUR(idx-1)]);
         char *exec_file;
-        if (is_builtin(data))
-            process_builtin(data);//이 부분이 조금 애매하긴한데... 뭔가 확신이 안생김.
-        else if (is_exec_bin(data))
+        if (is_builtin(d))
+            process_builtin(d);//이 부분이 조금 애매하긴한데... 뭔가 확신이 안생김.
+        else if (is_exec_bin(d))
         {   
-            exec_file = ft_strjoin("/bin/", data->cmd[0]); 
-            execve(exec_file, data.cmd, NULL);
+            exec_file = ft_strjoin("/bin/", d->cmd[0]); 
+            execve(exec_file, d->cmd, NULL);
         }
-        else if (is_exec_usr(data))
+        else if (is_exec_usr(d))
         {   
-            exec_file = ft_strjoin("/usr/bin/", data->cmd[0]); 
-            execve(exec_file, data.cmd, NULL);
+            exec_file = ft_strjoin("/usr/bin/", d->cmd[0]); 
+            execve(exec_file, d->cmd, NULL);
         }
         else
             ft_putstr_fd("error in piped...", 2);
