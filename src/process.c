@@ -1,4 +1,11 @@
 #include "../minishell.h"
+#define TRUE 1
+#define FALSE 0
+void	recover_std(t_data *d)
+{
+	dup2(d->ft_std[0], 0);
+	dup2(d->ft_std[1], 1);
+}
 
 void	process_builtin(t_data *data)//fork()사용하면 절대 안됨.
 {
@@ -8,9 +15,14 @@ void	process_builtin(t_data *data)//fork()사용하면 절대 안됨.
 	if (!ft_strncmp(data->cmd[0], "echo", 5))
 	{
 		idx = 1;
+		if (data->cmd[1] == NULL)
+		{
+			write(1,"\n", 1);
+			return ;
+		}
 		if (!ft_strncmp(data->cmd[idx], "-n", 3))
 			idx++;
-		while (data->cmd[idx + 1])
+		while (data->cmd[idx + 1] && data->cmd[idx])
 		{
 			my_putstr_fd(data->cmd[idx], 1);//하나씩 write하다보니까 개행을 출력하지 못하는 문제가 발생. 따라서 my_putstr_fd 함수 생성.
 			idx++;
@@ -30,13 +42,15 @@ void	process_builtin(t_data *data)//fork()사용하면 절대 안됨.
 			else
 				wait(NULL);
 		}
+		recover_std(data);
 	}
 	else if (!ft_strncmp(data->cmd[0], "pwd", 4))
 	{
 		if (0 == getcwd(buf, 1024))
 			ft_putstr_fd("err", 1);
-		ft_putstr_fd(buf, 1);//표준출력 디라이렉션 처리는 영리치님2의 몫임.
+		ft_putstr_fd(buf, 1);
 		write(1, "\n", 2);
+		recover_std(data);
 	}
 	else if (!ft_strncmp(data->cmd[0], "env", 4))//getenv()함수 쓰면 절대 안됨.local에 저장된 env db사용한다고 생각하자.
 	{
@@ -54,32 +68,73 @@ void	process_builtin(t_data *data)//fork()사용하면 절대 안됨.
 		{
 			if (-1 == findenv(data, buf))
 				ft_putstr_fd("not found that env", 2);
-			ft_putstr_fd(buf, 1);//표준출력 디라이렉션 처리는 영리치님의 몫임.
+			ft_putstr_fd(buf, 1);
 		}
-	}//dup로 표준입력 출력 다른걸로 변경해주신걸 내가 사용하는데, 사용이후 원래값으로 변경해주는 작업이 필요. 이작업도 영리치님이...
+		recover_std(data);
+	}
 	else if (!ft_strncmp(data->cmd[0], "cd", 3))
 	{
+		if (data->cmd[1] == NULL)
+		{
+			free(data->cmd[0]);
+			data->cmd = ft_split("cd ~", ' ');
+		}
+		if (ft_strncmp(data->cmd[1], "~", 2) == 0)
+		{
+			int idx = 0;
+			char buf[1000];
+			while (data->env[idx])
+    		{
+        		if (match_key("HOME", data->env[idx]) == TRUE)
+            		get_value(data->env[idx], buf);
+				idx++;
+			}
+			if (data->env[idx] == NULL)
+			{
+				free(data->cmd[1]);
+				data->cmd[1] = ft_strdup(buf);
+			}
+			else//혹시.. HOME 환경변수를 누군가 지워버렸다면....!
+			{
+				ft_putstr_fd("you can't have home!!!!!!!", 2);//원래 에러처리 안하고 그냥 엔터만 출력되는듯...
+			}
+		}
 		if (-1 == chdir(data->cmd[1]))
-			ft_putstr_fd("err", 1);
+		ft_putstr_fd("err", 2);
+		recover_std(data);
 	}
-	else if (!ft_strncmp(data->cmd[0], "export", 7))
+	else if (!ft_strncmp(data->cmd[0], "export", 7))//export만 입력하면 env와 동일하다.그렇게 바꿔야함.(정렬도 해주어야함.)
 	{
-		add_env(data, data->cmd[1]);
+		if (data->cmd[1])
+			add_env(data, data->cmd[1]);
+		recover_std(data);
 	}
 	else if (!ft_strncmp(data->cmd[0], "unset", 6))
 	{
-		delete_env(data, data->cmd[1]);
+		if (data->cmd[1])
+			delete_env(data, data->cmd[1]);
+		else
+		{
+			ft_putstr_fd("unset: not enough arguments", 2);
+			write(1, "\n", 1);
+		}
+		recover_std(data);
 	}
 	else if (!ft_strncmp(data->cmd[0], "exit", 5))
 	{
 		//terminate shell program
+		recover_std(data);
 	}
 	else if (!ft_strncmp(data->cmd[0], "bash", 5))
 	{
 		//아직 미정임
+		recover_std(data);
 	}
 	else 
+	{
 		ft_putstr_fd("error11", 2);
+		recover_std(data);
+	}
 }
 
 int		is_exec_usr(t_data *data)
@@ -122,7 +177,7 @@ int		is_exec_bin(t_data *data)
     }
     while((file = readdir(dir_ptr)) != NULL) 
     {
-		if (ft_strncmp(file->d_name, data->cmd[0], size + 1) && (int)ft_strlen(file->d_name) == size)
+		if (!ft_strncmp(file->d_name, data->cmd[0], size + 1) && (int)ft_strlen(file->d_name) == size)
 		{
 			ret = 1;
 			break;
@@ -132,27 +187,20 @@ int		is_exec_bin(t_data *data)
     return ret; 
 }
 
-void	process_bin_exec(t_data *data)//이 부분 내일 geek for geek 보면서 공부.
+void	process_bin_exec(t_data *data)
 {
 	int status;
 	pid_t pid;
-	//int idx = 0;
-	//while (data->cmd[idx])
-	//	printf("%s\n", data->cmd[idx]);
 	char *execfile = ft_strjoin("/bin/", data->cmd[0]);
 	if ((pid = fork()) == 0)
-	{
-		//execve("/bin/ls", data->cmd, NULL);
 		execve(execfile, data->cmd, NULL);
-	}
 	else
-	{
 		waitpid(pid, &status, 0);
-	}
+	recover_std(data);
 	return ;
 }
 
-void	process_usr_exec(t_data *data)//이 부분 내일 geek for geek 보면서 공부.
+void	process_usr_exec(t_data *data)
 {
 	int status;
 	pid_t pid;
@@ -165,6 +213,7 @@ void	process_usr_exec(t_data *data)//이 부분 내일 geek for geek 보면서 �
 	{
 		waitpid(pid, &status, 0);
 	}
+	recover_std(data);
 	return ;
 }
 
@@ -187,20 +236,6 @@ int		is_builtin(t_data *data)
 	else
 		return (0);
 }
-void allocat_env(t_data *data, char **env)
-{
-	int size = 0;
-	while (env[size])
-		size++;
-	data->env = malloc(sizeof(char *) * (size + 1));
-	int idx = 0;
-	while (env[idx])
-	{
-		data->env[idx] = ft_strdup(env[idx]);
-		idx++;
-	}
-	data->env[size] = NULL;
-}
 
 void	process(t_data *data)
 {
@@ -217,7 +252,11 @@ void	process(t_data *data)
 		process_bin_exec(data);
 	}
 	else
-		ft_putstr_fd("wrong command", 1);
+	{
+		ft_putstr_fd("zsh: command not found: ", 2);
+		write(2, data->cmd[0], ft_strlen(data->cmd[0]));
+		write(1, "\n", 1);
+	}
 }
 
 void allocat_cmd(t_data *data, char **arg)
@@ -235,28 +274,17 @@ void allocat_cmd(t_data *data, char **arg)
 	data->cmd[size] = NULL;
 }
 
-//int main(int argc, char *argv[], char *env[])
-//{
-	//t_data data;
-	//allocat_cmd(&data, argv);
-	//data.cmd = ft_split("echo test\n", ' ');
-	//process_builtin(&data);
-	/*data.cmd = ft_split("export test=testing", ' ');
-	allocat_env(&data, env);
-	process_builtin(&data);
-	data.cmd = ft_split("export HOME=second", ' ');
-	process_builtin(&data);
+void allocat_env(t_data *data, char **env)
+{
+	int size = 0;
+	while (env[size])
+		size++;
+	data->env = malloc(sizeof(char *) * (size + 1));
 	int idx = 0;
-	while (data.env[idx])
-		printf("%s\n", data.env[idx++]);*/
-	
-	/*allocat_env(&data, env);
-	data.cmd = ft_split("export test=test", ' ');
-	process_builtin(&data);
-	data.cmd = ft_split("unset nononono", ' ');
-	process_builtin(&data);
-	int idx = 0;
-	//while (data.env[idx])
-		//printf("%s\n", data.env[idx++]);*/
-	//return (0);
-//}
+	while (env[idx])
+	{
+		data->env[idx] = ft_strdup(env[idx]);
+		idx++;
+	}
+	data->env[size] = NULL;
+}
