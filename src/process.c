@@ -6,7 +6,7 @@ void	recover_std(t_data *d)
 	dup2(d->ft_std[1], 1);
 }
 
-void	process_builtin(t_data *data)//fork()사용하면 절대 안됨.
+void	process_builtin(t_data *data)//빌트인은 어떤경우에서라도 fork()사용하면 절대 안됨.
 {
 	if (!ft_strncmp(data->cmd[0], "echo", 5))
 		porcess_echo(data);
@@ -23,7 +23,8 @@ void	process_builtin(t_data *data)//fork()사용하면 절대 안됨.
 	else if (!ft_strncmp(data->cmd[0], "exit", 5))
 	{
 		//terminate shell program
-		recover_std(data);
+		exit(0);//이거만 해주면 되나...? 
+		recover_std(data);//필요없을듯..?
 	}
 	else if (!ft_strncmp(data->cmd[0], "bash", 5))
 	{
@@ -43,9 +44,12 @@ void	process_bin_exec(t_data *data)
 	pid_t pid;
 	char *execfile = ft_strjoin("/bin/", data->cmd[0]);
 	if ((pid = fork()) == 0)
-		execve(execfile, data->cmd, NULL);
+		execve(execfile, data->cmd, NULL);//자식프로세스에서는 메모리해제 안해줘도 될거라고 판단했는데, 생각해보면 해줘야하는거 같기도..?
 	else
+	{
 		waitpid(pid, &status, 0);
+		free(execfile);
+	}
 	recover_std(data);
 	return ;
 }
@@ -62,6 +66,7 @@ void	process_usr_exec(t_data *data)
 	else
 	{
 		waitpid(pid, &status, 0);
+		free(execfile);
 	}
 	recover_std(data);
 	return ;
@@ -86,5 +91,9 @@ void	process(t_data *data)
 		ft_putstr_fd("zsh: command not found: ", 2);
 		write(2, data->cmd[0], ft_strlen(data->cmd[0]));
 		write(1, "\n", 1);
+		if (0 == fork())
+			exit(127);
+		else
+			wait(NULL);
 	}
 }

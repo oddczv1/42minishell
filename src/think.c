@@ -6,9 +6,17 @@ int     pipe_func(t_data *d, int *fx, int fd, int idx)
     pipe(&fx[CUR(idx)]);
     pid_t pid;
     int status;
-    char *exec_file;
+    char exec_file[1024];
+    char *temp;
     if (is_builtin(d))
+    {
+        dup2(fd, 0);//
+        dup2(fx[CUR(idx) + 1], 1);//
         process_builtin(d);
+        close(fd);//
+        //close(fx[CUR(idx)]);//이 부분이 문제엿음
+        close(fx[CUR(idx) + 1]);
+    }
     else if (is_exec_bin(d) || is_exec_usr(d))
     {
         if (0 == (pid = fork()))
@@ -20,12 +28,16 @@ int     pipe_func(t_data *d, int *fx, int fd, int idx)
             close(fx[CUR(idx) + 1]);
             if (is_exec_bin(d))
             {
-                exec_file = ft_strjoin("/bin/", d->cmd[0]);
+                temp = ft_strjoin("/bin/", d->cmd[0]);
+                ft_strlcpy(exec_file, temp, ft_strlen(temp) + 1);
+                free(temp);
                 execve(exec_file, d->cmd, NULL);
             }
             else//is_exec_usr(d)
             {
-                exec_file = ft_strjoin("/usr/bin/", d->cmd[0]);
+                temp = ft_strjoin("/usr/bin/", d->cmd[0]);
+                ft_strlcpy(exec_file, temp, ft_strlen(temp) + 1);
+                free(temp);
                 execve(exec_file, d->cmd, NULL);
             }
         }
@@ -80,7 +92,10 @@ void    process_pipe(t_data *d)//recover_std함수 호출 필요없을듯.... �
     close(fx[CUR(idx-1)]);
     char *exec_file;
     if (is_builtin(d))
+    {
         process_builtin(d);//이 부분이 조금 애매하긴한데... 뭔가 확신이 안생김.
+        exit(0);
+    }
     else if (is_exec_bin(d))
     {
         exec_file = ft_strjoin("/bin/", d->cmd[0]);
