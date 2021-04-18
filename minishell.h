@@ -6,7 +6,7 @@
 /*   By: huchoi <huchoi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 14:56:36 by youngrch          #+#    #+#             */
-/*   Updated: 2021/04/16 12:54:13 by huchoi           ###   ########.fr       */
+/*   Updated: 2021/04/18 17:41:41 by huchoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,9 @@ typedef struct		s_data{
 	char			**cmd;
 	char			**env;
 	char			**export;
+	char			**paths;
+	char			exec_dir[300];//지우면 안됨 필요함.
+	char			exec_file[300];//이건 무조건 필요함.
 	int				ret;
 	char			*str;
 	int				fd[2];

@@ -10,7 +10,7 @@ int     pipe_func(t_data *d, int *fx, int fd, int idx)
     char *temp;
     if (is_builtin(d))
     {
-        dup2(fd, 0);//
+        //dup2(fd, 0);//이거 없애야할듯..? 빌트인 명령어는 표준입력 리다이렉션 하지 못하는게 팩트..
         dup2(fx[CUR(idx) + 1], 1);//
         process_builtin(d);
         close(fd);//

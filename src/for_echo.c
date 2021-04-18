@@ -80,7 +80,7 @@ void	porcess_echo(t_data *data)
 	if (ft_strncmp(data->cmd[1], "-n", 3) != 0)
 	{
 		my_putstr_fd(data->cmd[idx], 1);
-		write(1, "\n", 2);
+		write(1, "\n", 1);//여기서 마지막 인자의 값을 2로 하고 echo test | grep test -> Binary file (standard input) matches 이런 결과가 나와버림.
 	}
 	else//-n옵션 있을때 %개행처리? 이거 어떻게 하는건지..?
 	{
