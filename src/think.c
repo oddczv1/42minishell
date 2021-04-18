@@ -27,14 +27,14 @@ int     pipe_func(t_data *d, int *fx, int fd, int idx)
             execve(d->exec_file, d->cmd, NULL);
             /*if (is_exec_bin(d))
             {
-                /*temp = ft_strjoin("/bin/", d->cmd[0]);
+                temp = ft_strjoin("/bin/", d->cmd[0]);
                 ft_strlcpy(exec_file, temp, ft_strlen(temp) + 1);
                 free(temp);
                 execve(d->exec_file, d->cmd, NULL);
             }
             else//is_exec_usr(d)
             {
-                /*temp = ft_strjoin("/usr/bin/", d->cmd[0]);
+                temp = ft_strjoin("/usr/bin/", d->cmd[0]);
                 ft_strlcpy(exec_file, temp, ft_strlen(temp) + 1);
                 free(temp);
                 execve(d->exec_file, d->cmd, NULL);
