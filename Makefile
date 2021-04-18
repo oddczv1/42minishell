@@ -17,12 +17,19 @@ SRCS		= ./main.c \
 				./src/check_mark.c \
 				./src/parse_env.c \
 				./src/parse.c \
-				./src/process.c ./src/think.c \
-				./src/for_echo.c ./src/for_env.c \
-				./src/for_pwd.c  ./src/for_cd.c \
-				./src/for_export.c ./src/for_unset.c \
-				./src/utils_for_process.c ./src/get_path_exec_dir_file.c \
-
+				./src/termcap.c \
+				./src/termcap_key_util_1.c \
+				./src/termcap_key_util_2.c \
+				./src/for_echo.c \
+				./src/for_env.c \
+				./src/process.c \
+				./src/think.c \
+				./src/for_pwd.c \
+				./src/for_cd.c \
+				./src/for_export.c \
+				./src/for_unset.c \
+				./src/utils_for_process.c \
+				./src/get_path_exec_dir_file.c
 
 OBJS		= $(SRCS:.c=.o)
 
@@ -35,7 +42,7 @@ CFLAGS		= -Wall -Wextra -Werror
 
 $(NAME) : $(OBJS)
 	make all -C ./libft
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) ./libft/libft.a
+	$(CC) $(CFLAGS) -lncurses -o $(NAME) $(OBJS) ./libft/libft.a
 
 all : $(NAME)
 

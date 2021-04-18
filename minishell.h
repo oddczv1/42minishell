@@ -6,7 +6,7 @@
 /*   By: huchoi <huchoi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 14:56:36 by youngrch          #+#    #+#             */
-/*   Updated: 2021/04/18 17:41:41 by huchoi           ###   ########.fr       */
+/*   Updated: 2021/04/15 14:41:23 by huchoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@
 # include <string.h>
 # include <fcntl.h>
 # include <errno.h>
+# include <termios.h>
+# include <termcap.h>
 
 #define TRUE 1
 #define FALSE 0
@@ -45,6 +47,23 @@ typedef struct		s_data{
 	int				status;//init할때 얘도 0으로 초기화시켜야함.
 }					t_data;
 
+typedef struct		s_termcap{
+	int				c;
+	struct termios	termi;
+	int 			col;
+	int 			max;
+	char			buf[2];
+	char			**history;
+	int				num;
+	int				index;
+	int				temindex;
+	int				len;
+	int				up;
+	int				down;
+}					t_termcap;
+
+t_termcap			t;
+
 int					ft_read_str(t_data *d, char *buf);
 char				**ft_get_env(char **env);
 void				ft_free(char **array);
@@ -60,9 +79,9 @@ void				ft_put_env_value(t_data *d, char *str, int *end, int start, int brac);
 void				ft_put_env(t_data *d, char *str, int *i);
 
 void				delete_last_newline(char **cmd);
-int					match_key(char *key_value, char *str);
-void				get_value(char *str, char *buf);
-int					findenv(t_data *data, char *buf);
+int     			match_key(char *key_value, char *str);
+void    			get_value(char *str, char *buf);
+int     			findenv(t_data *data, char *buf);
 void				renewer_env(t_data *data, char *key, char *str, int size);
 int					delete_env(t_data *data, char *key);
 int					add_env(t_data *data, char *key_value);
@@ -78,11 +97,20 @@ void				ft_check_argv(char *str);
 void				ft_check_pipe(char *str);
 void				ft_command(t_data *d, int *fd_std, int *fd_cmd, int pipe1);
 
-int					is_exec_bin(t_data *data);
-int					is_exec_usr(t_data *data);
-int					is_builtin(t_data *data);
-void				process_builtin(t_data *data);
-void				ft_check_split(t_data *d, int idx);
+int					ft_read_term(t_data *d);
+int					putchar_tc(int tc);
+void				ft_insert_char(t_data *d);
+void				ft_backspace_char(t_data *d);
+int					ft_history_len();
+void				ft_term_left();
+void				ft_term_right();
+void				ft_term_backspace(t_data *d);
+void				ft_term_delete(t_data *d);
+void				ft_term_write(t_data *d);
+void				ft_term_enter(t_data *d);
+void				ft_term_up(t_data *d);
+void				ft_term_down_1(t_data *d);
+void				ft_term_down_2();
 
 void				porcess_echo(t_data *data);
 void				recover_std(t_data *d);
@@ -94,6 +122,9 @@ void				process_unset(t_data *data);
 int					is_exec_usr(t_data *data);
 int					is_exec_bin(t_data *data);
 int					is_builtin(t_data *data);
-int get_exec_dir_file(t_data *data);
-void get_paths(t_data *data);
+int 				get_exec_dir_file(t_data *data);
+void				process_builtin(t_data *data);
+void				ft_check_split(t_data *d, int idx);
+void 				get_paths(t_data *data);
+
 #endif
