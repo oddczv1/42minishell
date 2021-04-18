@@ -42,6 +42,7 @@ typedef struct		s_data{
 	int				fd[2];
 	int				ft_std[2];
 	int				num;
+	int				status;//init할때 얘도 0으로 초기화시켜야함.
 }					t_data;
 
 int					ft_read_str(t_data *d, char *buf);

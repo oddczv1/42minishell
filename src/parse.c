@@ -139,12 +139,12 @@ void        parse(t_data *d)
 		if (d->argv[1] != NULL)
 		{
 			if ((pid = fork()) == 0)
-				process_pipe(d);//여기안에선 recover_std()함수호출 필요없을듯..? 독립이니까..
+				process_pipe(d);//여기안에선 recover_std()함수호출 필요없을듯..?  여기선 메모리해제도 안해도됨. 독립이니까..
 			else
 			{
 				waitpid(pid, &status, 0);
 				ft_free(d->argv);
-				//recover_std(d);//혹시나해서 넣어두긴하는데 필요없을듯//필요함.
+				//recover_std(d);//혹시나해서 넣어두긴하는데 필요없을듯
 			}
 		}
 		else
