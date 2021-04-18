@@ -9,5 +9,6 @@ void    process_unset(t_data *data)
 		ft_putstr_fd("unset: not enough arguments", 2);
 		write(1, "\n", 1);
 	}
+	get_paths(data);
 	recover_std(data);
 }

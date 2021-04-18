@@ -6,5 +6,6 @@ void    process_export(t_data *data)
 		add_env(data, data->cmd[1]);
 	else
 		process_env(data);
+	get_paths(data);
 	recover_std(data);
 }

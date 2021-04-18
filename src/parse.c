@@ -144,7 +144,7 @@ void        parse(t_data *d)
 			{
 				waitpid(pid, &status, 0);
 				ft_free(d->argv);
-				//recover_std(d);//혹시나해서 넣어두긴하는데 필요없을듯
+				//recover_std(d);//혹시나해서 넣어두긴하는데 필요없을듯//필요함.
 			}
 		}
 		else

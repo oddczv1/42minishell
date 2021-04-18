@@ -21,6 +21,7 @@ static void	init_data(t_data *d, char **argv, char **env)
 	d->num = 0;
 	d->env = ft_get_env(env);
 	d->export = (char **)malloc(sizeof(char *) + 1);
+	get_paths(d);
 }
 
 int			main(int argc, char **argv, char **env)

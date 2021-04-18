@@ -38,7 +38,24 @@ void	process_builtin(t_data *data)//빌트인은 어떤경우에서라도 fork()
 	}
 }
 
-void	process_bin_exec(t_data *data)
+void	process_exec(t_data *data)
+{
+	int status;
+	pid_t pid;
+	if ((pid = fork()) == 0)
+	{
+		execve(data->exec_file, data->cmd, NULL);
+	}
+	else
+	{
+		waitpid(pid, &status, 0);
+		//free(execfile);//애시당초 메모리할당받은게 아님...
+	}
+	recover_std(data);
+	return ;
+}
+
+/*void	process_bin_exec(t_data *data)
 {
 	int status;
 	pid_t pid;
@@ -70,11 +87,28 @@ void	process_usr_exec(t_data *data)
 	}
 	recover_std(data);
 	return ;
-}
+}*/
 
 void	process(t_data *data)
 {
 	if (is_builtin(data))
+		process_builtin(data);
+	else if (get_exec_dir_file(data))
+	{
+		process_exec(data);
+	}
+	else
+	{
+		//error
+		ft_putstr_fd("zsh: command not found: ", 2);
+		write(2, data->cmd[0], ft_strlen(data->cmd[0]));
+		write(2, "\n", 1);
+		if (0 == fork())
+			exit(127);
+		else
+			wait(NULL);
+	}
+	/*if (is_builtin(data))
 	{
 		process_builtin(data);
 	}
@@ -95,5 +129,5 @@ void	process(t_data *data)
 			exit(127);
 		else
 			wait(NULL);
-	}
+	}*/
 }

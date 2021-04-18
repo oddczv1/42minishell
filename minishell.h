@@ -93,4 +93,6 @@ void				process_unset(t_data *data);
 int					is_exec_usr(t_data *data);
 int					is_exec_bin(t_data *data);
 int					is_builtin(t_data *data);
+int get_exec_dir_file(t_data *data);
+void get_paths(t_data *data);
 #endif

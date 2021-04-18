@@ -21,7 +21,8 @@ SRCS		= ./main.c \
 				./src/for_echo.c ./src/for_env.c \
 				./src/for_pwd.c  ./src/for_cd.c \
 				./src/for_export.c ./src/for_unset.c \
-				./src/utils_for_process.c
+				./src/utils_for_process.c ./src/get_path_exec_dir_file.c \
+
 
 OBJS		= $(SRCS:.c=.o)
 
