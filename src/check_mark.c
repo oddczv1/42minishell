@@ -46,6 +46,7 @@ void		ft_check_pipe(t_data *d, char *str)
 			{
 				ft_putstr_fd("pipe error\n", 2);
 				d->status = 1;
+				d->enable = 1;
 			}		
 		}
 		else
@@ -64,6 +65,7 @@ void		ft_check_quote(t_data *d, char *str, int *i, int j)
 		{
 			ft_putstr_fd("Non finished quote\n", 2);
 			d->status = 1;
+			d->enable = 1;
 		}
 		else
 			(*i)++;
@@ -78,6 +80,7 @@ void		ft_check_quote(t_data *d, char *str, int *i, int j)
 		{
 			ft_putstr_fd("Non finished dquote\n", 2);
 			d->status = 1;
+			d->enable = 1;
 		}
 		else
 			(*i)++;

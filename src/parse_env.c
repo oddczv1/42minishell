@@ -84,6 +84,7 @@ void		ft_put_env(t_data *d, char *str, int *i)
 		{
 			ft_putstr_fd("Non finished braceparam\n", 2);
 			d->status = 1;
+			d->enable = 1;
 		}
 		else
 			ft_put_env_value_2(d, str, i, start);

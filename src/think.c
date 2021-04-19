@@ -81,12 +81,13 @@ void    process_pipe(t_data *d)//recover_std함수 호출 필요없을듯.... �
         dup2(fd, 0);
         close(fd);
         close(fx[CUR(idx-1)]);
-        if (is_builtin(d))
+        if (d->enable != 0)
         {
-            process_builtin(d);//status값의 갱신작업은 process_builtin 함수에서 진행. status=0으로 초기화되어있음을 기억...
-            if (d->status != 0)
-                exit(d->status);
+            //printf("test : %d\n", d->status);
+            exit(d->status);
         }
+        if (is_builtin(d))
+            process_builtin(d);//status값의 갱신작업은 process_builtin 함수에서 진행. status=0으로 초기화되어있음을 기억...
         else if (get_exec_dir_file(d))
             execve(d->exec_file, d->cmd, NULL);//얘안에 exit(code)가 들어있음.. (think.c 의 모든함수는 exit(code)로 끝나야함.)
         else
@@ -102,7 +103,7 @@ void    process_pipe(t_data *d)//recover_std함수 호출 필요없을듯.... �
 	while (count >= 0)
 	{
 		waitpid(d->pids[count], &temp_status, 0);//여기서 반환된 상태값은 사용안될예정 (마지막 명령어의 상태값이 중요함.)
-		if (count == (idx - 1))
+		if (count == (idx))
 		{
 			d->status = WEXITSTATUS(temp_status);
 		}

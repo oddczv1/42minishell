@@ -44,6 +44,7 @@ typedef struct		s_data{
 	int				num;
 	int				status;//init할때 얘도 0으로 초기화시켜야함.
 	pid_t			*pids;
+	int				enable;
 }					t_data;
 
 typedef struct		s_termcap{

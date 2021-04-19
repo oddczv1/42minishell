@@ -26,13 +26,22 @@ void		ft_check_upper(t_data *d)
 
 void		ft_check_split(t_data *d, int idx)
 {
-	d->status = 0;
 	ft_check_argv(d, d->argv[idx]);
+	printf("1 status : %d\n", d->status);
 	d->cmd = ft_split_pipe(d->argv[idx]);//편의를 위해 여기서도 그냥 ft_split_pipe쓴것 그냥 스페이스로 나눈다고 생각하면됨.
 	ft_check_env(d);
-	ft_remove_mark(d);							
+	printf("2 status : %d\n", d->status);
+	ft_remove_mark(d);
+	printf("3 status : %d\n", d->status);							
 	ft_check_redirection(d);
+	printf("4 status : %d\n", d->status);
 	ft_check_upper(d);
+	printf("5 status : %d\n", d->status);
+	//if (!d->enable && d->status == 0)
+	//{
+		//printf("reach\n");
+		//d->status = 0;
+	//}
 }
 
 void		ft_check_redirection(t_data *d)
@@ -148,14 +157,14 @@ void		ft_check_argv(t_data *d, char *str)
 void        parse(t_data *d)
 {
 	//int status;
-	int temp_status;
+	//int temp_status;
 	pid_t pid;
     int i;
 	int j;
 	
 	i = -1;
 	pid = 0;
-	d->status = 0;
+	d->enable = 0;
 	d->ft_std[0] = dup(0);
 	d->ft_std[1] = dup(1);
 	d->cmds = ft_split_semi(d->str);
@@ -165,7 +174,7 @@ void        parse(t_data *d)
 	{
 		ft_check_pipe(d, d->cmds[i]);
 		d->argv = ft_split_pipe(d->cmds[i]);
-		if (d->argv[1] != NULL && !d->status)
+		if (d->argv[1] != NULL && !d->enable)
 		{
 			int nb = 0;
 			while (d->argv[nb])
@@ -176,20 +185,21 @@ void        parse(t_data *d)
 			else
 			{
 				//waitpid(pid, &status, 0);
-				waitpid(d->pids[nb], &temp_status, 0);
+				waitpid(d->pids[nb], &d->status, 0);
+				d->status = WEXITSTATUS(d->status);
 				//if (WIFEXITED(status))
 				//	d->status = WEXITSTATUS(status);//process_pipe함수안에서의 exit(code)가 status에 자동으로 저장된다.
 				printf("status is %d\n", d->status);
 				//recover_std(d);//혹시나해서 넣어두긴하는데 필요없을듯
 			}
 		}
-		else if (!d->status)
+		else
 		{
 			j = -1;
 			while (d->argv[++j])//반복문을 쓸 필요가 없는데...?
 			{
 				ft_check_split(d, j);
-				if (!d->status)
+				if (!d->enable)
 					process(d);
 				ft_free(d->cmd);			
         	}
