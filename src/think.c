@@ -11,7 +11,7 @@ int     pipe_func(t_data *d, int *fx, int fd, int idx)
         //dup2(fd, 0);//이거 없애야할듯..? 빌트인 명령어는 표준입력 리다이렉션 하지 못하는게 팩트.. 근데 이 부분 해줘도 문제는 없음.
         dup2(fx[CUR(idx) + 1], 1);//
         process_builtin(d);//d->status갱신 작업을 process_builtin함수에서 진행. 이미 status에 값이 0으로 초기화되었음을 기억..
-        close(fd);//
+        close(fd);
         //close(fx[CUR(idx)]);//이 부분이 문제엿음
         close(fx[CUR(idx) + 1]);
     }
@@ -28,7 +28,6 @@ int     pipe_func(t_data *d, int *fx, int fd, int idx)
         }
         else
         {
-            close(fx[CUR(idx) + 1]);
             if (idx != 0)//제일 초기단계만 아니면 이 조건문에서 참이됨.
             {
                 close(fx[CUR(idx-1)]);
@@ -39,12 +38,16 @@ int     pipe_func(t_data *d, int *fx, int fd, int idx)
                 d->status = WEXITSTATUS(status);
         }
     }
-    else
+    else if (!d->status)
     {
         ft_putstr_fd("zsh: command not found: ", 2);
 		write(2, d->cmd[0], ft_strlen(d->cmd[0]));
         write(2, "\n", 1);
-        return -1;//여기서 status값 갱신하지 않고 다른데에서 갱신
+        //close(fx[0]);
+        close(fx[CUR(idx)]);
+        close(fx[CUR(idx) + 1]);
+        close(fd);
+        return (d->ft_std[0]);//여기서 status값 갱신하지 않고 다른데에서 갱신
     }
     close(fx[CUR(idx) + 1]);
     if (idx != 0)//제일 초기단계만 아니면 이 조건문에서 참이됨.
@@ -63,18 +66,7 @@ void    process_pipe(t_data *d)//recover_std함수 호출 필요없을듯.... �
     while (d->argv[idx + 1] != NULL)
     {
         ft_check_split(d, idx);
-        if (-1 == (fd = pipe_func(d, fx, fd, idx)))
-        {
-            if (d->status == 0)
-            {
-                ft_free(d->cmd);
-                recover_std(d);
-                //d->status = 127;//할 필요 없음
-                exit(127);
-            }
-            else
-                exit(d->status);
-        }
+        fd = pipe_func(d, fx, fd, idx);
         ft_free(d->cmd);
         idx++;
     }
