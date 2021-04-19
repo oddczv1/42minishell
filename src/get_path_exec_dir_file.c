@@ -23,10 +23,7 @@ int	execfile_in_path(t_data *data, char *path)
 	int ret = 0;
 	int size= ft_strlen(data->cmd[0]);
     if((dir_ptr = opendir(path)) == NULL) 
-    { 
-        //fprintf(stderr, "%s directory 정보를 읽을 수 없습니다.\n", path); 
         return 0;//return 0 이 맞을듯...? 
-    }
     while((file = readdir(dir_ptr)) != NULL)
     {
 		if (!ft_strncmp(file->d_name, data->cmd[0], size + 1) && (int)ft_strlen(file->d_name) == size)
