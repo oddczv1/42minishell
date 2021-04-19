@@ -46,6 +46,8 @@ void	ft_term_up(t_data *d)
 		t.col += ft_strlen(t.history[t.temindex]);
 		t.max += ft_strlen(t.history[t.temindex]);
 		tputs(t.history[t.temindex], 1, putchar_tc);
+		if (d->str !=0)
+			free(d->str);
 		d->str = ft_strdup(t.history[t.temindex]);
 		--t.temindex;
 		--t.num;
@@ -75,13 +77,15 @@ void	ft_term_down_1(t_data *d)
 		t.col += ft_strlen(t.history[t.temindex]);
 		t.max += ft_strlen(t.history[t.temindex]);
 		tputs(t.history[t.temindex], 1, putchar_tc);
+		if (d->str !=0)
+			free(d->str);
 		d->str = ft_strdup(t.history[t.temindex]);
 		t.down = 1;
 	}
-	ft_term_down_2();
+	ft_term_down_2(d);
 }
 
-void	ft_term_down_2()
+void	ft_term_down_2(t_data *d)
 {
 	if (t.num == ft_history_len() - 1)
 	{
@@ -94,6 +98,11 @@ void	ft_term_down_2()
 		t.col = 0;
 		t.max = 0;
 		t.down = 0;
+		if (d->str != 0)
+		{
+			free(d->str);
+		}
+		d->str = 0;
 		++t.num;
 	}
 }
