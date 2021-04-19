@@ -174,7 +174,6 @@ void        parse(t_data *d)
 				if (WIFEXITED(status))
 					d->status = WEXITSTATUS(status);//process_pipe함수안에서의 exit(code)가 status에 자동으로 저장된다.
 				printf("status is %d\n", d->status);
-				ft_free(d->argv);
 				//recover_std(d);//혹시나해서 넣어두긴하는데 필요없을듯
 			}
 		}
@@ -189,8 +188,6 @@ void        parse(t_data *d)
 				ft_free(d->cmd);			
         	}
 			printf("status is %d\n", d->status);
-			ft_free(d->argv);
-        	}	
     	}
 		ft_free(d->argv);
 	}

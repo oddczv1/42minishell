@@ -57,10 +57,20 @@ void		ft_put_env(t_data *d, char *str, int *i)
 	int start;
 
 	(*i)++;
-	if (str[*i] != '{')
+	if (str[*i] == '?' && (str[(*i) + 1] == '\0' || str[(*i) + 1] == '\"' || str[(*i) + 1] == '$'))
+	{
+		d->cmd[d->num] = ft_meminsert(str, ft_itoa(d->status), *i + 1, *i);
+		*i += ft_strlen(ft_itoa(d->status)) - 1;
+	}
+	else if	(str[*i] == '{' && str[(*i) + 1] == '?' && str[(*i) + 2] == '}')
+	{
+		d->cmd[d->num] = ft_meminsert(str, ft_itoa(d->status), *i + 3, *i);
+		*i += ft_strlen(ft_itoa(d->status)) - 1;
+	}	
+	else if (str[*i] != '{')
 	{
 		start = *i;
-		while (str[*i] != ' ' && str[*i] != '\0' && str[*i] != '\"' && str[*i] != '$' )
+		while (str[*i] != ' ' && str[*i] != '\0' && str[*i] != '\"' && str[*i] != '$')
 			(*i)++;
 		ft_put_env_value_1(d, str, i, start);
 	}
@@ -71,11 +81,7 @@ void		ft_put_env(t_data *d, char *str, int *i)
 		while (str[*i] && !(str[(*i) - 1] != '\\' && str[*i] == '}'))
 			(*i)++;
 		if (!str[*i])
-		{
 			ft_putstr_fd("Non finished braceparam\n", 2);
-			d->status = 1;
-		}
-		else
-			ft_put_env_value_2(d, str, i, start);
+		ft_put_env_value_2(d, str, i, start);
 	}
 }
