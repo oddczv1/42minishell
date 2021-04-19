@@ -26,8 +26,8 @@
 # include <termios.h>
 # include <termcap.h>
 
-#define TRUE 1
-#define FALSE 0
+# define TRUE 1
+# define FALSE 0
 
 typedef struct		s_data{
 	int				argc;
@@ -35,11 +35,9 @@ typedef struct		s_data{
 	char			**argv;//split by semiclone
 	char			**cmd;
 	char			**env;
-	char			**export;
 	char			**paths;
 	char			exec_dir[300];//지우면 안됨 필요함.
 	char			exec_file[300];//이건 무조건 필요함.
-	int				ret;
 	char			*str;
 	int				fd[2];
 	int				ft_std[2];
@@ -50,8 +48,8 @@ typedef struct		s_data{
 typedef struct		s_termcap{
 	int				c;
 	struct termios	termi;
-	int 			col;
-	int 			max;
+	int				col;
+	int				max;
 	char			buf[2];
 	char			**history;
 	int				num;
@@ -67,21 +65,22 @@ t_termcap			t;
 int					ft_read_str(t_data *d, char *buf);
 char				**ft_get_env(char **env);
 void				ft_free(char **array);
-void        		parse(t_data *d);
-void        		process(t_data *d);
+void				parse(t_data *d);
+void				process(t_data *d);
 
 void				ft_check_quote(char *str, int *i, int d);
 void				ft_check_redirection_one(char *str, int *i);
 void				ft_check_redirection_two(char *str, int *i);
 void				ft_remove_mark(t_data *d);
 
-void				ft_put_env_value(t_data *d, char *str, int *end, int start, int brac);
+void				ft_put_env_value(t_data *d, char *str,
+								int *end, int start, int brac);
 void				ft_put_env(t_data *d, char *str, int *i);
 
 void				delete_last_newline(char **cmd);
-int     			match_key(char *key_value, char *str);
-void    			get_value(char *str, char *buf);
-int     			findenv(t_data *data, char *buf);
+int					match_key(char *key_value, char *str);
+void				get_value(char *str, char *buf);
+int					findenv(t_data *data, char *buf);
 void				renewer_env(t_data *data, char *key, char *str, int size);
 int					delete_env(t_data *data, char *key);
 int					add_env(t_data *data, char *key_value);
@@ -122,9 +121,9 @@ void				process_unset(t_data *data);
 int					is_exec_usr(t_data *data);
 int					is_exec_bin(t_data *data);
 int					is_builtin(t_data *data);
-int 				get_exec_dir_file(t_data *data);
+int					get_exec_dir_file(t_data *data);
 void				process_builtin(t_data *data);
 void				ft_check_split(t_data *d, int idx);
-void 				get_paths(t_data *data);
+void				get_paths(t_data *data);
 
 #endif

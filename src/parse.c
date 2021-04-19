@@ -34,6 +34,7 @@ void		ft_check_redirection(t_data *d)
 			d->fd[0] = open(d->cmd[i + 1], O_RDONLY);
 			if (d->fd[0] < 0)
 				ft_putstr_fd("err\n", 2);
+			dup2(d->fd[0], 0);
 			d->cmd[i] = 0;	
 			break;
 		}	
