@@ -26,6 +26,9 @@
 # include <termios.h>
 # include <termcap.h>
 
+#define TRUE 1
+#define FALSE 0
+
 typedef struct		s_data{
 	int				argc;
 	char			**cmds;//if call the func, output is stored this variable.
@@ -33,6 +36,9 @@ typedef struct		s_data{
 	char			**cmd;
 	char			**env;
 	char			**export;
+	char			**paths;
+	char			exec_dir[300];//지우면 안됨 필요함.
+	char			exec_file[300];//이건 무조건 필요함.
 	int				ret;
 	char			*str;
 	int				fd[2];

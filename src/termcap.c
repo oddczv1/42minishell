@@ -73,7 +73,11 @@ int    ft_read_term(t_data *d)
 	{
 		ft_term_enter(d);
 		return (1);
-	}		
+	}
+	else if (t.c == 9)
+	{
+		
+	}
 	else // write
 		ft_term_write(d);
 	tputs(tgetstr("ei", NULL), 1, putchar_tc);

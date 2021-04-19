@@ -1,18 +1,5 @@
 #include "../minishell.h"
 
-/*int check_apos(char *str)
-{
-	int size = ft_strlen(str);
-	int start = 0;
-	if (str[0] == '\"' || str[0] == '\'')
-	{
-		start = 1;
-		if (str[size - 1] == str[0])
-			str[size - 1] = '\0';
-	}
-	return (start);
-}*/
-
 void	delete_last_newline(char **cmd)
 {
 	int idx = 0;
@@ -43,7 +30,6 @@ void	my_putstr_fd(char *str, int fd)
 	{
 		if (!ft_strncmp(&str[idx], "\\n", 2))
 		{
-			//write(fd, &str[idx], 2);
 			write(1, "\n", 1);
 			idx+=2;
 		}
@@ -73,4 +59,37 @@ void	my_putstr_fd(char *str, int fd)
 			idx++;
 		}
 	}
+}
+
+void	porcess_echo(t_data *data)
+{
+	int idx = 1;
+	if (data->cmd[1] == NULL)
+	{
+		write(1,"\n", 1);
+		return ;
+	}
+	if (!ft_strncmp(data->cmd[idx], "-n", 3))
+		idx++;
+	while (data->cmd[idx + 1] && data->cmd[idx])
+	{
+		my_putstr_fd(data->cmd[idx], 1);//하나씩 write하다보니까 개행을 출력하지 못하는 문제가 발생. 따라서 my_putstr_fd 함수 생성.
+		idx++;
+		ft_putstr_fd(" ", 1);
+	}
+	if (ft_strncmp(data->cmd[1], "-n", 3) != 0)
+	{
+		my_putstr_fd(data->cmd[idx], 1);
+		write(1, "\n", 1);//여기서 마지막 인자의 값을 2로 하고 echo test | grep test -> Binary file (standard input) matches 이런 결과가 나와버림.
+	}
+	else//-n옵션 있을때 %개행처리? 이거 어떻게 하는건지..?
+	{
+		if (0 == fork())
+		{
+			my_putstr_fd(data->cmd[idx], 1);
+		}
+		else
+			wait(NULL);
+	}
+	recover_std(data);
 }
