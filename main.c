@@ -15,12 +15,10 @@
 void		init_data(t_data *d, char **argv, char **env)
 {
 	d->argv = argv;
-	d->ret = 0;
 	d->str = 0;
 	d->fd[0] = 0;
 	d->num = 0;
 	d->env = ft_get_env(env);
-	d->export = (char **)malloc(sizeof(char *) * 2);
 	tcgetattr(0, &t.termi);
 	t.buf[1] = 0;
 	t.index = 0;
@@ -34,6 +32,7 @@ void		init_data(t_data *d, char **argv, char **env)
 	tcsetattr(0, TCSANOW, &t.termi);
 	tgetent(NULL, "xterm");
 	get_paths(d);
+	d->status = 0;
 }
 
 void		init_term()
