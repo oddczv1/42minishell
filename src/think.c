@@ -63,7 +63,7 @@ void    process_pipe(t_data *d)//recover_std함수 호출 필요없을듯.... �
     int fd = dup(0);
     int idx = 0;
     int fx[4];
-    while (d->argv[idx + 1] != NULL)
+    while (d->argv[idx + 1] != NULL)    
     {
         ft_check_split(d, idx);
         fd = pipe_func(d, fx, fd, idx);

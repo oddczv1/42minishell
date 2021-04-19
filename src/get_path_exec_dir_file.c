@@ -77,7 +77,7 @@ int get_exec_dir_file(t_data *data)
 		}
 		idx++;
 	}
-	if (data->paths[idx] == NULL && flag == 1)//경로형식인데 경로가 틀렸거나 실행파일 자체가 틀린경우
+	if (data->paths[idx] == NULL && flag == 1)//경로형식을 전제로 하여... 경로가 틀렸거나 실행파일 자체가 틀린경우
 	{
 		ft_putstr_fd("zsh: no such file or directory: ", 2);
 		ft_putstr_fd(str, 2);
