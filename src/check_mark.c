@@ -30,7 +30,7 @@ void		ft_remove_mark(t_data *d)
 	}		
 }
 
-void		ft_check_pipe(char *str)
+void		ft_check_pipe(t_data *d, char *str)
 {
 	int i;
 
@@ -43,33 +43,42 @@ void		ft_check_pipe(char *str)
 			while (ft_isspace(str[i]))
 				(i)++;
 			if(!str[i])
+			{
 				ft_putstr_fd("pipe error\n", 2);
+				d->status = 1;
+			}		
 		}
 		else
 			(i)++;
 	}
 }
 
-void		ft_check_quote(char *str, int *i, int d)
+void		ft_check_quote(t_data *d, char *str, int *i, int j)
 {
-	if (d == 1)
+	if (j == 1)
 	{
 		(*i)++;
 		while (str[*i] && str[*i] != '\'')
 			(*i)++;
 		if (!str[*i])
+		{
 			ft_putstr_fd("Non finished quote\n", 2);
+			d->status = 1;
+		}
 		else
 			(*i)++;
 	}
-	else if (d == 2)
+	else if (j == 2)
 	{
 		(*i)++;
 		while (str[*i] && !((str[(*i) - 1] != '\\' && str[*i] == '\"') || 
 		(str[(*i) - 2] == '\\' && str[(*i) - 1] == '\\' && str[*i] == '\"')))
 			(*i)++;
 		if (!str[*i])
+		{
 			ft_putstr_fd("Non finished dquote\n", 2);
+			d->status = 1;
+		}
 		else
 			(*i)++;
 	}

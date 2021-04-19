@@ -68,11 +68,16 @@ void				ft_free(char **array);
 void				parse(t_data *d);
 void				process(t_data *d);
 
-void				ft_check_quote(char *str, int *i, int d);
+void				ft_check_quote(t_data *d, char *str, int *i, int j);
 void				ft_check_redirection_one(char *str, int *i);
 void				ft_check_redirection_two(char *str, int *i);
 void				ft_remove_mark(t_data *d);
-
+void				ft_check_redirection(t_data *d);
+void				ft_check_env(t_data *d);
+void				ft_check_word(t_data *d, char *str, int *i);
+void				ft_check_argv(t_data *d, char *str);
+void				ft_check_pipe(t_data *d, char *str);
+void				ft_command(t_data *d, int *fd_std, int *fd_cmd, int pipe1);
 void				ft_put_env_value(t_data *d, char *str,
 								int *end, int start, int brac);
 void				ft_put_env(t_data *d, char *str, int *i);
@@ -88,13 +93,6 @@ int					is_newline(char *str);
 void				my_putstr_fd(char *str, int fd);
 void				process_pipe(t_data *d);
 int					pipe_func(t_data *data, int *fx, int fd, int idx);
-
-void				ft_check_redirection(t_data *d);
-void				ft_check_env(t_data *d);
-void				ft_check_word(char *str, int *i);
-void				ft_check_argv(char *str);
-void				ft_check_pipe(char *str);
-void				ft_command(t_data *d, int *fd_std, int *fd_cmd, int pipe1);
 
 int					ft_read_term(t_data *d);
 int					putchar_tc(int tc);
