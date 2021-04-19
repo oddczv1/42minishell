@@ -58,11 +58,10 @@ void	ft_term_up(t_data *d)
 void	ft_term_down_1(t_data *d)
 {	
 	if (t.up == 1 && t.num < ft_history_len())
-	{
 			++t.temindex;
+	if (t.up == 1 && t.num < ft_history_len())
 			t.up = 0;
-	}
-	if (t.history[t.temindex + 1] != 0 && t.num < ft_history_len() - 1)
+	if (t.history[t.temindex + 1] != 0 && t.num < ft_history_len() -1)
 	{
 		while (t.col)
 		{
@@ -82,13 +81,12 @@ void	ft_term_down_1(t_data *d)
 		d->str = ft_strdup(t.history[t.temindex]);
 		t.down = 1;
 	}
-	ft_term_down_2(d);
+	else if (t.num == ft_history_len() - 1)
+		ft_term_down_2(d);
 }
 
 void	ft_term_down_2(t_data *d)
 {
-	if (t.num == ft_history_len() - 1)
-	{
 		while (t.col)
 		{
 			--t.col;
@@ -99,10 +97,7 @@ void	ft_term_down_2(t_data *d)
 		t.max = 0;
 		t.down = 0;
 		if (d->str != 0)
-		{
 			free(d->str);
-		}
 		d->str = 0;
 		++t.num;
-	}
 }
