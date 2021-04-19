@@ -6,7 +6,7 @@
 /*   By: huchoi <huchoi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 23:45:09 by youngrch          #+#    #+#             */
-/*   Updated: 2021/04/19 22:26:32 by huchoi           ###   ########.fr       */
+/*   Updated: 2021/04/19 22:39:23 by huchoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,7 +180,6 @@ void        parse(t_data *d)
 				//if (WIFEXITED(status))
 				//	d->status = WEXITSTATUS(status);//process_pipe함수안에서의 exit(code)가 status에 자동으로 저장된다.
 				printf("status is %d\n", d->status);
-				//ft_free(d->argv);
 				//recover_std(d);//혹시나해서 넣어두긴하는데 필요없을듯
 			}
 		}
@@ -195,8 +194,7 @@ void        parse(t_data *d)
 				ft_free(d->cmd);			
         	}
 			printf("status is %d\n", d->status);
-			//ft_free(d->argv);
-        }
+    	}
 		ft_free(d->argv);
 	}
 	ft_free(d->cmds);
