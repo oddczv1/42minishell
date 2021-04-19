@@ -4,8 +4,8 @@
 int     pipe_func(t_data *d, int *fx, int fd, int idx)
 {
     pipe(&fx[CUR(idx)]);
-    pid_t pid;
-    int status;
+    //pid_t pid;
+    //int status;
     if (is_builtin(d))
     {
         //dup2(fd, 0);//이거 없애야할듯..? 빌트인 명령어는 표준입력 리다이렉션 하지 못하는게 팩트.. 근데 이 부분 해줘도 문제는 없음.
@@ -17,7 +17,7 @@ int     pipe_func(t_data *d, int *fx, int fd, int idx)
     }
     else if (get_exec_dir_file(d))
     {
-        if (0 == (pid = fork()))
+        if (0 == (d->pids[idx] = fork()))
         {
             dup2(fd, 0);
             dup2(fx[CUR(idx) + 1], 1);
@@ -33,9 +33,9 @@ int     pipe_func(t_data *d, int *fx, int fd, int idx)
                 close(fx[CUR(idx-1)]);
                 close(fd);
             }
-            waitpid(pid, &status, 0);
-            if (WIFEXITED(status))
-                d->status = WEXITSTATUS(status);
+            //waitpid(pid, &status, 0);
+            //if (WIFEXITED(status))
+            //    d->status = WEXITSTATUS(status);
         }
     }
     else if (!d->status)
@@ -43,7 +43,6 @@ int     pipe_func(t_data *d, int *fx, int fd, int idx)
         ft_putstr_fd("zsh: command not found: ", 2);
 		write(2, d->cmd[0], ft_strlen(d->cmd[0]));
         write(2, "\n", 1);
-        //close(fx[0]);
         close(fx[CUR(idx)]);
         close(fx[CUR(idx) + 1]);
         close(fd);
@@ -62,7 +61,13 @@ void    process_pipe(t_data *d)//recover_std함수 호출 필요없을듯.... �
 {
     int fd = dup(0);
     int idx = 0;
+    /*while (d->argv[idx])
+        idx++;
+    d->pids = (pid_t*)malloc(sizeof(pid_t) * idx);
+    while(--idx >= 0)
+        d->pids[idx] = 0;*/
     int fx[4];
+    idx = 0;
     while (d->argv[idx + 1] != NULL)    
     {
         ft_check_split(d, idx);
@@ -70,28 +75,38 @@ void    process_pipe(t_data *d)//recover_std함수 호출 필요없을듯.... �
         ft_free(d->cmd);
         idx++;
     }
-    ft_check_split(d, idx);
-    dup2(fd, 0);
-    close(fd);
-    close(fx[CUR(idx-1)]);
-    if (is_builtin(d))
+    if (0 == (d->pids[idx] = fork()))
     {
-        process_builtin(d);//status값의 갱신작업은 process_builtin 함수에서 진행. status=0으로 초기화되어있음을 기억...
-        if (d->status != 0)
-            exit(d->status);
+        ft_check_split(d, idx);
+        dup2(fd, 0);
+        close(fd);
+        close(fx[CUR(idx-1)]);
+        if (is_builtin(d))
+        {
+            process_builtin(d);//status값의 갱신작업은 process_builtin 함수에서 진행. status=0으로 초기화되어있음을 기억...
+            if (d->status != 0)
+                exit(d->status);
+        }
+        else if (get_exec_dir_file(d))
+            execve(d->exec_file, d->cmd, NULL);//얘안에 exit(code)가 들어있음.. (think.c 의 모든함수는 exit(code)로 끝나야함.)
+        else
+        {
+		    ft_putstr_fd("zsh: command not found: ", 2);
+		    write(2, d->cmd[0], ft_strlen(d->cmd[0]));
+            write(2, "\n", 1);
+            exit(127);
+	    }
     }
-    else if (get_exec_dir_file(d))
-        execve(d->exec_file, d->cmd, NULL);//얘안에 exit(code)가 들어있음.. (think.c 의 모든함수는 exit(code)로 끝나야함.)
-    else
-    {
-		ft_putstr_fd("zsh: command not found: ", 2);
-		write(2, d->cmd[0], ft_strlen(d->cmd[0]));
-        write(2, "\n", 1);
-        recover_std(d);
-        ft_free(d->cmd);
-        exit(127);
+    int count = idx;
+    int temp_status;
+	while (count >= 0)
+	{
+		waitpid(d->pids[count], &temp_status, 0);//여기서 반환된 상태값은 사용안될예정 (마지막 명령어의 상태값이 중요함.)
+		if (count == (idx - 1))
+		{
+			d->status = WEXITSTATUS(temp_status);
+		}
+		count--;
 	}
-    ft_free(d->cmd);//어떤 경우로 이 process_pipe가 종료될때 이 함수 호출은 필수적이다. 필요없음...
-    recover_std(d);
-    exit(0);
+    exit(d->status);
 }
