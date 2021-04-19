@@ -42,7 +42,11 @@ void	process_exec(t_data *data)
 	if ((pid = fork()) == 0)
 		execve(data->exec_file, data->cmd, NULL);
 	else
+	{
 		waitpid(pid, &status, 0);
+		if (WIFEXITED(status))
+			data->status = WEXITSTATUS(status);
+	}
 	recover_std(data);
 	return ;
 }
@@ -59,13 +63,14 @@ void	process(t_data *data)
 		ft_putstr_fd("zsh: command not found: ", 2);
 		write(2, data->cmd[0], ft_strlen(data->cmd[0]));
 		write(2, "\n", 1);
-		if (0 == fork())
+		/*if (0 == fork())
 		{
 			data->status = 127;
 			exit(127);
 		}
 		else
-			wait(NULL);
+			wait(NULL);*/
+		data->status = 127;
 	}
 	recover_std(data);
 }

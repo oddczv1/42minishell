@@ -19,6 +19,7 @@ void		ft_check_split(t_data *d, int idx)
 	ft_check_env(d);
 	ft_remove_mark(d);							
 	ft_check_redirection(d);
+	d->status = 0;
 }
 
 void		ft_check_redirection(t_data *d)
@@ -143,6 +144,8 @@ void        parse(t_data *d)
 			else
 			{
 				waitpid(pid, &status, 0);
+				if (WIFEXITED(status))
+					d->status = WEXITSTATUS(status);//process_pipe함수안에서의 exit(code)가 status에 자동으로 저장된다.
 				ft_free(d->argv);
 				//recover_std(d);//혹시나해서 넣어두긴하는데 필요없을듯
 			}

@@ -34,6 +34,7 @@ void		init_data(t_data *d, char **argv, char **env)
 	tcsetattr(0, TCSANOW, &t.termi);
 	tgetent(NULL, "xterm");
 	get_paths(d);
+	d->status = 0;
 }
 
 void		init_term()
