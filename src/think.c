@@ -3,6 +3,7 @@
 //idx짝수->0, idx홀수->2
 int     pipe_func(t_data *d, int *fx, int fd, int idx)
 {
+    //int before_status = d->status;
     pipe(&fx[CUR(idx)]);
     //pid_t pid;
     //int status;
@@ -24,7 +25,7 @@ int     pipe_func(t_data *d, int *fx, int fd, int idx)
             close(fd);
             close(fx[CUR(idx)]);
             close(fx[CUR(idx) + 1]);
-            execve(d->exec_file, d->cmd, NULL);
+            execve(d->exec_file, d->cmd, d->env);
         }
         else
         {
@@ -38,7 +39,7 @@ int     pipe_func(t_data *d, int *fx, int fd, int idx)
             //    d->status = WEXITSTATUS(status);
         }
     }
-    else if (!d->status)
+    else if (!d->flag)
     {
         ft_putstr_fd("zsh: command not found: ", 2);
 		write(2, d->cmd[0], ft_strlen(d->cmd[0]));
@@ -61,6 +62,7 @@ void    process_pipe(t_data *d)//recover_std함수 호출 필요없을듯.... �
 {
     int fd = dup(0);
     int idx = 0;
+    //int before_status = d->status;
     /*while (d->argv[idx])
         idx++;
     d->pids = (pid_t*)malloc(sizeof(pid_t) * idx);
@@ -81,31 +83,32 @@ void    process_pipe(t_data *d)//recover_std함수 호출 필요없을듯.... �
         dup2(fd, 0);
         close(fd);
         close(fx[CUR(idx-1)]);
-        if (is_builtin(d))
+        if (d->enable != 0)
         {
-            process_builtin(d);//status값의 갱신작업은 process_builtin 함수에서 진행. status=0으로 초기화되어있음을 기억...
-            if (d->status != 0)
-                exit(d->status);
+            //printf("test : %d\n", d->status);
+            exit(d->status);
         }
+        if (is_builtin(d))
+            process_builtin(d);//status값의 갱신작업은 process_builtin 함수에서 진행. status=0으로 초기화되어있음을 기억...
         else if (get_exec_dir_file(d))
-            execve(d->exec_file, d->cmd, NULL);//얘안에 exit(code)가 들어있음.. (think.c 의 모든함수는 exit(code)로 끝나야함.)
-        else
+            execve(d->exec_file, d->cmd, d->env);//얘안에 exit(code)가 들어있음.. (think.c 의 모든함수는 exit(code)로 끝나야함.)
+        else if (!d->flag)
         {
 		    ft_putstr_fd("zsh: command not found: ", 2);
 		    write(2, d->cmd[0], ft_strlen(d->cmd[0]));
             write(2, "\n", 1);
             exit(127);
 	    }
+        else if (d->status)//get_exec_dir_file에서 경로가 틀렸을때의 경우
+            exit(d->status);
     }
     int count = idx;
     int temp_status;
 	while (count >= 0)
 	{
 		waitpid(d->pids[count], &temp_status, 0);//여기서 반환된 상태값은 사용안될예정 (마지막 명령어의 상태값이 중요함.)
-		if (count == (idx - 1))
-		{
+		if (count == (idx))
 			d->status = WEXITSTATUS(temp_status);
-		}
 		count--;
 	}
     exit(d->status);

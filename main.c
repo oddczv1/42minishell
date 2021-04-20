@@ -24,9 +24,8 @@ void		init_data(t_data *d, char **argv, char **env)
 	t.index = 0;
 	t.history = (char **)malloc(sizeof(char *) * 101);
 	ft_memset_array(t.history, 0, 101);
-	t.termi.c_lflag &= (~ECHO);//입력을 다시 출력
-	t.termi.c_lflag &= (~ICANON);//캐노니컬 입력 모드를 사용
-	//t.termi.c_lflag &= (~ISIG); // 특수문자 무시
+	t.termi.c_lflag &= (~ECHO);
+	t.termi.c_lflag &= (~ICANON);
 	t.termi.c_cc[VMIN] = 1;
 	t.termi.c_cc[VTIME] = 0;
 	tcsetattr(0, TCSANOW, &t.termi);
@@ -46,6 +45,24 @@ void		init_term()
 	t.num = ft_history_len();
 }
 
+void	signal_handler(int signum)
+{
+	if (signum == SIGINT)
+	{
+		ft_putstr_fd("cccc\n", 2);
+		//display_prompt_msg();
+		//signal(SIGINT, signal_handler);
+	}
+	else if (signum == SIGTSTP)
+	{
+		ft_putstr_fd("zzzz\n", 2);
+	}
+	else if (signum == SIGQUIT)
+	{
+		ft_putstr_fd("\\\\\n", 2);
+	}
+}
+
 int			main(int argc, char **argv, char **env)
 {
 	t_data	d;
@@ -53,6 +70,10 @@ int			main(int argc, char **argv, char **env)
 	if (argc != 1)
 		return (1);
 	init_data(&d, argv, env);
+	signal(SIGINT, signal_handler);  // ctrl c    개행되면서           /  결과 1    /슬립중시도시   바로종료  / 결과:130 /
+	signal(SIGQUIT, signal_handler); // ctrl /   평소에는 아무 실행 안함 /  결과 131  /슬립중시도시   바로종료 ^\Quit: 3
+									 //  ctrl d   다종료됨             /  결과 0   / 슬립중시도시 슬립끝나고 종료      /  
+	//signal(SIGTSTP, signal_handler); // ctrl z
 	while (1)
 	{
 		write(2, ">>> ~% ", 7);

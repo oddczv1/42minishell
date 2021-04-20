@@ -6,7 +6,7 @@
 /*   By: huchoi <huchoi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 14:56:36 by youngrch          #+#    #+#             */
-/*   Updated: 2021/04/19 21:14:56 by huchoi           ###   ########.fr       */
+/*   Updated: 2021/04/20 11:36:14 by huchoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ typedef struct		s_data{
 	int				num;
 	int				status;//init할때 얘도 0으로 초기화시켜야함.
 	pid_t			*pids;
+	int				enable;
+	int				flag;
 }					t_data;
 
 typedef struct		s_termcap{
