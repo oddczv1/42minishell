@@ -41,7 +41,7 @@ void	process_exec(t_data *data)
 	int status;
 	pid_t pid;
 	if ((pid = fork()) == 0)
-		execve(data->exec_file, data->cmd, NULL);
+		execve(data->exec_file, data->cmd, data->env);
 	else
 	{
 		waitpid(pid, &status, 0);
