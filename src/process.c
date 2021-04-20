@@ -57,19 +57,12 @@ void	process(t_data *data)
 		process_builtin(data);
 	else if (get_exec_dir_file(data))
 		process_exec(data);
-	else
+	else if (!data->status)
 	{
 		//error
 		ft_putstr_fd("zsh: command not found: ", 2);
 		write(2, data->cmd[0], ft_strlen(data->cmd[0]));
 		write(2, "\n", 1);
-		/*if (0 == fork())
-		{
-			data->status = 127;
-			exit(127);
-		}
-		else
-			wait(NULL);*/
 		data->status = 127;
 	}
 	recover_std(data);

@@ -81,7 +81,11 @@ void		ft_put_env(t_data *d, char *str, int *i)
 		while (str[*i] && !(str[(*i) - 1] != '\\' && str[*i] == '}'))
 			(*i)++;
 		if (!str[*i])
+		{
 			ft_putstr_fd("Non finished braceparam\n", 2);
-		ft_put_env_value_2(d, str, i, start);
+			d->status = 1;
+		}
+		else
+			ft_put_env_value_2(d, str, i, start);
 	}
 }

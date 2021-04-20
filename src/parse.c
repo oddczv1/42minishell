@@ -6,7 +6,7 @@
 /*   By: huchoi <huchoi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 23:45:09 by youngrch          #+#    #+#             */
-/*   Updated: 2021/04/16 14:50:38 by huchoi           ###   ########.fr       */
+/*   Updated: 2021/04/19 22:39:23 by huchoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,7 +147,8 @@ void		ft_check_argv(t_data *d, char *str)
 
 void        parse(t_data *d)
 {
-	int status;
+	//int status;
+	int temp_status;
 	pid_t pid;
     int i;
 	int j;
@@ -166,13 +167,19 @@ void        parse(t_data *d)
 		d->argv = ft_split_pipe(d->cmds[i]);
 		if (d->argv[1] != NULL && !d->status)
 		{
-			if ((pid = fork()) == 0)
+			int nb = 0;
+			while (d->argv[nb])
+				nb++;
+			d->pids = malloc(sizeof(pid_t) * (nb+1));
+			if ((d->pids[nb] = fork()) == 0)
 				process_pipe(d);//여기안에선 recover_std()함수호출 필요없을듯..?  여기선 메모리해제도 안해도됨. 독립이니까..
 			else
 			{
-				waitpid(pid, &status, 0);
-				if (WIFEXITED(status))
-					d->status = WEXITSTATUS(status);//process_pipe함수안에서의 exit(code)가 status에 자동으로 저장된다.
+				//waitpid(pid, &status, 0);
+				waitpid(d->pids[nb], &temp_status, 0);
+				//if (WIFEXITED(status))
+				//	d->status = WEXITSTATUS(status);//process_pipe함수안에서의 exit(code)가 status에 자동으로 저장된다.
+				printf("status is %d\n", d->status);
 				//recover_std(d);//혹시나해서 넣어두긴하는데 필요없을듯
 			}
 		}
@@ -185,7 +192,8 @@ void        parse(t_data *d)
 				if (!d->status)
 					process(d);
 				ft_free(d->cmd);			
-        	}	
+        	}
+			printf("status is %d\n", d->status);
     	}
 		ft_free(d->argv);
 	}
