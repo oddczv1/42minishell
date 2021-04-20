@@ -51,6 +51,7 @@ typedef struct		s_data{
 typedef struct		s_termcap{
 	int				c;
 	struct termios	termi;
+	struct termios	new_termi;
 	int				col;
 	int				max;
 	char			buf[2];

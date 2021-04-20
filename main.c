@@ -19,15 +19,16 @@ void		init_data(t_data *d, char **argv, char **env)
 	d->fd[0] = 0;
 	d->num = 0;
 	d->env = ft_get_env(env);
-	tcgetattr(0, &t.termi);
 	t.buf[1] = 0;
 	t.index = 0;
 	t.history = (char **)malloc(sizeof(char *) * 101);
 	ft_memset_array(t.history, 0, 101);
-	t.termi.c_lflag &= (~ECHO);
-	t.termi.c_lflag &= (~ICANON);
-	t.termi.c_cc[VMIN] = 1;
-	t.termi.c_cc[VTIME] = 0;
+	tcgetattr(0, &t.termi);
+	t.new_termi = t.termi;
+	t.new_termi.c_lflag &= (~ECHO);
+	t.new_termi.c_lflag &= (~ICANON);
+	t.new_termi.c_cc[VMIN] = 1;
+	t.new_termi.c_cc[VTIME] = 0;
 	tcsetattr(0, TCSANOW, &t.termi);
 	tgetent(NULL, "xterm");
 	get_paths(d);
@@ -77,12 +78,14 @@ int			main(int argc, char **argv, char **env)
 	while (1)
 	{
 		write(2, ">>> ~% ", 7);
+		tcsetattr(0, TCSANOW, &t.new_termi);
 		init_term();
 		while (read(0, &t.c, sizeof(t.c)) > 0)
 		{
 			if (ft_read_term(&d) == 1)
 				break;
 		}
+		tcsetattr(0, TCSANOW, &t.termi);
 		parse(&d);
 		free(d.str);
 		d.str = 0;
