@@ -33,6 +33,7 @@ void		init_data(t_data *d, char **argv, char **env)
 	tgetent(NULL, "xterm");
 	get_paths(d);
 	d->status = 0;
+	t.pids = 0;
 }
 
 void		init_term()
@@ -48,19 +49,33 @@ void		init_term()
 
 void	signal_handler(int signum)
 {
-	if (signum == SIGINT)
+	if (signum == SIGINT)//ctrl c    개행되면서           /  결과 1    /슬립중시도시   바로종료  / 결과:130 /
 	{
-		ft_putstr_fd("cccc\n", 2);
-		//display_prompt_msg();
+		//ft_putstr_fd(ft_itoa(t.pids), 2);
+		//
+
+		//int status;
+		
+		//printf("%d\n", t.pids);
+		//signal(signum, SIG_IGN);
 		//signal(SIGINT, signal_handler);
+		if (!t.pids)
+		{
+			ft_putstr_fd("\n", 2);
+			write(2, ">>> ~% ", 7);				
+		}
+		else
+		{
+			//kill(t.pids, 0);
+			//waitpid(t.pids, &status, 0);
+			
+			ft_putstr_fd("\n", 2);
+		}
 	}
-	else if (signum == SIGTSTP)
+	else if (signum == SIGQUIT) //ctrl /   평소에는 아무 실행 안함 /  결과 131  /슬립중시도시   바로종료 ^\Quit: 3
 	{
-		ft_putstr_fd("zzzz\n", 2);
-	}
-	else if (signum == SIGQUIT)
-	{
-		ft_putstr_fd("\\\\\n", 2);
+		kill(t.pids, signum);
+		//ft_putstr_fd("\\\\\n", 2);
 	}
 }
 
@@ -71,13 +86,16 @@ int			main(int argc, char **argv, char **env)
 	if (argc != 1)
 		return (1);
 	init_data(&d, argv, env);
-	signal(SIGINT, signal_handler);  // ctrl c    개행되면서           /  결과 1    /슬립중시도시   바로종료  / 결과:130 /
-	signal(SIGQUIT, signal_handler); // ctrl /   평소에는 아무 실행 안함 /  결과 131  /슬립중시도시   바로종료 ^\Quit: 3
+	
+	//signal(SIGINT, signal_handler);  // ctrl c    개행되면서           /  결과 1    /슬립중시도시   바로종료  / 결과:130 /
+	 // ctrl /   평소에는 아무 실행 안함 /  결과 131  /슬립중시도시   바로종료 ^\Quit: 3
 									 //  ctrl d   다종료됨             /  결과 0   / 슬립중시도시 슬립끝나고 종료      /  
 	//signal(SIGTSTP, signal_handler); // ctrl z
 	while (1)
 	{
 		write(2, ">>> ~% ", 7);
+		signal(SIGINT, signal_handler);
+		signal(SIGQUIT, signal_handler);
 		tcsetattr(0, TCSANOW, &t.new_termi);
 		init_term();
 		while (read(0, &t.c, sizeof(t.c)) > 0)
@@ -92,3 +110,30 @@ int			main(int argc, char **argv, char **env)
 	}
 	return (0);
 }
+
+/*
+void		sig_handler(int signo)
+{
+	if (signo == SIGINT)
+	{
+		kill(g_mini->fork, signo);
+		g_mini->signal = 1;
+		g_mini->ispipe = 0;
+		signal(signo, SIG_IGN);
+		signal(SIGINT, sig_handler);
+		run_touch();
+		write(1, "\n", 1);
+		print_prompt(1);
+	}
+	else if (signo == SIGQUIT && g_mini->exec == 1) ctrl / 
+	{
+		g_mini->ispipe = 0;
+		kill(g_mini->fork, signo);
+		g_mini->signal = 1;
+		signal(signo, SIG_IGN);
+		signal(SIGQUIT, sig_handler);
+		write(1, "Quit: 3\n", 8);
+		print_prompt(1);
+	}
+}
+*/

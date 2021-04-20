@@ -39,14 +39,18 @@ void	process_builtin(t_data *data)//빌트인은 어떤경우에서라도 fork()
 void	process_exec(t_data *data)
 {
 	int status;
-	pid_t pid;
-	if ((pid = fork()) == 0)
+	//pid_t pid;
+	if ((t.pids = fork()) == 0)
+	{
 		execve(data->exec_file, data->cmd, data->env);
+	}	
 	else
 	{
-		waitpid(pid, &status, 0);
+		waitpid(t.pids, &status, 0);
+		printf("%d\n", status);
 		if (WIFEXITED(status))
 			data->status = WEXITSTATUS(status);
+		printf("%d\n", data->status);
 	}
 	recover_std(data);
 	return ;

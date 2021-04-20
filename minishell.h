@@ -25,6 +25,8 @@
 # include <errno.h>
 # include <termios.h>
 # include <termcap.h>
+# include <signal.h>
+
 
 # define TRUE 1
 # define FALSE 0
@@ -62,6 +64,7 @@ typedef struct		s_termcap{
 	int				len;
 	int				up;
 	int				down;
+	pid_t			pids;
 }					t_termcap;
 
 t_termcap			t;
