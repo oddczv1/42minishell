@@ -28,12 +28,13 @@ void	process_builtin(t_data *data)//빌트인은 어떤경우에서라도 fork()
 	else //bash임.
 	{
 		if (fork() == 0)
-			execve("/bin/bash", data->cmd, NULL);
+			execve("/bin/bash", data->cmd, data->env);
 		else
 			wait(NULL);
 		recover_std(data);
 	}
-	data->status = 0;//정상종료시 status 값 0으로 갱신
+	if (!data->flag)
+		data->status = 0;//정상종료시 status 값 0으로 갱신
 }
 
 void	process_exec(t_data *data)
@@ -63,8 +64,9 @@ void	process(t_data *data)
 	else if (!data->flag)
 	{
 		//error
-		ft_putstr_fd("zsh: command not found: ", 2);
-		write(2, data->cmd[0], ft_strlen(data->cmd[0]));
+		ft_putstr_fd("bash: ", 2);
+        ft_putstr_fd(data->cmd[0], 2);
+        ft_putstr_fd(": command not found", 2);
 		write(2, "\n", 1);
 		data->status = 127;
 	}

@@ -41,8 +41,10 @@ int     pipe_func(t_data *d, int *fx, int fd, int idx)
     }
     else if (!d->flag)
     {
-        ft_putstr_fd("zsh: command not found: ", 2);
-		write(2, d->cmd[0], ft_strlen(d->cmd[0]));
+        ft_putstr_fd("bash: ", 2);
+        ft_putstr_fd(d->cmd[0], 2);
+        ft_putstr_fd(": command not found", 2);
+		//write(2, d->cmd[0], ft_strlen(d->cmd[0]));
         write(2, "\n", 1);
         close(fx[CUR(idx)]);
         close(fx[CUR(idx) + 1]);
@@ -94,8 +96,9 @@ void    process_pipe(t_data *d)//recover_std함수 호출 필요없을듯.... �
             execve(d->exec_file, d->cmd, d->env);//얘안에 exit(code)가 들어있음.. (think.c 의 모든함수는 exit(code)로 끝나야함.)
         else if (!d->flag)
         {
-		    ft_putstr_fd("zsh: command not found: ", 2);
-		    write(2, d->cmd[0], ft_strlen(d->cmd[0]));
+		    ft_putstr_fd("bash: ", 2);
+            ft_putstr_fd(d->cmd[0], 2);
+            ft_putstr_fd(": command not found", 2);
             write(2, "\n", 1);
             exit(127);
 	    }

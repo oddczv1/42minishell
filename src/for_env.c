@@ -90,7 +90,7 @@ int    delete_env(t_data *data, char *key)
 int     add_env(t_data *data, char *key_value)
 {
     int idx = 0;
-    while (data->env[idx])//종료조건
+    while (data->env[idx] && ft_strchr(data->cmd[1], '='))//종료조건
     {
         if (match_key(key_value, data->env[idx]) == TRUE)
         {
@@ -100,7 +100,7 @@ int     add_env(t_data *data, char *key_value)
         idx++;
     }
     //renewer_env(data->env, NULL, data->cmd[1], idx + 1 + 1);//이게 더 나을수도...?
-    if (data->env[idx] == NULL)//루프 종료조건 이용한 조건문(덮어쓰기 했으면 아래 함수 실행 안함)
+    if (data->env[idx] == NULL && ft_strchr(data->cmd[1], '='))//루프 종료조건 이용한 조건문(덮어쓰기 했으면 아래 함수 실행 안함)
         renewer_env(data, key_value, data->cmd[1], idx + 1 + 1);
     return (1);
 }
