@@ -1,9 +1,9 @@
 #include "../minishell.h"
 
-void get_paths(t_data *data)
+void	get_paths(t_data *data)
 {
 	char env_path[1000];
-	int idx  = 0;
+	int idx= 0;
 	while (data->env[idx])
 	{
 		if (ft_strncmp(data->env[idx], "PATH=", 5) == 0)
@@ -22,18 +22,18 @@ int	execfile_in_path(t_data *data, char *path)
     struct dirent *file = NULL; 
 	int ret = 0;
 	int size= ft_strlen(data->cmd[0]);
-    if((dir_ptr = opendir(path)) == NULL) 
-        return 0;//return 0 이 맞을듯...? 
-    while((file = readdir(dir_ptr)) != NULL)
-    {
+	if((dir_ptr = opendir(path)) == NULL) 
+		return 0;//return 0 이 맞을듯...? 
+	while((file = readdir(dir_ptr)) != NULL)
+	{
 		if (!ft_strncmp(file->d_name, data->cmd[0], size + 1) && (int)ft_strlen(file->d_name) == size)
 		{
 			ret = 1;
 			break;
 		}
-    }
-    closedir(dir_ptr);
-    return ret; 
+	}
+	closedir(dir_ptr);
+	return ret; 
 }
 
 int get_exec_dir_file(t_data *data)

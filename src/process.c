@@ -65,8 +65,8 @@ void	process(t_data *data)
 	{
 		//error
 		ft_putstr_fd("bash: ", 2);
-        ft_putstr_fd(data->cmd[0], 2);
-        ft_putstr_fd(": command not found", 2);
+		ft_putstr_fd(data->cmd[0], 2);
+		ft_putstr_fd(": command not found", 2);
 		write(2, "\n", 1);
 		data->status = 127;
 	}

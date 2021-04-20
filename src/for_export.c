@@ -1,13 +1,11 @@
 #include "../minishell.h"
 
 
-void    process_print(t_data *data)
+void	process_print(t_data *data)
 {
-    int idx;
-    //char buf[1025];
-	//char *temp;
+	int idx;
 	char *p;
-    if (data->cmd[1] == NULL)
+	if (data->cmd[1] == NULL)
 	{
 		idx = 0;
 		while (data->env[idx])
@@ -34,9 +32,9 @@ void    process_print(t_data *data)
 	recover_std(data);
 }
 
-void    process_export(t_data *data)
+void	process_export(t_data *data)
 {
-    if (data->cmd[1])
+	if (data->cmd[1])
 		add_env(data, data->cmd[1]);
 	else
 		process_print(data);
