@@ -60,8 +60,9 @@ int get_exec_dir_file(t_data *data)
 		{
 			if (flag == 1 && ft_strncmp(temp_dir, data->paths[idx], 300))
 			{
-				ft_putstr_fd("zsh: no such file or directory: ", 2);
+				ft_putstr_fd("bash: ", 2);
 				ft_putstr_fd(str, 2);
+				ft_putstr_fd(": No such file or directory", 2);
 				write(2, "\n", 1);
 				data->status = 1;
 				data->flag = 1;
@@ -80,16 +81,15 @@ int get_exec_dir_file(t_data *data)
 	}
 	if (data->paths[idx] == NULL && flag == 1)//경로형식을 전제로 하여... 경로가 틀렸거나 실행파일 자체가 틀린경우
 	{
-		ft_putstr_fd("zsh: no such file or directory: ", 2);
+		ft_putstr_fd("bash: ", 2);
 		ft_putstr_fd(str, 2);
+		ft_putstr_fd(": No such file or directory", 2);
 		write(2, "\n", 1);
 		data->status = 1;
+		data->flag = 1;
 		return 0;
 	}
 	if (data->paths[idx] == NULL && flag == 0)
-	{
-		//에러처리는 이 함수의 반환값을 받는 함수에서 진행.
-		return (0);
-	}
+		return (0);//에러처리는 이 함수의 반환값을 받는 함수에서 진행.
 	return (1);
 }

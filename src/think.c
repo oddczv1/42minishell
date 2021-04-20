@@ -55,12 +55,6 @@ void    process_pipe(t_data *d)//recover_std함수 호출 필요없을듯.... �
 {
     int fd = dup(0);
     int idx = 0;
-    //int before_status = d->status;
-    /*while (d->argv[idx])
-        idx++;
-    d->pids = (pid_t*)malloc(sizeof(pid_t) * idx);
-    while(--idx >= 0)
-        d->pids[idx] = 0;*/
     int fx[4];
     idx = 0;
     while (d->argv[idx + 1] != NULL)    
@@ -97,7 +91,7 @@ void    process_pipe(t_data *d)//recover_std함수 호출 필요없을듯.... �
 	int temp_status;
 	while (count >= 0)
 	{
-		waitpid(d->pids[count], &temp_status, 0);//여기서 반환된 상태값은 사용안될예정 (마지막 명령어의 상태값이 중요함.)
+		waitpid(d->pids[count], &temp_status, 0);//여기서 반환된 상태값은 사용 안 될 예정 (마지막 명령어의 상태값이 중요함.)
 		if (count == (idx))
 			d->status = WEXITSTATUS(temp_status);
 		count--;
