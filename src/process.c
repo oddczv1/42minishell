@@ -33,6 +33,7 @@ void	process_builtin(t_data *data)//빌트인은 어떤경우에서라도 fork()
 			wait(NULL);
 		recover_std(data);
 	}
+	data->status = 0;//정상종료시 status 값 0으로 갱신
 }
 
 void	process_exec(t_data *data)
@@ -53,11 +54,13 @@ void	process_exec(t_data *data)
 
 void	process(t_data *data)
 {
+	//int before_status = data->status;
 	if (is_builtin(data))
 		process_builtin(data);
 	else if (get_exec_dir_file(data))
 		process_exec(data);
-	else if (!data->status)
+	//else if (!data->status || before_status)//조건문 검증해봐야함.
+	else if (!data->flag)
 	{
 		//error
 		ft_putstr_fd("zsh: command not found: ", 2);

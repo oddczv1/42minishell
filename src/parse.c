@@ -6,7 +6,7 @@
 /*   By: huchoi <huchoi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 23:45:09 by youngrch          #+#    #+#             */
-/*   Updated: 2021/04/19 22:39:23 by huchoi           ###   ########.fr       */
+/*   Updated: 2021/04/20 11:36:14 by huchoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void		ft_check_upper(t_data *d)
 
 void		ft_check_split(t_data *d, int idx)
 {
+	d->flag = 0;
 	ft_check_argv(d, d->argv[idx]);
 	printf("1 status : %d\n", d->status);
 	d->cmd = ft_split_pipe(d->argv[idx]);//편의를 위해 여기서도 그냥 ft_split_pipe쓴것 그냥 스페이스로 나눈다고 생각하면됨.

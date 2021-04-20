@@ -64,6 +64,7 @@ int get_exec_dir_file(t_data *data)
 				ft_putstr_fd(str, 2);
 				write(2, "\n", 1);
 				data->status = 1;
+				data->flag = 1;
 				return 0;
 			}
 			ft_strlcpy(data->exec_dir, data->paths[idx], 300);
