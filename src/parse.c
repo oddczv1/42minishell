@@ -47,7 +47,7 @@ void		ft_check_redirection(t_data *d)
 			if (!d->cmd[i + 1])
 			{
 				ft_putstr_fd("zsh: parse error \n", 2);
-				d->status = 1;
+				t.status = 1;
 				break ;
 			}
 			d->fd[0] = open(d->cmd[i + 1], O_RDONLY);
@@ -56,7 +56,7 @@ void		ft_check_redirection(t_data *d)
 				ft_putstr_fd("zsh: no such file or directory: ", 2);
 				ft_putstr_fd(d->cmd[i + 1], 2);
 				ft_putstr_fd("\n", 2);
-				d->status = 1;
+				t.status = 1;
 				break ;
 			}		
 			dup2(d->fd[0], 0);
@@ -169,15 +169,20 @@ void        parse(t_data *d)
 			while (d->argv[nb])
 				nb++;
 			d->pids = malloc(sizeof(pid_t) * (nb+1));
+			t.flag = 1;
 			if ((d->pids[nb] = fork()) == 0)
+			{
+				signal(SIGINT, SIG_DFL);
+				signal(SIGQUIT, SIG_DFL);
 				process_pipe(d);//여기안에선 recover_std()함수호출 필요없을듯..?  여기선 메모리해제도 안해도됨. 독립이니까..
+			}
 			else
 			{
 				//waitpid(pid, &status, 0);
-				waitpid(d->pids[nb], &d->status, 0);
-				d->status = WEXITSTATUS(d->status);
+				waitpid(d->pids[nb], &t.status, 0);
+				t.status = WEXITSTATUS(t.status);
 				//if (WIFEXITED(status))
-				//	d->status = WEXITSTATUS(status);//process_pipe함수안에서의 exit(code)가 status에 자동으로 저장된다.
+				//	t.status = WEXITSTATUS(status);//process_pipe함수안에서의 exit(code)가 status에 자동으로 저장된다.
 				//recover_std(d);//혹시나해서 넣어두긴하는데 필요없을듯
 			}
 		}

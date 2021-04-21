@@ -55,8 +55,16 @@ int		ft_history_len()
 	return len;
 }
 
+void	ft_term_d()
+{
+	tputs("exit", 1, putchar_tc);
+	t.d_flag = 1;
+	exit(t.status);
+}
+
 int    ft_read_term(t_data *d)
 {
+	//printf("%d\n", t.c);
     if (t.c ==  4479771) //left
 		ft_term_left();
 	else if(t.c ==  4414235)//right
@@ -74,6 +82,8 @@ int    ft_read_term(t_data *d)
 		ft_term_enter(d);
 		return (1);
 	}
+	else if (t.c == 4)
+		ft_term_d();
 	else if (t.c == 9)
 	{
 		
@@ -83,4 +93,5 @@ int    ft_read_term(t_data *d)
 	tputs(tgetstr("ei", NULL), 1, putchar_tc);
 	t.c = 0;
     return 0;
+	
 }

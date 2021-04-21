@@ -28,26 +28,35 @@ void	process_builtin(t_data *data)//빌트인은 어떤경우에서라도 fork()
 	else //bash임.
 	{
 		if (fork() == 0)
-			execve("/bin/bash", data->cmd, data->env);
+			execve("/bin/bash", data->cmd, NULL);
 		else
 			wait(NULL);
 		recover_std(data);
 	}
-	if (!data->flag)
-		data->status = 0;//정상종료시 status 값 0으로 갱신
+	t.status = 0;//정상종료시 status 값 0으로 갱신
 }
 
 void	process_exec(t_data *data)
 {
 	int status;
 	pid_t pid;
+
 	if ((pid = fork()) == 0)
+	{
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
 		execve(data->exec_file, data->cmd, data->env);
+	}	
 	else
 	{
+		t.pids = pid;
 		waitpid(pid, &status, 0);
 		if (WIFEXITED(status))
-			data->status = WEXITSTATUS(status);
+			t.status = WEXITSTATUS(status);
+		if (status == 2)
+			t.status = 130;
+		if (status == 3)
+			t.status = 131;
 	}
 	recover_std(data);
 	return ;
@@ -55,20 +64,19 @@ void	process_exec(t_data *data)
 
 void	process(t_data *data)
 {
-	//int before_status = data->status;
+	//int before_status = t.status;
 	if (is_builtin(data))
 		process_builtin(data);
 	else if (get_exec_dir_file(data))
 		process_exec(data);
-	//else if (!data->status || before_status)//조건문 검증해봐야함.
+	//else if (!t.status || before_status)//조건문 검증해봐야함.
 	else if (!data->flag)
 	{
 		//error
-		ft_putstr_fd("bash: ", 2);
-		ft_putstr_fd(data->cmd[0], 2);
-		ft_putstr_fd(": command not found", 2);
+		ft_putstr_fd("zsh: command not found: ", 2);
+		write(2, data->cmd[0], ft_strlen(data->cmd[0]));
 		write(2, "\n", 1);
-		data->status = 127;
+		t.status = 127;
 	}
 	recover_std(data);
 }
