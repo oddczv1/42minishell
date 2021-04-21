@@ -25,7 +25,7 @@ void    process_cd(t_data *data)
 		ft_putstr_fd("cd: no such file or directory: ", 2);
 		write(2, data->cmd[1], ft_strlen(data->cmd[1]));
 		write(2, "\n", 1);
-		data->status = 1;
+		t.status = 1;
 	}
 	recover_std(data);//process함수 제일 마지막에서 일괄적으로 처리해도 되는데 일단은 각각의 처리함수에 넣어두자(시그널이 걸려서..)
 }

@@ -63,7 +63,7 @@ int get_exec_dir_file(t_data *data)
 				ft_putstr_fd("zsh: no such file or directory: ", 2);
 				ft_putstr_fd(str, 2);
 				write(2, "\n", 1);
-				data->status = 1;
+				t.status = 1;
 				data->flag = 1;
 				return 0;
 			}
@@ -83,7 +83,7 @@ int get_exec_dir_file(t_data *data)
 		ft_putstr_fd("zsh: no such file or directory: ", 2);
 		ft_putstr_fd(str, 2);
 		write(2, "\n", 1);
-		data->status = 1;
+		t.status = 1;
 		return 0;
 	}
 	if (data->paths[idx] == NULL && flag == 0)

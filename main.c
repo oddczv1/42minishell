@@ -32,8 +32,8 @@ void		init_data(t_data *d, char **argv, char **env)
 	tcsetattr(0, TCSANOW, &t.termi);
 	tgetent(NULL, "xterm");
 	get_paths(d);
-	d->status = 0;
-	t.pids = 0;
+	t.status = 0;
+	t.d_flag = 0;
 }
 
 void		init_term()
@@ -43,6 +43,8 @@ void		init_term()
 	t.max = 0;
 	t.up = 0;
 	t.down = 0;
+	t.pids = 0;
+	t.flag = 0;
 	t.temindex = t.index - 1;
 	t.num = ft_history_len();
 }
@@ -55,27 +57,27 @@ void	signal_handler(int signum)
 		//
 
 		//int status;
-		
+		//kill(t.pids, signum);
 		//printf("%d\n", t.pids);
 		//signal(signum, SIG_IGN);
 		//signal(SIGINT, signal_handler);
-		if (!t.pids)
+		if (!t.pids && t.flag == 0)
 		{
 			ft_putstr_fd("\n", 2);
 			write(2, ">>> ~% ", 7);				
 		}
 		else
-		{
-			//kill(t.pids, 0);
-			//waitpid(t.pids, &status, 0);
-			
-			ft_putstr_fd("\n", 2);
+		{		
+			ft_putstr_fd("a\n", 2);
 		}
 	}
 	else if (signum == SIGQUIT) //ctrl /   평소에는 아무 실행 안함 /  결과 131  /슬립중시도시   바로종료 ^\Quit: 3
 	{
-		kill(t.pids, signum);
-		//ft_putstr_fd("\\\\\n", 2);
+		if (t.pids && t.flag == 0)
+		{
+			ft_putstr_fd("Quit : 3 \n", 2);
+			//write(2, ">>> ~% ", 7);				
+		}
 	}
 }
 
@@ -87,19 +89,20 @@ int			main(int argc, char **argv, char **env)
 		return (1);
 	init_data(&d, argv, env);
 	
-	//signal(SIGINT, signal_handler);  // ctrl c    개행되면서           /  결과 1    /슬립중시도시   바로종료  / 결과:130 /
-	 // ctrl /   평소에는 아무 실행 안함 /  결과 131  /슬립중시도시   바로종료 ^\Quit: 3
-									 //  ctrl d   다종료됨             /  결과 0   / 슬립중시도시 슬립끝나고 종료      /  
-	//signal(SIGTSTP, signal_handler); // ctrl z
-	while (1)
+
+//  ctrl d   다종료됨             /  결과 0   / 슬립중시도시 슬립끝나고 종료      /  
+
+	while (!t.d_flag)
 	{
 		write(2, ">>> ~% ", 7);
+		//printf("%d\n", t.flag);
 		signal(SIGINT, signal_handler);
 		signal(SIGQUIT, signal_handler);
 		tcsetattr(0, TCSANOW, &t.new_termi);
 		init_term();
-		while (read(0, &t.c, sizeof(t.c)) > 0)
+		while ((read(0, &t.c, sizeof(t.c))) > 0)
 		{
+			
 			if (ft_read_term(&d) == 1)
 				break;
 		}
@@ -108,7 +111,7 @@ int			main(int argc, char **argv, char **env)
 		free(d.str);
 		d.str = 0;
 	}
-	return (0);
+	return (t.status);
 }
 
 /*
