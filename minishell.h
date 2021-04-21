@@ -70,7 +70,7 @@ typedef struct		s_termcap{
 	int				d_flag;
 }					t_termcap;
 
-t_termcap			t;
+t_termcap			g_t;
 
 int					ft_read_str(t_data *d, char *buf);
 char				**ft_get_env(char **env);
