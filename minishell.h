@@ -14,7 +14,6 @@
 # define MINISHELL_H
 
 # include "./libft/libft.h"
-
 # include <unistd.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -48,6 +47,9 @@ typedef struct		s_data{
 	pid_t			*pids;
 	int				enable;
 	int				flag;
+	int				p_i;
+	int				p_j;
+	int				p_nb;	
 }					t_data;
 
 typedef struct		s_termcap{
@@ -70,14 +72,15 @@ typedef struct		s_termcap{
 	int				d_flag;
 }					t_termcap;
 
-t_termcap			t;
+t_termcap			g_t;
 
 int					ft_read_str(t_data *d, char *buf);
 char				**ft_get_env(char **env);
 void				ft_free(char **array);
 void				parse(t_data *d);
 void				process(t_data *d);
-
+void				ft_check_redirection(t_data *d);
+void				ft_check_upper(t_data *d);
 void				ft_check_quote(t_data *d, char *str, int *i, int j);
 void				ft_check_redirection_one(char *str, int *i);
 void				ft_check_redirection_two(char *str, int *i);
@@ -91,6 +94,9 @@ void				ft_command(t_data *d, int *fd_std, int *fd_cmd, int pipe1);
 void				ft_put_env_value(t_data *d, char *str,
 								int *end, int start, int brac);
 void				ft_put_env(t_data *d, char *str, int *i);
+
+void				is_pipe(t_data *d);
+void				non_pipe(t_data *d);
 
 void				delete_last_newline(char **cmd);
 int					match_key(char *key_value, char *str);
@@ -108,16 +114,17 @@ int					ft_read_term(t_data *d);
 int					putchar_tc(int tc);
 void				ft_insert_char(t_data *d);
 void				ft_backspace_char(t_data *d);
-int					ft_history_len();
-void				ft_term_left();
-void				ft_term_right();
+int					ft_history_len(void);
+void				ft_term_left(void);
+void				ft_term_right(void);
 void				ft_term_backspace(t_data *d);
 void				ft_term_delete(t_data *d);
 void				ft_term_write(t_data *d);
 void				ft_term_enter(t_data *d);
 void				ft_term_up(t_data *d);
 void				ft_term_down_1(t_data *d);
-void				ft_term_down_2();
+void				ft_term_down_2(t_data *d);
+void				ft_term_d(t_data *d);
 
 void				porcess_echo(t_data *data);
 void				recover_std(t_data *d);

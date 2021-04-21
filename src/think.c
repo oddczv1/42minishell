@@ -3,7 +3,7 @@
 //idx짝수->0, idx홀수->2
 int     pipe_func(t_data *d, int *fx, int fd, int idx)
 {
-    //int before_status = t.status;
+    //int before_status = g_t.status;
     pipe(&fx[CUR(idx)]);
     //pid_t pid;
     //int status;
@@ -11,7 +11,7 @@ int     pipe_func(t_data *d, int *fx, int fd, int idx)
     {
         //dup2(fd, 0);//이거 없애야할듯..? 빌트인 명령어는 표준입력 리다이렉션 하지 못하는게 팩트.. 근데 이 부분 해줘도 문제는 없음.
         dup2(fx[CUR(idx) + 1], 1);//
-        process_builtin(d);//t.status갱신 작업을 process_builtin함수에서 진행. 이미 status에 값이 0으로 초기화되었음을 기억..
+        process_builtin(d);//g_t.status갱신 작업을 process_builtin함수에서 진행. 이미 status에 값이 0으로 초기화되었음을 기억..
         close(fd);
         //close(fx[CUR(idx)]);//이 부분이 문제엿음
         close(fx[CUR(idx) + 1]);
@@ -36,7 +36,7 @@ int     pipe_func(t_data *d, int *fx, int fd, int idx)
             }
             //waitpid(pid, &status, 0);
             //if (WIFEXITED(status))
-            //    t.status = WEXITSTATUS(status);
+            //    g_t.status = WEXITSTATUS(status);
         }
     }
     else if (!d->flag)
@@ -62,7 +62,7 @@ void    process_pipe(t_data *d)//recover_std함수 호출 필요없을듯.... �
 {
     int fd = dup(0);
     int idx = 0;
-    //int before_status = t.status;
+    //int before_status = g_t.status;
     /*while (d->argv[idx])
         idx++;
     d->pids = (pid_t*)malloc(sizeof(pid_t) * idx);
@@ -85,8 +85,8 @@ void    process_pipe(t_data *d)//recover_std함수 호출 필요없을듯.... �
         close(fx[CUR(idx-1)]);
         if (d->enable != 0)
         {
-            //printf("test : %d\n", t.status);
-            exit(t.status);
+            //printf("test : %d\n", g_t.status);
+            exit(g_t.status);
         }
         if (is_builtin(d))
             process_builtin(d);//status값의 갱신작업은 process_builtin 함수에서 진행. status=0으로 초기화되어있음을 기억...
@@ -99,8 +99,8 @@ void    process_pipe(t_data *d)//recover_std함수 호출 필요없을듯.... �
             write(2, "\n", 1);
             exit(127);
 	    }
-        else if (t.status)//get_exec_dir_file에서 경로가 틀렸을때의 경우
-            exit(t.status);
+        else if (g_t.status)//get_exec_dir_file에서 경로가 틀렸을때의 경우
+            exit(g_t.status);
     }
     int count = idx;
     int temp_status;
@@ -108,8 +108,8 @@ void    process_pipe(t_data *d)//recover_std함수 호출 필요없을듯.... �
 	{
 		waitpid(d->pids[count], &temp_status, 0);//여기서 반환된 상태값은 사용안될예정 (마지막 명령어의 상태값이 중요함.)
 		if (count == (idx))
-			t.status = WEXITSTATUS(temp_status);
+			g_t.status = WEXITSTATUS(temp_status);
 		count--;
 	}
-    exit(t.status);
+    exit(g_t.status);
 }
