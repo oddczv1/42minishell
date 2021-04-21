@@ -10,7 +10,7 @@
 #                                                                              #
 # **************************************************************************** #
 
-NAME		= test
+NAME		= minishell
 
 SRCS		= ./main.c \
 				./src/util.c \
@@ -20,8 +20,10 @@ SRCS		= ./main.c \
 				./src/termcap.c \
 				./src/termcap_key_util_1.c \
 				./src/termcap_key_util_2.c \
+				./src/redirection.c \
 				./src/for_echo.c \
 				./src/for_env.c \
+				./src/pipe.c \
 				./src/process.c \
 				./src/think.c \
 				./src/for_pwd.c \

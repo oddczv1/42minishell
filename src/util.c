@@ -12,7 +12,34 @@
 
 #include "../minishell.h"
 
-int		ft_read_str(t_data *d, char *buf)
+void		ft_check_upper(t_data *d)
+{
+	int i;
+
+	i = 0;
+	while (d->cmd[0][i])
+	{
+		d->cmd[0][i] = ft_tolower(d->cmd[0][i]);
+		i++;
+	}
+}
+
+void		ft_remove_mark(t_data *d)
+{
+	int i;
+
+	i = -1;
+	while (d->cmd[++i])
+		ft_removechar(d->cmd[i], '\\');
+	i = -1;
+	while (d->cmd[++i])
+	{
+		ft_removechar(d->cmd[i], '\'');
+		ft_removechar(d->cmd[i], '\"');
+	}
+}
+
+int			ft_read_str(t_data *d, char *buf)
 {
 	char *tem;
 
@@ -24,7 +51,7 @@ int		ft_read_str(t_data *d, char *buf)
 	return (1);
 }
 
-char	**ft_get_env(char **env)
+char		**ft_get_env(char **env)
 {
 	char	**dest;
 	int		i;

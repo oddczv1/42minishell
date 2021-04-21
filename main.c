@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: youngrch <youngrch@student.42seoul.kr      +#+  +:+       +#+        */
+/*   By: youngrch <youngrch@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 14:40:55 by youngrch          #+#    #+#             */
-/*   Updated: 2021/04/09 12:06:05 by youngrch         ###   ########.fr       */
+/*   Updated: 2021/04/21 18:47:33 by youngrch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void		init_data(t_data *d, char **argv, char **env)
 	g_t.d_flag = 0;
 }
 
-void		init_term()
+void		init_term(void)
 {
 	g_t.c = 0;
 	g_t.col = 0;
@@ -49,24 +49,24 @@ void		init_term()
 	g_t.num = ft_history_len();
 }
 
-void	signal_handler(int signum)
+void		signal_handler(int signum)
 {
 	if (signum == SIGINT)
 	{
 		if (!g_t.pids && g_t.flag == 0)
 		{
 			ft_putstr_fd("\n", 2);
-			write(2, ">>> ~% ", 7);				
+			write(2, ">>> ~% ", 7);
 		}
 		else
-		{		
+		{
 			ft_putstr_fd("\n", 2);
 		}
 	}
 	else if (signum == SIGQUIT)
 	{
 		if (g_t.pids && g_t.flag == 0)
-			ft_putstr_fd("Quit : 3 \n", 2);			
+			ft_putstr_fd("Quit : 3 \n", 2);
 	}
 }
 
@@ -87,7 +87,7 @@ int			main(int argc, char **argv, char **env)
 		while ((read(0, &g_t.c, sizeof(g_t.c))) > 0)
 		{
 			if (ft_read_term(&d) == 1)
-				break;
+				break ;
 		}
 		tcsetattr(0, TCSANOW, &g_t.termi);
 		parse(&d);
