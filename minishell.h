@@ -6,7 +6,7 @@
 /*   By: huchoi <huchoi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 14:56:36 by youngrch          #+#    #+#             */
-/*   Updated: 2021/04/20 11:36:14 by huchoi           ###   ########.fr       */
+/*   Updated: 2021/04/21 22:46:11 by huchoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,15 @@
 # define TRUE 1
 # define FALSE 0
 
+typedef struct		s_path_var{
+	int flag;
+	int idx;
+	char temp_dir[300];
+	char str[300];
+	char *temp_file;
+	char *p;
+}					t_path_var;
+
 typedef struct		s_data{
 	int				argc;
 	char			**cmds;//if call the func, output is stored this variable.
@@ -49,7 +58,7 @@ typedef struct		s_data{
 	int				flag;
 	int				p_i;
 	int				p_j;
-	int				p_nb;	
+	int				p_nb;
 }					t_data;
 
 typedef struct		s_termcap{
@@ -141,6 +150,6 @@ void				process_builtin(t_data *data);
 void				ft_check_split(t_data *d, int idx);
 void				get_paths(t_data *data);
 
-
+void			over_write(t_data *data, char *key_value, int idx);
 void				signal_handler(int signum);
 #endif

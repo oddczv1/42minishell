@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: youngrch <youngrch@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: huchoi <huchoi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/21 21:20:47 by youngrch          #+#    #+#             */
-/*   Updated: 2021/04/21 21:20:49 by youngrch         ###   ########.fr       */
+/*   Updated: 2021/04/21 23:04:18 by huchoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 void		is_pipe(t_data *d)
 {
+	int status;
+
 	d->p_nb = 0;
 	while (d->argv[d->p_nb])
 		d->p_nb++;
@@ -27,8 +29,14 @@ void		is_pipe(t_data *d)
 	}
 	else
 	{
-		waitpid(d->pids[d->p_nb], &g_t.status, 0);
-		g_t.status = WEXITSTATUS(g_t.status);
+		g_t.pids = d->pids[d->p_nb];
+		waitpid(d->pids[d->p_nb], &status, 0);
+		if (status == 2)
+			g_t.status = 130;
+		else if (status == 3)
+			g_t.status = 131;
+		else
+			g_t.status = WEXITSTATUS(status);
 	}
 }
 
