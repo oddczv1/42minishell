@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split_semi.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: youngrch <youngrch@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: youngrch <youngrch@student.42seoul.kr      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 23:08:51 by youngrch          #+#    #+#             */
 /*   Updated: 2021/04/09 23:08:56 by youngrch         ###   ########.fr       */
@@ -63,7 +63,7 @@ char	**ft_split_pipe(char *str)
 	int		word_count;
 	char	*word_start;
 	char	**array;
-
+	
 	if (!str)
 		return (0);
 	word_count = count_word_pipe(str);

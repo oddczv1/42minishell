@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_env.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: youngrch <youngrch@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: huchoi <huchoi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/12 22:12:40 by youngrch          #+#    #+#             */
-/*   Updated: 2021/04/12 22:14:44 by youngrch         ###   ########.fr       */
+/*   Updated: 2021/04/21 22:44:23 by huchoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void		ft_put_env_value_2(t_data *d, char *str, int *end, int start)
 void		ft_put_env_2(t_data *d, char *str, int *i)
 {
 	int start;
-	
+
 	(*i)++;
 	start = *i;
 	while (str[*i] && !(str[(*i) - 1] != '\\' && str[*i] == '}'))

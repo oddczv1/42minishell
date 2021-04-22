@@ -1,6 +1,6 @@
 #include "../minishell.h"
 
-int		is_builtin(t_data *data)
+int	is_builtin(t_data *data)
 {
 	if (!ft_strncmp(data->cmd[0], "echo", 5))
 		return (1);

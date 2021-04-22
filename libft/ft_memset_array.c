@@ -14,8 +14,8 @@
 
 void	**ft_memset_array(void *s, int c, size_t n)
 {
-	int				i;
-	unsigned char	*str;
+	int i;
+	unsigned char *str;
 
 	str = s;
 	i = 0;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: youngrch <youngrch@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: huchoi <huchoi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 14:40:55 by youngrch          #+#    #+#             */
-/*   Updated: 2021/04/21 18:47:33 by youngrch         ###   ########.fr       */
+/*   Updated: 2021/04/22 13:54:27 by huchoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,19 +53,18 @@ void		signal_handler(int signum)
 {
 	if (signum == SIGINT)
 	{
-		if (!g_t.pids && g_t.flag == 0)
+		g_t.status = 1;
+		if (!g_t.pids)
 		{
 			ft_putstr_fd("\n", 2);
 			write(2, ">>> ~% ", 7);
 		}
 		else
-		{
 			ft_putstr_fd("\n", 2);
-		}
 	}
 	else if (signum == SIGQUIT)
 	{
-		if (g_t.pids && g_t.flag == 0)
+		if (g_t.pids)
 			ft_putstr_fd("Quit : 3 \n", 2);
 	}
 }

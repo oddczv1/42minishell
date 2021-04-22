@@ -22,31 +22,28 @@ void	process_builtin(t_data *data)//빌트인은 어떤경우에서라도 fork()
 		process_unset(data);
 	else if (!ft_strncmp(data->cmd[0], "exit", 5))
 	{
-		exit(0);//이거만 해주면 되나...? 
+		exit(0);//이거만 해주면 되나...?
 		recover_std(data);//필요없을듯..?
 	}
 	else //bash임.
 	{
 		if (fork() == 0)
-			execve("/bin/bash", data->cmd, NULL);
+			execve("/bin/bash", data->cmd, data->env);
 		else
 			wait(NULL);
 		recover_std(data);
 	}
-	g_t.status = 0;//정상종료시 status 값 0으로 갱신
+	if (!data->flag)
+		g_t.status = 0;//정상종료시 status 값 0으로 갱신
 }
 
 void	process_exec(t_data *data)
 {
 	int status;
 	pid_t pid;
-
+	g_t.flag = 1;
 	if ((pid = fork()) == 0)
-	{
-		signal(SIGINT, SIG_DFL);
-		signal(SIGQUIT, SIG_DFL);
 		execve(data->exec_file, data->cmd, data->env);
-	}	
 	else
 	{
 		g_t.pids = pid;
@@ -64,17 +61,18 @@ void	process_exec(t_data *data)
 
 void	process(t_data *data)
 {
-	//int before_status = g_t.status;
+	//int before_status = g_g_g_t.status;
 	if (is_builtin(data))
 		process_builtin(data);
 	else if (get_exec_dir_file(data))
 		process_exec(data);
-	//else if (!g_t.status || before_status)//조건문 검증해봐야함.
+	//else if (!g_g_g_t.status || before_status)//조건문 검증해봐야함
 	else if (!data->flag)
 	{
 		//error
-		ft_putstr_fd("zsh: command not found: ", 2);
-		write(2, data->cmd[0], ft_strlen(data->cmd[0]));
+		ft_putstr_fd("bash: ", 2);
+		ft_putstr_fd(data->cmd[0], 2);
+		ft_putstr_fd(": command not found", 2);
 		write(2, "\n", 1);
 		g_t.status = 127;
 	}
