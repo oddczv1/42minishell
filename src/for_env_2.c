@@ -45,7 +45,8 @@ static	void	add_one(t_data *data, char **new_env, char *str)
 	count = 0;
 	while (data->env[idx])
 		new_env[count++] = data->env[idx++];
-	new_env[count++] = ft_strdup(str);
+	if (ft_strchr(str, '='))
+		new_env[count++] = ft_strdup(str);
 	new_env[count] = NULL;
 }
 

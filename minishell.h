@@ -153,4 +153,5 @@ void				get_paths(t_data *data);
 int     			execfile_in_path(t_data *data, char *path);
 void				over_write(t_data *data, char *key_value, int idx);
 void				signal_handler(int signum);
+int					is_valid(char *str);
 #endif
