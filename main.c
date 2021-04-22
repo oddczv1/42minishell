@@ -6,7 +6,7 @@
 /*   By: huchoi <huchoi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 14:40:55 by youngrch          #+#    #+#             */
-/*   Updated: 2021/04/21 23:00:59 by huchoi           ###   ########.fr       */
+/*   Updated: 2021/04/22 14:57:55 by huchoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ void		init_term(void)
 	g_t.up = 0;
 	g_t.down = 0;
 	g_t.pids = 0;
-	g_t.flag = 0;
 	g_t.temindex = g_t.index - 1;
 	g_t.num = ft_history_len();
 }
@@ -54,21 +53,17 @@ void		signal_handler(int signum)
 	if (signum == SIGINT)
 	{
 		g_t.status = 1;
-		if (!g_t.pids && g_t.flag == 0)
+		if (!g_t.pids)
 		{
 			ft_putstr_fd("\n", 2);
 			write(2, ">>> ~% ", 7);
 		}
 		else
-		{
 			ft_putstr_fd("\n", 2);
-		}
 	}
 	else if (signum == SIGQUIT)
 	{
-		if (g_t.pids && g_t.flag == 0)
-			ft_putstr_fd("Quit : 3 \n", 2);
-		else
+		if (g_t.pids)
 			ft_putstr_fd("Quit : 3 \n", 2);
 	}
 }

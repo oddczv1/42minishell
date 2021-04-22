@@ -6,7 +6,7 @@
 /*   By: huchoi <huchoi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 14:56:36 by youngrch          #+#    #+#             */
-/*   Updated: 2021/04/21 22:46:11 by huchoi           ###   ########.fr       */
+/*   Updated: 2021/04/22 14:58:53 by huchoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,6 @@ typedef struct		s_termcap{
 	int				up;
 	int				down;
 	pid_t			pids;
-	int				flag;
 	int				status;
 	int				d_flag;
 }					t_termcap;

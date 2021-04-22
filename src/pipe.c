@@ -6,7 +6,7 @@
 /*   By: huchoi <huchoi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/21 21:20:47 by youngrch          #+#    #+#             */
-/*   Updated: 2021/04/21 23:04:18 by huchoi           ###   ########.fr       */
+/*   Updated: 2021/04/22 15:04:11 by huchoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ void		is_pipe(t_data *d)
 	while (d->argv[d->p_nb])
 		d->p_nb++;
 	d->pids = malloc(sizeof(pid_t) * (d->p_nb + 1));
-	g_t.flag = 1;
 	if ((d->pids[d->p_nb] = fork()) == 0)
 	{
 		signal(SIGINT, SIG_DFL);
