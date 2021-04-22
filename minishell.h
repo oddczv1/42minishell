@@ -6,7 +6,7 @@
 /*   By: huchoi <huchoi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 14:56:36 by youngrch          #+#    #+#             */
-/*   Updated: 2021/04/21 22:46:11 by huchoi           ###   ########.fr       */
+/*   Updated: 2021/04/22 14:58:53 by huchoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,6 @@ typedef struct		s_termcap{
 	int				up;
 	int				down;
 	pid_t			pids;
-	int				flag;
 	int				status;
 	int				d_flag;
 }					t_termcap;
@@ -142,6 +141,7 @@ void				process_env(t_data *data);
 void				process_cd(t_data *data);
 void				process_export(t_data *data);
 void				process_unset(t_data *data);
+void				process_bash(t_data *data);
 int					is_exec_usr(t_data *data);
 int					is_exec_bin(t_data *data);
 int					is_builtin(t_data *data);
@@ -149,7 +149,7 @@ int					get_exec_dir_file(t_data *data);
 void				process_builtin(t_data *data);
 void				ft_check_split(t_data *d, int idx);
 void				get_paths(t_data *data);
-
-void			over_write(t_data *data, char *key_value, int idx);
+int     			execfile_in_path(t_data *data, char *path);
+void				over_write(t_data *data, char *key_value, int idx);
 void				signal_handler(int signum);
 #endif

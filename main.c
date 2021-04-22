@@ -6,7 +6,7 @@
 /*   By: huchoi <huchoi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 14:40:55 by youngrch          #+#    #+#             */
-/*   Updated: 2021/04/22 13:54:27 by huchoi           ###   ########.fr       */
+/*   Updated: 2021/04/22 14:57:55 by huchoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ void		init_term(void)
 	g_t.up = 0;
 	g_t.down = 0;
 	g_t.pids = 0;
-	g_t.flag = 0;
 	g_t.temindex = g_t.index - 1;
 	g_t.num = ft_history_len();
 }

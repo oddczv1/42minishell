@@ -6,11 +6,24 @@
 /*   By: huchoi <huchoi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/10 15:33:49 by marvin            #+#    #+#             */
-/*   Updated: 2021/04/14 14:06:08 by huchoi           ###   ########.fr       */
+/*   Updated: 2021/04/22 17:01:36 by huchoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+int			ft_isquote(char *str)
+{
+	int i;
+
+	i = -1;
+	while (str[++i])
+	{
+		if (str[i] == '\'')
+			return (1);
+	}
+	return (0);
+}
 
 void		ft_check_upper(t_data *d)
 {
@@ -27,16 +40,25 @@ void		ft_check_upper(t_data *d)
 void		ft_remove_mark(t_data *d)
 {
 	int i;
+	int quote;
 
 	i = -1;
 	while (d->cmd[++i])
 		ft_removechar(d->cmd[i], '\\');
 	i = -1;
 	while (d->cmd[++i])
-	{
-		ft_removechar(d->cmd[i], '\'');
 		ft_removechar(d->cmd[i], '\"');
+	i = -1;
+	while (d->cmd[++i])
+	{
+		quote =  ft_isquote(d->cmd[i]);
+		if (quote == 0)
+			ft_removechar_2(d->cmd[i], '\\');
+		quote = 0;
 	}
+	i = -1;
+	while (d->cmd[++i])
+		ft_removechar(d->cmd[i], '\'');
 }
 
 int			ft_read_str(t_data *d, char *buf)
