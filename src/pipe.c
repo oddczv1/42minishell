@@ -36,6 +36,7 @@ void		is_pipe(t_data *d)
 			g_t.status = 131;
 		else
 			g_t.status = WEXITSTATUS(status);
+		free(d->pids);
 	}
 }
 
