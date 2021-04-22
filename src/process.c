@@ -51,7 +51,6 @@ void	process_exec(t_data *data)
 
 void	process(t_data *data)
 {
-	write(2, "reach", 5);
 	if (is_builtin(data))
 		process_builtin(data);
 	else if (get_exec_dir_file(data))
