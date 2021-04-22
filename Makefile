@@ -32,7 +32,9 @@ SRCS		= ./main.c \
 				./src/for_unset.c \
 				./src/utils_for_process.c \
 				./src/get_path_exec_dir_file.c \
-				./src/for_env_2.c
+				./src/for_env_2.c ./src/for_bash.c \
+				./src/get_path_exec_dir_file_utils.c
+
 
 OBJS		= $(SRCS:.c=.o)
 
