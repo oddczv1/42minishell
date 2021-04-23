@@ -29,6 +29,8 @@ void		ft_remover_rs(char *str, int i)
 				str[ft_strlen(str) - 1] = 0;
 				back++;
 			}
+			else
+				back++;
 			if (back == i - (g_t.rs_len / 2))
 				break ;
 		}
@@ -49,6 +51,12 @@ void		ft_removechar_3(char *str, int *i, int *dquote)
 	{
 		ft_remover_rs(str, *i);
 		(*i) = (*i) - (g_t.rs_len / 2);
+	}
+	else if (str[(*i) - 1] == '\\' && str[*i] != '\\')
+	{
+		ft_check_escape_num(str, *i);
+		ft_remover_rs(str, *i);
+		(*i) = (*i) - (g_t.rs_len / 2) + 1;
 	}
 	else
 		(*i)++;
