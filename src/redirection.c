@@ -91,9 +91,11 @@ void		ft_check_redirection(t_data *d)
 				break ;
 			}
 			dup2(d->fd[0], 0);
-			d->cmd[i] = 0;
+			d->cmd[0] = ft_strdup("grep");
+			d->cmd[1] = ft_strdup("m");
+			d->cmd[2] = 0;
 		}
 	}
-	if (flage == 1)
-		d->cmd[1] = 0;
+	//if (flage == 1)
+		//d->cmd[1] = 0;
 }
