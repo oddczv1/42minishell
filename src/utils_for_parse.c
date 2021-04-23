@@ -24,12 +24,13 @@ void		ft_remover_rs(char *str, int i)
 			if ((str[back] == '\\' && str[back + 1] == '\\')
 				|| (str[back] == '\\' && str[back + 1] == '\"'))
 			{
-				ft_memmove(str + back, str + back + 1, ft_strlen(str + back + 1));
+				ft_memmove(str + back,
+							str + back + 1, ft_strlen(str + back + 1));
 				str[ft_strlen(str) - 1] = 0;
 				back++;
 			}
 			if (back == i - (g_t.rs_len / 2))
-				break;
+				break ;
 		}
 	}
 }
@@ -99,7 +100,7 @@ void		ft_removechar(char *str)
 				quote *= -1;
 			}
 			else
-				++i;		
+				++i;
 		}
 	}
 }

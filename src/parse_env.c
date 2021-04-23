@@ -12,6 +12,25 @@
 
 #include "../minishell.h"
 
+char		**ft_get_env(char **env)
+{
+	char	**dest;
+	int		i;
+	int		len;
+
+	len = 0;
+	while (env[len])
+		len++;
+	dest = (char **)malloc((len + 1) * sizeof(char *));
+	if (!dest)
+		return (0);
+	i = -1;
+	while (++i < len)
+		dest[i] = ft_strdup(env[i]);
+	dest[len] = NULL;
+	return (dest);
+}
+
 void		ft_put_env_value_1(t_data *d, char *str, int *end, int start)
 {
 	int i;

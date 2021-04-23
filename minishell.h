@@ -26,33 +26,32 @@
 # include <termcap.h>
 # include <signal.h>
 
-
 # define TRUE 1
 # define FALSE 0
 
 typedef struct		s_path_var{
-	int flag;
-	int idx;
-	char temp_dir[300];
-	char str[300];
-	char *temp_file;
-	char *p;
+	int				flag;
+	int				idx;
+	char			temp_dir[300];
+	char			str[300];
+	char			*temp_file;
+	char			*p;
 }					t_path_var;
 
 typedef struct		s_data{
 	int				argc;
-	char			**cmds;//if call the func, output is stored this variable.
-	char			**argv;//split by semiclone
+	char			**cmds;
+	char			**argv;
 	char			**cmd;
 	char			**env;
 	char			**paths;
-	char			exec_dir[300];//지우면 안됨 필요함.
-	char			exec_file[300];//이건 무조건 필요함.
+	char			exec_dir[300];
+	char			exec_file[300];
 	char			*str;
 	int				fd[2];
 	int				ft_std[2];
 	int				num;
-	int				status;//init할때 얘도 0으로 초기화시켜야함.
+	int				status;
 	pid_t			*pids;
 	int				enable;
 	int				flag;
@@ -98,7 +97,7 @@ void				ft_check_redirection_two(char *str, int *i);
 void				ft_remove_mark(t_data *d);
 void				ft_check_redirection(t_data *d);
 void				ft_check_env(t_data *d);
-int     			ft_check_escape_num(char *str, int i);
+int					ft_check_escape_num(char *str, int i);
 void				ft_check_word(t_data *d, char *str, int *i);
 void				ft_check_argv(t_data *d, char *str);
 void				ft_check_pipe(t_data *d, char *str);
@@ -154,7 +153,7 @@ int					get_exec_dir_file(t_data *data);
 void				process_builtin(t_data *data);
 void				ft_check_split(t_data *d, int idx);
 void				get_paths(t_data *data);
-int     			execfile_in_path(t_data *data, char *path);
+int					execfile_in_path(t_data *data, char *path);
 void				over_write(t_data *data, char *key_value, int idx);
 void				signal_handler(int signum);
 int					is_valid(char *str);
