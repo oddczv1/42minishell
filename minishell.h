@@ -78,6 +78,7 @@ typedef struct		s_termcap{
 	pid_t			pids;
 	int				status;
 	int				d_flag;
+	int				rs_len;
 }					t_termcap;
 
 t_termcap			g_t;

@@ -12,41 +12,103 @@
 
 #include "../minishell.h"
 
-void		ft_check_upper(t_data *d)
+void		ft_remover_rs(char *str, int i)
 {
-	int i;
+	int back;
 
-	i = 0;
-	while (d->cmd[0][i])
+	if (g_t.rs_len != 0)
 	{
-		d->cmd[0][i] = ft_tolower(d->cmd[0][i]);
-		i++;
+		back = i - g_t.rs_len;
+		while (1)
+		{
+			if ((str[back] == '\\' && str[back + 1] == '\\')
+				|| (str[back] == '\\' && str[back + 1] == '\"'))
+			{
+				ft_memmove(str + back, str + back + 1, ft_strlen(str + back + 1));
+				str[ft_strlen(str) - 1] = 0;
+				back++;
+			}
+			if (back == i - (g_t.rs_len / 2))
+				break;
+		}
 	}
 }
 
-int     ft_check_escape_num(char *str, int i)
+void		ft_removechar_3(char *str, int *i, int *dquote)
 {
-    int num;
-
-    num = 0;
-    if (str[i] == '\'' || str[i] == '\"')
-    {
-        while(str[--i] == '\\')
-            ++num;
-    }
-    num = num % 2;
-    return (num);
+	if (!ft_check_escape_num(str, *i) && str[*i] == '\"')
+	{
+		ft_memmove(str + (*i), str + (*i) + 1, ft_strlen(str + (*i) + 1));
+		str[ft_strlen(str) - 1] = 0;
+		ft_remover_rs(str, *i);
+		(*i) = (*i) - (g_t.rs_len / 2);
+		(*dquote) *= -1;
+	}
+	else if (ft_check_escape_num(str, *i) && str[*i] == '\"')
+	{
+		ft_remover_rs(str, *i);
+		(*i) = (*i) - (g_t.rs_len / 2);
+	}
+	else
+		(*i)++;
 }
 
-int			ft_isquote(char *str)
+void		ft_removechar_2(char *str, int *i, int *quote, int *dquote)
+{
+	if (!ft_check_escape_num(str, *i) && str[*i] == '\'')
+	{
+		ft_memmove(str + (*i), str + (*i) + 1, ft_strlen(str + (*i) + 1));
+		str[ft_strlen(str) - 1] = 0;
+		ft_remover_rs(str, *i);
+		(*i) = (*i) - (g_t.rs_len / 2);
+		*quote *= -1;
+	}
+	else if (!ft_check_escape_num(str, *i) && str[*i] == '\"')
+	{
+		ft_memmove(str + (*i), str + (*i) + 1, ft_strlen(str + (*i) + 1));
+		str[ft_strlen(str) - 1] = 0;
+		ft_remover_rs(str, *i);
+		(*i) = (*i) - (g_t.rs_len / 2);
+		(*dquote) *= -1;
+	}
+	else
+		(*i)++;
+}
+
+void		ft_removechar(char *str)
+{
+	int i;
+	int quote;
+	int dquote;
+
+	i = 0;
+	quote = 1;
+	dquote = 1;
+	while (str[i])
+	{
+		if (quote == 1 && dquote == 1)
+			ft_removechar_2(str, &i, &quote, &dquote);
+		else if (quote == 1 && dquote == -1)
+			ft_removechar_3(str, &i, &dquote);
+		else if (quote == -1 && dquote == 1)
+		{
+			if (str[i] == '\'')
+			{
+				ft_memmove(str + i, str + i + 1, ft_strlen(str + i + 1));
+				str[ft_strlen(str) - 1] = 0;
+				quote *= -1;
+			}
+			else
+				++i;		
+		}
+	}
+}
+
+void		ft_remove_mark(t_data *d)
 {
 	int i;
 
 	i = -1;
-	while (str[++i])
-	{
-		if (str[i] == '\'')
-			return (1);
-	}
-	return (0);
+	while (d->cmd[++i])
+		ft_removechar(d->cmd[i]);
 }
