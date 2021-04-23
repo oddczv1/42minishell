@@ -1,6 +1,6 @@
 #include "../minishell.h"
 
-int		is_valid(char *str)
+/*int		is_valid(char *str)
 {
 	int idx = 0;
 
@@ -11,6 +11,66 @@ int		is_valid(char *str)
 		idx++;
 	}
 	return (1);
+}*/
+
+int		add_operation(char *str)
+{
+	char	*p;
+
+	p = ft_strchr(str, '=');
+	if (*(p - 1) == '+')
+		return (1);
+	else
+		return (0);
+}
+
+int		check_head_valid(t_data *data)
+{
+	char head;
+
+	head = data->cmd[1][0];
+	if (ft_isalpha(head) || head == '_')
+		return (1);
+	else
+		return (0);
+}
+
+int		is_valid_char(char ch)
+{
+	if (ft_isdigit(ch))
+		return (1);
+	else if (ft_isalpha(ch))
+		return (1);
+	else if (ch == '_' || ch == '+')
+		return (1);
+	else
+		return (0);
+}
+
+int		check_other_valid(t_data *data)
+{
+	int		idx;
+	//char	buf[300];
+
+	idx = 0;
+	while (data->cmd[1][idx] && data->cmd[1][idx] != '=')
+	{
+		if (is_valid_char(data->cmd[1][idx]))
+			idx++;
+		else
+			return (0);
+	}
+	return (1);
+}
+
+int		is_valid(t_data *data)
+{
+	if (!check_head_valid(data))
+		return (0);
+	else if (!check_other_valid(data))
+		return (0);
+	else
+		return (1);
 }
 
 void	process_print(t_data *data)
@@ -45,7 +105,7 @@ void	process_print(t_data *data)
 }
 void    process_export(t_data *data)
 {
-    if (data->cmd[1] && is_valid(data->cmd[1]))
+    if (data->cmd[1] && is_valid(data))
         add_env(data, data->cmd[1]);
     else if (!data->cmd[1])
         process_print(data);
