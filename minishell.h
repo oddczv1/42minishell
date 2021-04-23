@@ -6,7 +6,7 @@
 /*   By: huchoi <huchoi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 14:56:36 by youngrch          #+#    #+#             */
-/*   Updated: 2021/04/22 14:58:53 by huchoi           ###   ########.fr       */
+/*   Updated: 2021/04/23 17:43:14 by huchoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,5 +152,6 @@ void				get_paths(t_data *data);
 int     			execfile_in_path(t_data *data, char *path);
 void				over_write(t_data *data, char *key_value, int idx);
 void				signal_handler(int signum);
-int					is_valid(char *str);
+int					is_valid(t_data *data);
+int					add_operation(char *str);
 #endif
