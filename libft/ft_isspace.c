@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   ft_isspace.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: youngrch <youngrch@student.42seoul.kr      +#+  +:+       +#+        */
+/*   By: youngrch <youngrch@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/10 01:51:32 by youngrch          #+#    #+#             */
 /*   Updated: 2021/04/10 01:51:51 by youngrch         ###   ########.fr       */

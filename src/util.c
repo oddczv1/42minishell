@@ -5,60 +5,26 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: huchoi <huchoi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/10 15:33:49 by marvin            #+#    #+#             */
+/*   Created: 2020/12/10 15:33:49 by huchoi            #+#    #+#             */
 /*   Updated: 2021/04/22 18:59:26 by huchoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int			ft_isquote(char *str)
+int			ft_check_escape_num(char *str, int i)
 {
-	int i;
+	int num;
 
-	i = -1;
-	while (str[++i])
+	num = 0;
+	if (str[i] == '\'' || str[i] == '\"' || str[i] != '\\')
 	{
-		if (str[i] == '\'')
-			return (1);
+		while (str[--i] == '\\')
+			++num;
 	}
-	return (0);
-}
-
-void		ft_check_upper(t_data *d)
-{
-	int i;
-
-	i = 0;
-	while (d->cmd[0][i])
-	{
-		d->cmd[0][i] = ft_tolower(d->cmd[0][i]);
-		i++;
-	}
-}
-
-void		ft_remove_mark(t_data *d)
-{
-	int i;
-	int quote;
-
-	i = -1;
-	while (d->cmd[++i])
-		ft_removechar(d->cmd[i], '\\');
-	i = -1;
-	while (d->cmd[++i])
-		ft_removechar(d->cmd[i], '\"');
-	i = -1;
-	while (d->cmd[++i])
-	{
-		quote =  ft_isquote(d->cmd[i]);
-		if (quote == 0)
-			ft_removechar_2(d->cmd[i], '\\');
-		quote = 0;
-	}
-	i = -1;
-	while (d->cmd[++i])
-		ft_removechar(d->cmd[i], '\'');
+	g_t.rs_len = num;
+	num = num % 2;
+	return (num);
 }
 
 int			ft_read_str(t_data *d, char *buf)
@@ -73,25 +39,6 @@ int			ft_read_str(t_data *d, char *buf)
 	return (1);
 }
 
-char		**ft_get_env(char **env)
-{
-	char	**dest;
-	int		i;
-	int		len;
-
-	len = 0;
-	while (env[len])
-		len++;
-	dest = (char **)malloc((len + 1) * sizeof(char *));
-	if (!dest)
-		return (0);
-	i = -1;
-	while (++i < len)
-		dest[i] = ft_strdup(env[i]);
-	dest[len] = NULL;
-	return (dest);
-}
-
 void		ft_free(char **array)
 {
 	int i;
@@ -103,4 +50,29 @@ void		ft_free(char **array)
 		i++;
 	}
 	free(array);
+}
+
+int			ft_isquote(char *str)
+{
+	int i;
+
+	i = -1;
+	while (str[++i])
+	{
+		if (str[i] == '\'')
+			return (-1);
+	}
+	return (1);
+}
+
+void		ft_check_upper(t_data *d)
+{
+	int i;
+
+	i = 0;
+	while (d->cmd[0][i])
+	{
+		d->cmd[0][i] = ft_tolower(d->cmd[0][i]);
+		i++;
+	}
 }

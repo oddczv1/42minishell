@@ -39,8 +39,7 @@ void		ft_check_pipe(t_data *d, char *str)
 void		ft_check_quote_2(t_data *d, char *str, int *i)
 {
 	(*i)++;
-	while (str[*i] && !((str[(*i) - 1] != '\\' && str[*i] == '\"') ||
-	(str[(*i) - 2] == '\\' && str[(*i) - 1] == '\\' && str[*i] == '\"')))
+	while (str[*i] && !(!ft_check_escape_num(str, *i) && str[*i] == '\"'))
 		(*i)++;
 	if (!str[*i])
 	{
