@@ -85,6 +85,8 @@ t_termcap			g_t;
 int					ft_read_str(t_data *d, char *buf);
 char				**ft_get_env(char **env);
 void				ft_free(char **array);
+int					ft_isquote(char *str);
+void				ft_check_upper(t_data *d);
 void				parse(t_data *d);
 void				process(t_data *d);
 void				ft_check_redirection(t_data *d);
@@ -95,9 +97,11 @@ void				ft_check_redirection_two(char *str, int *i);
 void				ft_remove_mark(t_data *d);
 void				ft_check_redirection(t_data *d);
 void				ft_check_env(t_data *d);
+int     			ft_check_escape_num(char *str, int i);
 void				ft_check_word(t_data *d, char *str, int *i);
 void				ft_check_argv(t_data *d, char *str);
 void				ft_check_pipe(t_data *d, char *str);
+
 void				ft_command(t_data *d, int *fd_std, int *fd_cmd, int pipe1);
 void				ft_put_env_value(t_data *d, char *str,
 								int *end, int start, int brac);
@@ -152,4 +156,5 @@ void				get_paths(t_data *data);
 int     			execfile_in_path(t_data *data, char *path);
 void				over_write(t_data *data, char *key_value, int idx);
 void				signal_handler(int signum);
+int					is_valid(char *str);
 #endif

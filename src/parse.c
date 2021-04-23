@@ -40,11 +40,9 @@ void		ft_check_env(t_data *d)
 
 void		ft_check_word(t_data *d, char *str, int *i)
 {
-	if ((str[(*i) - 1] != '\\' && str[*i] == '\'') ||
-		(str[(*i) - 2] == '\\' && str[(*i) - 1] == '\\' && str[*i] == '\''))
+	if (!ft_check_escape_num(str, *i) && str[*i] == '\'')
 		ft_check_quote(d, str, i, 1);
-	else if ((str[(*i) - 1] != '\\' && str[*i] == '\"') ||
-		(str[(*i) - 2] == '\\' && str[(*i) - 1] == '\\' && str[*i] == '\"'))
+	else if (!ft_check_escape_num(str, *i) && str[*i] == '\"')
 		ft_check_quote(d, str, i, 2);
 	else if (str[(*i) - 1] != '\\' && str[*i] == '>' && str[*i + 1] != '>')
 		ft_check_redirection_one(str, i);

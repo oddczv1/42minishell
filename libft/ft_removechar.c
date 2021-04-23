@@ -45,6 +45,7 @@ void		ft_removechar(char *str, char c)
 			{
 				ft_memmove(str + i, str + i + 1, ft_strlen(str + i + 1));
 				str[ft_strlen(str) - 1] = 0;
+				i++;
 			}
 			else
 				i++;
