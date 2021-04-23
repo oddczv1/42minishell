@@ -46,7 +46,8 @@ char	*ft_strndup_pipe(char *str, unsigned int n)
 	unsigned int	i;
 	char			*dup;
 
-	dup = (char*)malloc((n + 3) * sizeof(char));
+	dup = (char*)malloc((n + 100) * sizeof(char));
+	ft_memset(dup, 0, n + 100);
 	i = 0;
 	while (i < n)
 	{
