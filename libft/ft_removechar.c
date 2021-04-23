@@ -12,6 +12,20 @@
 
 #include "libft.h"
 
+int     ft_check_escape_num1(char *str, int i)
+{
+    int num;
+
+    num = 0;
+    if (str[i] == '\'' || str[i] == '\"')
+    {
+        while(str[--i] == '\\')
+            ++num;
+    }
+    num = num % 2;
+    return (num);
+}
+
 void		ft_removechar_2(char *str, char c)
 {
 	int i;
@@ -19,9 +33,9 @@ void		ft_removechar_2(char *str, char c)
 	i = 0;
 	while (str[i])
 	{
-		if ( c == '\\')
+		if ( c == '\"')
 		{
-			if (str[i] == c && str[(i) + 1] == '\"')
+			if (!ft_check_escape_num1(str, i) && str[i] == c)
 			{
 				ft_memmove(str + i, str + i + 1, ft_strlen(str + i + 1));
 				str[ft_strlen(str) - 1] = 0;

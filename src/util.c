@@ -15,18 +15,12 @@
 void		ft_remove_mark(t_data *d)
 {
 	int i;
-	int quote;
+	//int quote;
 
 	i = -1;
 	while (d->cmd[++i])
 	{
-		quote = ft_isquote(d->cmd[i]);
-		if (quote == 0 && (!ft_check_escape_num(d->cmd, i) && d->cmd[i] == '\"'))
-		{
-			ft_removechar(d->cmd[i], '\"');
-		}
-			
-		quote = 0;
+		ft_removechar_2(d->cmd[i], '\"');
 	}
 		/*
 	i = -1;
