@@ -17,7 +17,7 @@ int			ft_check_escape_num(char *str, int i)
 	int num;
 
 	num = 0;
-	if (str[i] == '\'' || str[i] == '\"')
+	if (str[i] == '\'' || str[i] == '\"' || str[i] != '\\')
 	{
 		while (str[--i] == '\\')
 			++num;
