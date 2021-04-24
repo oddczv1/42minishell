@@ -60,6 +60,9 @@ typedef struct		s_data{
 	int				p_nb;
 	int				is_cflage;
 	int				is_cmd;
+	int				check_open;
+	int				start;
+	int				max_idx;
 }					t_data;
 
 typedef struct		s_termcap{

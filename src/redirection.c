@@ -22,22 +22,39 @@ int			ft_iscmd(t_data *d, int i)
 	return (0);
 }
 
+void		ft_free_two(t_data *d)
+{
+	int idx = 0;
+	while (d->cmd[idx])
+		idx++;
+	if (d->max_idx == idx)
+		return ;
+	idx++;
+	while (d->cmd[idx])
+		free(d->cmd[idx++]);
+}
+
 void		ft_check_redirection(t_data *d)
 {
-	int checkerr;
 	int i;
-	int j;
 	int k;
 
-	j = 0;
+	d->start = 0;
 	i = -1;
 	d->is_cflage = 0;
 	d->is_cmd = 0;
+	d->max_idx = -1;
+	while (d->cmd[++d->max_idx])
+	{
+		ft_putstr_fd(d->cmd[d->max_idx], 2);
+		ft_putstr_fd("\n", 2);
+	}
+	i = -1;
 	while (d->cmd[++i])
 	{
 		if (ft_memcmp(d->cmd[i], ">", 2) == 0)
 		{
-			if (!d->cmd[i + 1])
+			if (!d->cmd[i + 1] || !ft_memcmp(d->cmd[i + 1], ">", 2) || !ft_memcmp(d->cmd[i + 1], ">>", 2) || !ft_memcmp(d->cmd[i + 1], "<", 2))
 			{
 				ft_putstr_fd("bash: syntax error near unexpected token\n", 2);
 				g_t.status = 1;
@@ -63,12 +80,12 @@ void		ft_check_redirection(t_data *d)
 			{
 				d->is_cmd = ft_iscmd(d, i + 2);
 				if (d->is_cmd == 0)
-					j = i + 2;
+					d->start = i + 2;
 			}
 		}
 		else if (ft_memcmp(d->cmd[i], ">>", 3) == 0)
 		{
-			if (!d->cmd[i + 1])
+			if (!d->cmd[i + 1] || !ft_memcmp(d->cmd[i + 1], ">", 2) || !ft_memcmp(d->cmd[i + 1], ">>", 2) || !ft_memcmp(d->cmd[i + 1], "<", 2))
 			{
 				ft_putstr_fd("bash: syntax error near unexpected token\n", 2);
 				g_t.status = 1;
@@ -94,13 +111,13 @@ void		ft_check_redirection(t_data *d)
 			{
 				d->is_cmd = ft_iscmd(d, i + 2);
 				if (d->is_cmd == 0)
-					j = i + 2;
+					d->start = i + 2;
 			}
 		}
 		else if (ft_memcmp(d->cmd[i], "<", 2) == 0)
 		{
 			
-			if (!d->cmd[i + 1])
+			if (!d->cmd[i + 1] || !ft_memcmp(d->cmd[i + 1], ">", 2) || !ft_memcmp(d->cmd[i + 1], ">>", 2) || !ft_memcmp(d->cmd[i + 1], "<", 2))
 			{
 				ft_putstr_fd("bash: syntax error near unexpected token\n", 2);
 				g_t.status = 1;
@@ -134,18 +151,18 @@ void		ft_check_redirection(t_data *d)
 			{
 				d->is_cmd = ft_iscmd(d, i + 2);
 				if (d->is_cmd == 0)
-					j = i + 2;
+					d->start = i + 2;
 			}
 			else
 			{	
 				d->is_cmd = ft_iscmd(d, i + 2);
 				if (d->is_cmd == 0 && d->cmd[i + 2])
 				{
-					j = i + 2;
+					d->start = i + 2;
 					while (d->cmd[i + 2])
 					{
-						checkerr = open(d->cmd[i + 2], O_RDONLY);
-						if (checkerr < 0)
+						d->check_open = open(d->cmd[i + 2], O_RDONLY);
+						if (d->check_open < 0)
 						{				
 							ft_putstr_fd(d->cmd[0], 2);					
 							ft_putstr_fd(": ", 2);
@@ -155,7 +172,7 @@ void		ft_check_redirection(t_data *d)
 							d->enable = 1;
 							recover_std(d);
 						}
-						close(checkerr);
+						close(d->check_open);
 						i++;
 					}
 					free(d->cmd[0]);
@@ -166,15 +183,15 @@ void		ft_check_redirection(t_data *d)
 					char *str;
 					free(d->cmd[2]);
 					d->cmd[2] = ft_strdup("");
-					while (d->cmd[j])
+					while (d->cmd[d->start])
 					{
-						temp = ft_strjoin(d->cmd[j], "\n");
-						free(d->cmd[j]);//ㅇㅐ매..
+						temp = ft_strjoin(d->cmd[d->start], "\n");
+						free(d->cmd[d->start]);//ㅇㅐ매..
 						str = ft_strjoin(d->cmd[2], temp);
 						free(temp);
 						free(d->cmd[2]);
 						d->cmd[2] = str;
-						++j;
+						++d->start;
 					}
 					d->cmd[3] = 0;
 				}
@@ -184,17 +201,23 @@ void		ft_check_redirection(t_data *d)
 	k = 0;
 	if (d->is_cflage == 1)
 	{
-		d->cmd[1] = ft_strdup("");
-		if (d->cmd[j] != 0)
+		free(d->cmd[1]);
+		d->cmd[1] = NULL;
+
+		if (d->cmd[d->start] != 0)
 		{
-			while (d->cmd[j])
+			while (d->cmd[d->start])
 			{
-				free(d->cmd[k]);
-				d->cmd[k] = d->cmd[j];
+				if (d->cmd[1] != NULL)
+					free(d->cmd[k]);
+				d->cmd[k] = d->cmd[d->start];
 				k++;
-				j++;
+				d->start++;
 			}
 			d->cmd[k] = 0;
+			ft_free_two(d);
 		}
+		else
+			ft_free_two(d);
 	}	
 }
