@@ -27,7 +27,6 @@ int			ft_iscmd(t_data *d, int i)
 	return (0);
 }
 
-
 void		ft_non_cmd(t_data *d, int *i)
 {
 	if ((*i) == 0)
@@ -127,4 +126,3 @@ void		ft_put_cmd(t_data *d)
 		}
 	}
 }
-
