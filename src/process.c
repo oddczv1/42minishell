@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   process.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: huchoi <huchoi@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/04/24 15:03:40 by huchoi            #+#    #+#             */
+/*   Updated: 2021/04/24 15:03:48 by huchoi           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
 void	recover_std(t_data *d)
@@ -25,13 +37,14 @@ void	process_builtin(t_data *data)
 	else
 		process_bash(data);
 	if (!data->flag)
-		g_t.status = 0;//정상종료시 status 값 0으로 갱신
+		g_t.status = 0;
 }
 
 void	process_exec(t_data *data)
 {
-	int status;
-	pid_t pid;
+	int		status;
+	pid_t	pid;
+
 	if ((pid = fork()) == 0)
 		execve(data->exec_file, data->cmd, data->env);
 	else

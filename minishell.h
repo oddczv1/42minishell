@@ -6,7 +6,7 @@
 /*   By: huchoi <huchoi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 14:56:36 by youngrch          #+#    #+#             */
-/*   Updated: 2021/04/23 17:43:14 by huchoi           ###   ########.fr       */
+/*   Updated: 2021/04/24 15:44:50 by huchoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,4 +158,11 @@ void				over_write(t_data *data, char *key_value, int idx);
 void				signal_handler(int signum);
 int					is_valid(t_data *data);
 int					add_operation(char *str);
+
+int					check_head_valid(t_data *data);
+int					check_other_valid(t_data *data);
+void				err_messag(t_data *d, int *fx, int fd, int idx);
+int					err_message(t_data *d);
+void				ready_for_execute(int *fx, int fd, int idx);
+int					cur(int x);
 #endif

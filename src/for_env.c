@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   for_env.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: huchoi <huchoi@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/04/24 15:28:15 by huchoi            #+#    #+#             */
+/*   Updated: 2021/04/24 15:28:17 by huchoi           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
 void	get_value(char *str, char *buf)
@@ -51,9 +63,8 @@ int		add_env(t_data *data, char *key_value)
 		}
 		idx++;
 	}
-	//renewer_env(data->env, NULL, data->cmd[1], idx + 1 + 1);//이게 더 나을수도...?
-	if (data->env[idx] == NULL)//루프 종료조건 이용한 조건문(덮어쓰기 했으면 아래 함수 실행 안함)
-		renewer_env(data, key_value, data->cmd[1], idx + 1 + 1);
+	if (data->env[idx] == NULL)
+		renewer_env(data, NULL, data->cmd[1], idx + 1 + 1);
 	return (1);
 }
 
