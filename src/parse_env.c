@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   parse_env.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: huchoi <huchoi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: youngrch <youngrch@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/12 22:12:40 by youngrch          #+#    #+#             */
 /*   Updated: 2021/04/21 22:44:23 by huchoi           ###   ########.fr       */

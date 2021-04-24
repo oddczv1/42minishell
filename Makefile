@@ -15,13 +15,15 @@ NAME		= minishell
 SRCS		= ./main.c \
 				./src/util.c \
 				./src/utils_for_parse.c \
+				./src/utils_for_free.c \
 				./src/check_mark.c \
 				./src/parse_env.c \
 				./src/parse.c \
 				./src/termcap.c \
 				./src/termcap_key_util_1.c \
 				./src/termcap_key_util_2.c \
-				./src/redirection.c \
+				./src/redirection_1.c \
+				./src/redirection_2.c \
 				./src/for_echo.c \
 				./src/for_env.c \
 				./src/pipe.c \

@@ -78,7 +78,8 @@ void			porcess_echo(t_data *data)
 	idx = 1;
 	if (data->cmd[1] == NULL)
 	{
-		write(1, "\n", 1);
+		if (!(data->is_cflage))
+			write(1, "\n", 1);
 		return ;
 	}
 	if (!ft_strncmp(data->cmd[idx], "-n", 3))
@@ -88,7 +89,7 @@ void			porcess_echo(t_data *data)
 		my_putstr_fd(data->cmd[idx++], 1);
 		ft_putstr_fd(" ", 1);
 	}
-	if (ft_strncmp(data->cmd[1], "-n", 3) != 0 && !(data->is_cflage))
+	if (ft_strncmp(data->cmd[1], "-n", 3) != 0)
 	{
 		my_putstr_fd(data->cmd[idx], 1);
 		write(1, "\n", 1);
