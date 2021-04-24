@@ -58,6 +58,11 @@ typedef struct		s_data{
 	int				p_i;
 	int				p_j;
 	int				p_nb;
+	int				is_cflage;
+	int				is_cmd;
+	int				check_open;
+	int				start;
+	int				max_idx;
 }					t_data;
 
 typedef struct		s_termcap{
@@ -85,6 +90,7 @@ t_termcap			g_t;
 int					ft_read_str(t_data *d, char *buf);
 char				**ft_get_env(char **env);
 void				ft_free(char **array);
+void				ft_cmd_free(t_data *d);
 int					ft_isquote(char *str);
 void				ft_check_upper(t_data *d);
 void				parse(t_data *d);

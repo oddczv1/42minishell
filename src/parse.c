@@ -50,6 +50,8 @@ void		ft_check_word(t_data *d, char *str, int *i)
 		ft_check_redirection_one(str, i);
 	else if (str[(*i) - 1] != '\\' && str[*i] == '>' && str[*i + 1] == '>')
 		ft_check_redirection_two(str, i);
+	else if (str[(*i) - 1] != '\\' && str[*i] == '<' && str[*i + 1] == '<')
+		ft_check_redirection_two(str, i);
 	else
 		(*i)++;
 }
@@ -88,8 +90,6 @@ void		parse(t_data *d)
 {
 	d->p_i = -1;
 	d->enable = 0;
-	d->ft_std[0] = dup(0);
-	d->ft_std[1] = dup(1);
 	d->cmds = ft_split_semi(d->str);
 	if (!d->cmds)
 		return ;
