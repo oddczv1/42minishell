@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
 int			ft_iscmd(t_data *d, int i)
 {
 	while (d->cmd[i])
@@ -20,18 +21,6 @@ int			ft_iscmd(t_data *d, int i)
 		 ++i;
 	}
 	return (0);
-}
-
-void		ft_free_two(t_data *d)
-{
-	int idx = 0;
-	while (d->cmd[idx])
-		idx++;
-	if (d->max_idx == idx)
-		return ;
-	idx++;
-	while (d->cmd[idx])
-		free(d->cmd[idx++]);
 }
 
 void		ft_check_redirection(t_data *d)
@@ -45,16 +34,13 @@ void		ft_check_redirection(t_data *d)
 	d->is_cmd = 0;
 	d->max_idx = -1;
 	while (d->cmd[++d->max_idx])
-	{
-		ft_putstr_fd(d->cmd[d->max_idx], 2);
-		ft_putstr_fd("\n", 2);
-	}
+		;
 	i = -1;
 	while (d->cmd[++i])
-	{
+	{   
 		if (ft_memcmp(d->cmd[i], ">", 2) == 0)
 		{
-			if (!d->cmd[i + 1] || !ft_memcmp(d->cmd[i + 1], ">", 2) || !ft_memcmp(d->cmd[i + 1], ">>", 2) || !ft_memcmp(d->cmd[i + 1], "<", 2))
+			if (!d->cmd[i + 1] || !ft_memcmp(d->cmd[i + 1], ">", 2) || !ft_memcmp(d->cmd[i + 1], ">>", 2) || !ft_memcmp(d->cmd[i + 1], "<", 2) || !ft_memcmp(d->cmd[i + 1], "<<", 2))
 			{
 				ft_putstr_fd("bash: syntax error near unexpected token\n", 2);
 				g_t.status = 1;
@@ -69,10 +55,12 @@ void		ft_check_redirection(t_data *d)
 			d->fd[0] = open(d->cmd[i + 1], O_WRONLY | O_CREAT | O_TRUNC, 0666);
 			d->fd[1] = dup(1);
 			dup2(d->fd[0], 1);
+			free(d->cmd[i]);
 			d->cmd[i] = 0;
 			if (i == 0)
 			{
-				free(d->cmd[0]);
+				/*if (d->cmd[0])
+					free(d->cmd[0]);*/
 				d->cmd[0] = ft_strdup("echo");
 				d->is_cflage = 1;
 			}
@@ -85,7 +73,7 @@ void		ft_check_redirection(t_data *d)
 		}
 		else if (ft_memcmp(d->cmd[i], ">>", 3) == 0)
 		{
-			if (!d->cmd[i + 1] || !ft_memcmp(d->cmd[i + 1], ">", 2) || !ft_memcmp(d->cmd[i + 1], ">>", 2) || !ft_memcmp(d->cmd[i + 1], "<", 2))
+			if (!d->cmd[i + 1] || !ft_memcmp(d->cmd[i + 1], ">", 2) || !ft_memcmp(d->cmd[i + 1], ">>", 2) || !ft_memcmp(d->cmd[i + 1], "<", 2) || !ft_memcmp(d->cmd[i + 1], "<<", 2))
 			{
 				ft_putstr_fd("bash: syntax error near unexpected token\n", 2);
 				g_t.status = 1;
@@ -100,10 +88,11 @@ void		ft_check_redirection(t_data *d)
 			d->fd[0] = open(d->cmd[i + 1], O_WRONLY | O_CREAT | O_APPEND, 0666);
 			d->fd[1] = dup(1);
 			dup2(d->fd[0], 1);
+			free(d->cmd[i]);
 			d->cmd[i] = 0;
 			if (i == 0)
 			{
-				free(d->cmd[0]);
+				//free(d->cmd[0]);
 				d->cmd[0] = ft_strdup("echo");
 				d->is_cflage = 1;
 			}
@@ -117,7 +106,7 @@ void		ft_check_redirection(t_data *d)
 		else if (ft_memcmp(d->cmd[i], "<", 2) == 0)
 		{
 			
-			if (!d->cmd[i + 1] || !ft_memcmp(d->cmd[i + 1], ">", 2) || !ft_memcmp(d->cmd[i + 1], ">>", 2) || !ft_memcmp(d->cmd[i + 1], "<", 2))
+			if (!d->cmd[i + 1] || !ft_memcmp(d->cmd[i + 1], ">", 2) || !ft_memcmp(d->cmd[i + 1], ">>", 2) || !ft_memcmp(d->cmd[i + 1], "<", 2) || !ft_memcmp(d->cmd[i + 1], "<<", 2))
 			{
 				ft_putstr_fd("bash: syntax error near unexpected token\n", 2);
 				g_t.status = 1;
@@ -175,6 +164,7 @@ void		ft_check_redirection(t_data *d)
 						close(d->check_open);
 						i++;
 					}
+					/*
 					free(d->cmd[0]);
 					d->cmd[0] = ft_strdup("echo");
 					free(d->cmd[1]);
@@ -187,6 +177,7 @@ void		ft_check_redirection(t_data *d)
 					{
 						temp = ft_strjoin(d->cmd[d->start], "\n");
 						free(d->cmd[d->start]);//ㅇㅐ매..
+						d->cmd[d->start] = 0;
 						str = ft_strjoin(d->cmd[2], temp);
 						free(temp);
 						free(d->cmd[2]);
@@ -194,6 +185,7 @@ void		ft_check_redirection(t_data *d)
 						++d->start;
 					}
 					d->cmd[3] = 0;
+					*/
 				}
 			}
 		}
@@ -208,16 +200,51 @@ void		ft_check_redirection(t_data *d)
 		{
 			while (d->cmd[d->start])
 			{
-				if (d->cmd[1] != NULL)
+				if (d->cmd[k] != NULL)
+				{
 					free(d->cmd[k]);
+					d->cmd[k] = NULL;
+				}
 				d->cmd[k] = d->cmd[d->start];
+				d->cmd[d->start] = NULL;
 				k++;
 				d->start++;
 			}
+			free(d->cmd[k]);
 			d->cmd[k] = 0;
-			ft_free_two(d);
 		}
-		else
-			ft_free_two(d);
-	}	
+	}
 }
+
+void		ft_cmd_free(t_data *d)
+{
+	int i;
+
+	i = 0;
+	while (i < d->max_idx)
+	{
+		if (d->cmd[i])
+			free(d->cmd[i]);
+		i++;
+	}
+	free(d->cmd);
+}
+/*
+void		ft_free_two(t_data *d)
+{
+	int idx = 0;
+	while (d->cmd[idx])
+		idx++;
+	if (d->max_idx == idx)
+		return ;
+	ft_putstr_fd(ft_itoa(idx),2);
+	write(2, "\n", 1);
+	idx++;
+	while (idx < d->max_idx)
+	{
+		ft_putstr_fd(ft_itoa(idx),2);
+		write(2, "\n", 1);
+		if (d->cmd[idx] != NULL)
+			free(d->cmd[idx++]);
+	}
+}*/

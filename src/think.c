@@ -75,7 +75,7 @@ void	connect_pipe(t_data *d, int *idx, int *fx, int *fd)
     {
         ft_check_split(d, *idx);
         *fd = pipe_func(d, fx, *fd, *idx);
-        ft_free(d->cmd);
+        ft_cmd_free(d);
         (*idx)++;
     }
 }

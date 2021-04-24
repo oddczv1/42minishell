@@ -50,6 +50,8 @@ void		ft_check_word(t_data *d, char *str, int *i)
 		ft_check_redirection_one(str, i);
 	else if (str[(*i) - 1] != '\\' && str[*i] == '>' && str[*i + 1] == '>')
 		ft_check_redirection_two(str, i);
+	else if (str[(*i) - 1] != '\\' && str[*i] == '<' && str[*i + 1] == '<')
+		ft_check_redirection_two(str, i);
 	else
 		(*i)++;
 }

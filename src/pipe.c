@@ -48,6 +48,6 @@ void		non_pipe(t_data *d)
 		ft_check_split(d, d->p_j);
 		if (!d->enable)
 			process(d);
-		ft_free(d->cmd);
+		ft_cmd_free(d);
 	}
 }
