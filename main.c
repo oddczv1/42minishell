@@ -19,6 +19,8 @@ void		init_data(t_data *d, char **argv, char **env)
 	d->fd[0] = 0;
 	d->num = 0;
 	d->env = ft_get_env(env);
+	d->ft_std[0] = dup(0);
+	d->ft_std[1] = dup(1);
 	g_t.buf[1] = 0;
 	g_t.index = 0;
 	g_t.history = (char **)malloc(sizeof(char *) * 101);

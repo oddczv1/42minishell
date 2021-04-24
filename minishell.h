@@ -58,6 +58,8 @@ typedef struct		s_data{
 	int				p_i;
 	int				p_j;
 	int				p_nb;
+	int				is_cflage;
+	int				is_cmd;
 }					t_data;
 
 typedef struct		s_termcap{
