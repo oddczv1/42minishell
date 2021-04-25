@@ -6,7 +6,7 @@
 /*   By: huchoi <huchoi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/24 15:03:40 by huchoi            #+#    #+#             */
-/*   Updated: 2021/04/24 15:03:48 by huchoi           ###   ########.fr       */
+/*   Updated: 2021/04/25 12:54:27 by huchoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,4 +77,26 @@ void	process(t_data *data)
 		g_t.status = 127;
 	}
 	recover_std(data);
+}
+
+int		is_valid_cmd(t_data *d}
+{
+	int ret;
+
+	ret = 0;
+	if (is_builtin(data))
+		ret = 1;
+	else if (get_exec_dir_file(data))
+		ret = 1;
+	else if (!data->flag)
+	{
+		ft_putstr_fd("bash: ", 2);
+		ft_putstr_fd(data->cmd[0], 2);
+		ft_putstr_fd(": command not found", 2);
+		write(2, "\n", 1);
+		g_t.status = 127;
+		ret = 0;
+	}
+	recover_std(data);//이 부분 무조건 거쳐야함.
+	return (ret);
 }
