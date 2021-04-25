@@ -17,7 +17,8 @@ SRCS		= ./main.c \
 				./src/utils_for_parse.c \
 				./src/utils_for_free.c \
 				./src/check_mark.c \
-				./src/parse_env.c \
+				./src/parse_env_1.c \
+				./src/parse_env_2.c \
 				./src/parse.c \
 				./src/termcap.c \
 				./src/termcap_key_util_1.c \

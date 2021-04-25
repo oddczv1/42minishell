@@ -78,7 +78,7 @@ void		signal_handler(int signum)
 			ft_putstr_fd("Quit : 3 \n", 2);
 	}
 }
-/*
+
 int			main(int argc, char **argv, char **env)
 {
 	t_data	d;
@@ -105,7 +105,8 @@ int			main(int argc, char **argv, char **env)
 	}
 	return (g_t.status);
 }
-*/
+
+/*
 int			main(int argc, char **argv, char **env)
 {
 	t_data	d;
@@ -127,4 +128,4 @@ int			main(int argc, char **argv, char **env)
 	}
 	return (g_t.status);
 }
-
+*/

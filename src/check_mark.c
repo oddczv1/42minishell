@@ -26,8 +26,13 @@ void		ft_check_pipe(t_data *d, char *str)
 				(i)++;
 			if (!str[i])
 			{
-				ft_putstr_fd("pipe error\n", 2);
+				if (str[0] == '|')
+					ft_putstr_fd("bash: syntax error\n", 2);
+				else
+					ft_putstr_fd("pipe error\n", 2);
 				g_t.status = 1;
+				if (str[0] == '|')
+					g_t.status = 258;
 				d->enable = 1;
 			}
 		}

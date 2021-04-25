@@ -12,32 +12,6 @@
 
 #include "../minishell.h"
 
-void		ft_check_env(t_data *d)
-{
-	int i;
-	int j;
-	int quote;
-
-	i = -1;
-	while (d->cmd[++i])
-	{
-		j = 0;
-		quote = 1;
-		while (d->cmd[i][j])
-		{
-			if (d->cmd[i][j] == '\'' && d->cmd[i][j - 1] != '\\')
-				quote *= -1;
-			if (d->cmd[i][j] == '$' && quote != -1)
-			{
-				d->num = i;
-				ft_put_env(d, d->cmd[i], &j);
-			}
-			else
-				j++;
-		}
-	}
-}
-
 void		ft_check_word(t_data *d, char *str, int *i)
 {
 	if (!ft_check_escape_num(str, *i) && str[*i] == '\'')
@@ -65,13 +39,34 @@ void		ft_check_argv(t_data *d, char *str)
 	{
 		while (ft_isspace(str[i]))
 		{
-			str[i] = '|';
+			if (str[i - 1] != '\\')
+				str[i] = '|';
 			i++;
 		}
 		if (str[i] == '\0')
 			break ;
 		while (str[i] && !ft_isspace(str[i]))
 			ft_check_word(d, str, &i);
+	}
+}
+
+void		ft_check_semi(t_data *d)
+{
+	int i;
+
+	i = -1;
+	if (g_t.str != 0)
+	{
+		while (g_t.str[++i])
+		{
+			if (g_t.str[i] == ';' && g_t.str[i + 1] == ';')
+			{
+				ft_putstr_fd("bash: syntax error near unexpected token\n", 2);
+				g_t.status = 258;
+				d->enable = 1;
+			}
+		}
+		ft_check_semi_1(g_t.str)
 	}
 }
 
@@ -91,6 +86,7 @@ void		parse(t_data *d)
 {
 	d->p_i = -1;
 	d->enable = 0;
+	ft_check_semi(d);
 	d->cmds = ft_split_semi(g_t.str);
 	if (!d->cmds)
 		return ;
