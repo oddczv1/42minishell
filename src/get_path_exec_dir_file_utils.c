@@ -6,7 +6,7 @@
 /*   By: huchoi <huchoi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/24 15:07:09 by huchoi            #+#    #+#             */
-/*   Updated: 2021/04/25 17:22:24 by huchoi           ###   ########.fr       */
+/*   Updated: 2021/04/25 19:31:12 by huchoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,12 +65,15 @@ int		ft_relative_path_check(t_data *data, t_path_var *var)
 {
 	//ft_putstr_fd("reach???\n", 2);
 	char	original[1024];
+	char	*test;
 	char	abs_path[1024];
 	int		ret;
 
-	getcwd(original, 1024);
+	test = getcwd(original, 1024);
 	printf("original : %s\n", original);
-	chdir(var->temp_dir);
+	printf("original : %s\n", test);
+	int num = chdir(var->temp_dir);
+	printf("num = %d\n", num);
 	printf("var->temp_dir = %s\n", var->temp_dir);
 	getcwd(abs_path, 1024);
 	printf("abs_path = %s\n", abs_path);
