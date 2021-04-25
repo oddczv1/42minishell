@@ -47,7 +47,6 @@ typedef struct		s_data{
 	char			**paths;
 	char			exec_dir[300];
 	char			exec_file[300];
-	char			*str;
 	int				fd[2];
 	int				ft_std[2];
 	int				num;
@@ -69,6 +68,7 @@ typedef struct		s_data{
 
 typedef struct		s_termcap{
 	int				c;
+	char			*str;
 	struct termios	termi;
 	struct termios	new_termi;
 	int				col;
@@ -89,7 +89,7 @@ typedef struct		s_termcap{
 
 t_termcap			g_t;
 
-int					ft_read_str(t_data *d, char *buf);
+int					ft_read_str(char *buf);
 char				**ft_get_env(char **env);
 void				ft_free(char **array);
 void				ft_cmd_free(t_data *d);
@@ -137,21 +137,21 @@ void				my_putstr_fd(char *str, int fd);
 void				process_pipe(t_data *d);
 int					pipe_func(t_data *data, int *fx, int fd, int idx);
 
-int					ft_read_term(t_data *d);
+int					ft_read_term(void);
 int					putchar_tc(int tc);
-void				ft_insert_char(t_data *d);
-void				ft_backspace_char(t_data *d);
+void				ft_insert_char(void);
+void				ft_backspace_char(void);
 int					ft_history_len(void);
 void				ft_term_left(void);
 void				ft_term_right(void);
-void				ft_term_backspace(t_data *d);
-void				ft_term_delete(t_data *d);
-void				ft_term_write(t_data *d);
-void				ft_term_enter(t_data *d);
-void				ft_term_up(t_data *d);
-void				ft_term_down_1(t_data *d);
-void				ft_term_down_2(t_data *d);
-void				ft_term_d(t_data *d);
+void				ft_term_backspace(void);
+void				ft_term_delete(void);
+void				ft_term_write(void);
+void				ft_term_enter(void);
+void				ft_term_up(void);
+void				ft_term_down_1(void);
+void				ft_term_down_2(void);
+void				ft_term_d(void);
 
 void				porcess_echo(t_data *data);
 void				recover_std(t_data *d);

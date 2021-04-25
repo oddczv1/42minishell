@@ -15,7 +15,6 @@
 void		init_data(t_data *d, char **argv, char **env)
 {
 	d->argv = argv;
-	d->str = 0;
 	d->fd[0] = 0;
 	d->num = 0;
 	d->env = ft_get_env(env);
@@ -34,6 +33,7 @@ void		init_data(t_data *d, char **argv, char **env)
 	tcsetattr(0, TCSANOW, &g_t.termi);
 	tgetent(NULL, "xterm");
 	get_paths(d);
+	g_t.str = 0;
 	g_t.status = 0;
 	g_t.d_flag = 0;
 }
@@ -54,14 +54,22 @@ void		signal_handler(int signum)
 {
 	if (signum == SIGINT)
 	{
+		write(2, "\n", 1);
+		while (g_t.col)
+		{
+			--g_t.col;
+			tputs(tgetstr("le", NULL), 1, putchar_tc);
+		}
+		tputs(tgetstr("ce", NULL), 1, putchar_tc);
+		g_t.col = 0;
+		g_t.max = 0;
+		g_t.down = 0;
+		if (g_t.str != 0)
+			free(g_t.str);
+		g_t.str = 0;
 		g_t.status = 1;
 		if (!g_t.pids)
-		{
-			ft_putstr_fd("\n", 2);
 			write(2, ">>> ~% ", 7);
-		}
-		else
-			ft_putstr_fd("\n", 2);
 	}
 	else if (signum == SIGQUIT)
 	{
@@ -86,13 +94,13 @@ int			main(int argc, char **argv, char **env)
 		init_term();
 		while ((read(0, &g_t.c, sizeof(g_t.c))) > 0)
 		{
-			if (ft_read_term(&d) == 1)
+			if (ft_read_term() == 1)
 				break ;
 		}
 		tcsetattr(0, TCSANOW, &g_t.termi);
 		parse(&d);
-		free(d.str);
-		d.str = 0;
+		free(g_t.str);
+		g_t.str = 0;
 	}
 	return (g_t.status);
 }

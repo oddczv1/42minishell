@@ -91,7 +91,7 @@ void		parse(t_data *d)
 {
 	d->p_i = -1;
 	d->enable = 0;
-	d->cmds = ft_split_semi(d->str);
+	d->cmds = ft_split_semi(g_t.str);
 	if (!d->cmds)
 		return ;
 	while (d->cmds[++d->p_i])
