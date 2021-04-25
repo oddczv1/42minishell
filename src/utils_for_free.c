@@ -1,24 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   for_pwd.c                                          :+:      :+:    :+:   */
+/*   utils_for_free.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: huchoi <huchoi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: youngrch <youngrch@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/24 15:07:43 by huchoi            #+#    #+#             */
-/*   Updated: 2021/04/24 15:07:45 by huchoi           ###   ########.fr       */
+/*   Created: 2021/04/25 02:51:01 by youngrch          #+#    #+#             */
+/*   Updated: 2021/04/25 02:51:23 by youngrch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	process_pwd(t_data *data)
+void		ft_free(char **array)
 {
-	char buf[1025];
+	int i;
 
-	if (0 == getcwd(buf, 1024))
-		ft_putstr_fd("err", 2);
-	ft_putstr_fd(buf, 1);
-	write(1, "\n", 2);
-	recover_std(data);
+	i = 0;
+	while (array[i])
+	{
+		free(array[i]);
+		i++;
+	}
+	free(array);
+}
+
+void		ft_cmd_free(t_data *d)
+{
+	int i;
+
+	i = 0;
+	while (i < d->max_idx)
+	{
+		if (d->cmd[i])
+			free(d->cmd[i]);
+		i++;
+	}
+	free(d->cmd);
 }

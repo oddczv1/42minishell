@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: huchoi <huchoi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: youngrch <youngrch@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 23:45:09 by youngrch          #+#    #+#             */
-/*   Updated: 2021/04/22 15:04:12 by huchoi           ###   ########.fr       */
+/*   Updated: 2021/04/22 15:04:12 by youngrch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ void		ft_check_split(t_data *d, int idx)
 	d->cmd = ft_split_pipe(d->argv[idx]);
 	ft_check_env(d);
 	ft_remove_mark(d);
+	ft_get_cmdlen(d);
 	ft_check_redirection(d);
 	ft_check_upper(d);
 }

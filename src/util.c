@@ -3,14 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   util.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: huchoi <huchoi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: youngrch <youngrch@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/10 15:33:49 by huchoi            #+#    #+#             */
-/*   Updated: 2021/04/22 18:59:26 by huchoi           ###   ########.fr       */
+/*   Created: 2020/12/10 15:33:49 by youngrch          #+#    #+#             */
+/*   Updated: 2021/04/22 18:59:26 by youngrch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void		ft_get_cmdlen(t_data *d)
+{
+	d->max_idx = -1;
+	while (d->cmd[++d->max_idx])
+		;
+}
 
 int			ft_check_escape_num(char *str, int i)
 {
@@ -37,19 +44,6 @@ int			ft_read_str(t_data *d, char *buf)
 		free(d->str);
 	d->str = tem;
 	return (1);
-}
-
-void		ft_free(char **array)
-{
-	int i;
-
-	i = 0;
-	while (array[i])
-	{
-		free(array[i]);
-		i++;
-	}
-	free(array);
 }
 
 int			ft_isquote(char *str)

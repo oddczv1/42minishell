@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   for_env_2.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: huchoi <huchoi@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/04/24 15:28:37 by huchoi            #+#    #+#             */
+/*   Updated: 2021/04/24 15:29:12 by huchoi           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
 void			over_write(t_data *data, char *key_value, int idx)
@@ -22,7 +34,7 @@ void			over_write(t_data *data, char *key_value, int idx)
 	}
 }
 
-int				match_key(char *key_value, char *str)//검증필요
+int				match_key(char *key_value, char *str)
 {
 	int size;
 
@@ -68,23 +80,6 @@ static	void	add_one(t_data *data, char **new_env, char *str)
 	new_env[count] = NULL;
 }
 
-/*void			delete_equal(t_data *data)
-{
-	char	*str;
-	char	*temp;
-	char	*point;
-	char	*plus;
-
-	point = ft_strchr(data->cmd[1], '=');
-	if (point != NULL)
-		plus = ft_strdup(p + 1);
-	//temp = ft_strdup(data->cmd[1]);
-	str = ft_strjoin(data->env[idx], point + 1);
-	free(temp);
-	free(data->cmd[1]);
-	data->cmd[1] = ft_strjoin(str, plus);
-}*/
-
 void			renewer_env(t_data *data, char *key, char *str, int size)
 {
 	char **new_env;
@@ -94,13 +89,7 @@ void			renewer_env(t_data *data, char *key, char *str, int size)
 	if (str == NULL)
 		delete_one(data, new_env, key);
 	else
-	{
-		/*if (add_operation(data->cmd[1]))
-		{
-			delete_equal(data);
-		}*/
 		add_one(data, new_env, str);
-	}
 	free(data->env);
 	data->env = new_env;
 }

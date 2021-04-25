@@ -6,7 +6,7 @@
 /*   By: huchoi <huchoi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 14:56:36 by youngrch          #+#    #+#             */
-/*   Updated: 2021/04/23 17:43:14 by huchoi           ###   ########.fr       */
+/*   Updated: 2021/04/24 15:44:50 by huchoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ int					ft_read_str(t_data *d, char *buf);
 char				**ft_get_env(char **env);
 void				ft_free(char **array);
 void				ft_cmd_free(t_data *d);
+void				ft_get_cmdlen(t_data *d);
 int					ft_isquote(char *str);
 void				ft_check_upper(t_data *d);
 void				parse(t_data *d);
@@ -107,6 +108,12 @@ int					ft_check_escape_num(char *str, int i);
 void				ft_check_word(t_data *d, char *str, int *i);
 void				ft_check_argv(t_data *d, char *str);
 void				ft_check_pipe(t_data *d, char *str);
+
+int					ft_iscmd(t_data *d, int i);
+void				ft_put_echo(t_data *d);
+void				ft_have_cmd(t_data *d, int *i);
+void				ft_put_cmd(t_data *d);
+void				ft_non_cmd(t_data *d, int *i);
 
 void				ft_command(t_data *d, int *fd_std, int *fd_cmd, int pipe1);
 void				ft_put_env_value(t_data *d, char *str,
@@ -164,4 +171,11 @@ void				over_write(t_data *data, char *key_value, int idx);
 void				signal_handler(int signum);
 int					is_valid(t_data *data);
 int					add_operation(char *str);
+
+int					check_head_valid(t_data *data);
+int					check_other_valid(t_data *data);
+void				err_messag(t_data *d, int *fx, int fd, int idx);
+int					err_message(t_data *d);
+void				ready_for_execute(int *fx, int fd, int idx);
+int					cur(int x);
 #endif
