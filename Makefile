@@ -6,7 +6,7 @@
 #    By: huchoi <huchoi@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/04/06 15:02:07 by youngrch          #+#    #+#              #
-#    Updated: 2021/04/24 15:45:03 by huchoi           ###   ########.fr        #
+#    Updated: 2021/04/25 16:01:06 by huchoi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,8 @@ SRCS		= ./main.c \
 				./src/get_path_exec_dir_file.c \
 				./src/for_env_2.c ./src/for_bash.c \
 				./src/get_path_exec_dir_file_utils.c \
-				./src/for_export_2.c ./src/pipe_line_2.c
+				./src/for_export_2.c ./src/pipe_line_2.c \
+				./src/for_exit.c
 
 
 OBJS		= $(SRCS:.c=.o)
