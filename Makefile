@@ -28,7 +28,7 @@ SRCS		= ./main.c \
 				./src/for_env.c \
 				./src/pipe.c \
 				./src/process.c \
-				./src/think.c \
+				./src/pipe_line.c \
 				./src/for_pwd.c \
 				./src/for_cd.c \
 				./src/for_export.c \
@@ -37,7 +37,7 @@ SRCS		= ./main.c \
 				./src/get_path_exec_dir_file.c \
 				./src/for_env_2.c ./src/for_bash.c \
 				./src/get_path_exec_dir_file_utils.c \
-				./src/for_export_2.c ./src/think_2.c
+				./src/for_export_2.c ./src/pipe_line_2.c
 
 
 OBJS		= $(SRCS:.c=.o)

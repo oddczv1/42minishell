@@ -70,6 +70,7 @@ void		ft_have_cmd(t_data *d, int *i)
 			close(d->check_open);
 			(*i)++;
 		}
+		ft_put_echo(d);
 	}
 }
 
