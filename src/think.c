@@ -54,12 +54,12 @@ void	connect_pipe(t_data *d, int *idx, int *fx, int *fd)
 	*idx = 0;
 	*fd = dup(0);
 	while (d->argv[*idx + 1] != NULL)
-    {
-        ft_check_split(d, *idx);
-        *fd = pipe_func(d, fx, *fd, *idx);
-        ft_cmd_free(d);
-        (*idx)++;
-    }
+	{
+		ft_check_split(d, *idx);
+		*fd = pipe_func(d, fx, *fd, *idx);
+		ft_cmd_free(d);
+		(*idx)++;
+	}
 }
 
 void	last_command(t_data *d, int *fd, int *fx, int *idx)
