@@ -124,7 +124,7 @@ void		ft_check_redirection(t_data *d)
 		}
 		else if (ft_memcmp(d->cmd[i], "<", 2) == 0)
 		{
-			if (ft_two_right(d, &i))
+			if (ft_one_left(d, &i))
 				break ;
 		}
 	}

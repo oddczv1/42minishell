@@ -30,7 +30,7 @@ void	ft_term_right(void)
 	}
 }
 
-void	ft_term_backspace(t_data *d)
+void	ft_term_backspace(void)
 {
 	if (g_t.col > 0)
 	{
@@ -38,21 +38,21 @@ void	ft_term_backspace(t_data *d)
 		--g_t.max;
 		tputs(tgetstr("le", NULL), 1, putchar_tc);
 		tputs(tgetstr("dc", NULL), 1, putchar_tc);
-		ft_backspace_char(d);
+		ft_backspace_char();
 	}
 }
 
-void	ft_term_delete(t_data *d)
+void	ft_term_delete(void)
 {
 	if (g_t.max > g_t.col && g_t.col >= 0)
 	{
 		--g_t.max;
 		tputs(tgetstr("dc", NULL), 1, putchar_tc);
-		ft_backspace_char(d);
+		ft_backspace_char();
 	}
 }
 
-void	ft_term_write(t_data *d)
+void	ft_term_write(void)
 {
 	if (g_t.c != 9)
 	{
@@ -62,8 +62,8 @@ void	ft_term_write(t_data *d)
 		write(0, &g_t.c, 1);
 		g_t.buf[0] = (char)g_t.c;
 		if (g_t.col == g_t.max)
-			ft_read_str(d, g_t.buf);
+			ft_read_str(g_t.buf);
 		else
-			ft_insert_char(d);
+			ft_insert_char();
 	}
 }

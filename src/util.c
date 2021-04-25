@@ -34,15 +34,15 @@ int			ft_check_escape_num(char *str, int i)
 	return (num);
 }
 
-int			ft_read_str(t_data *d, char *buf)
+int			ft_read_str(char *buf)
 {
 	char *tem;
 
-	if (!(tem = ft_strjoin(d->str, buf)))
+	if (!(tem = ft_strjoin(g_t.str, buf)))
 		return (0);
-	if (d->str)
-		free(d->str);
-	d->str = tem;
+	if (g_t.str)
+		free(g_t.str);
+	g_t.str = tem;
 	return (1);
 }
 
