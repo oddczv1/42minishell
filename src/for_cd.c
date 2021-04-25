@@ -6,7 +6,7 @@
 /*   By: huchoi <huchoi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/24 15:32:16 by huchoi            #+#    #+#             */
-/*   Updated: 2021/04/25 19:57:22 by huchoi           ###   ########.fr       */
+/*   Updated: 2021/04/25 20:40:00 by huchoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void			process_cd(t_data *data)
 		free(data->cmd);
 		data->cmd = ft_split("cd ~", ' ');
 	}
-	if (ft_strncmp(data->cmd[1], "~", 2) == 0)
+	if (ft_strncmp(data->cmd[1], "~", 2) == 0)//여기서 2개를 비교하고있었음.
 	{
 		while (data->env[idx])
 		{
@@ -42,17 +42,7 @@ void			process_cd(t_data *data)
 		free(data->cmd[1]);
 		data->cmd[1] = ft_strdup(buf);
 	}
-	char **split = ft_split(data->cmd[1], '/');
-	idx = 0;
-	while (split[idx])
-	{
-		if (-1 == chdir(split[idx]))
-			error_message(data);
-		idx++;
-	}
-	idx = 0;
-	while (split[idx])
-		free(split[idx++]);
-	free(split);//필수!!!!
+	if (-1 == chdir(data->cmd[1]))
+		error_message(data);
 	recover_std(data);
 }
