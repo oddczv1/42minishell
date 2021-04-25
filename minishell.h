@@ -63,6 +63,8 @@ typedef struct		s_data{
 	int				check_open;
 	int				start;
 	int				max_idx;
+	char			*env_tem;
+	int				env_start;
 }					t_data;
 
 typedef struct		s_termcap{
