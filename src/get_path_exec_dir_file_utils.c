@@ -6,7 +6,7 @@
 /*   By: huchoi <huchoi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/24 15:07:09 by huchoi            #+#    #+#             */
-/*   Updated: 2021/04/24 15:07:10 by huchoi           ###   ########.fr       */
+/*   Updated: 2021/04/25 19:56:13 by huchoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,13 @@ void	get_paths(t_data *data)
 			ft_strlcpy(env_path, p + 1, 1000);
 		}
 		idx++;
+	}
+	if (data->paths != NULL)
+	{
+		idx = 0;
+		while (data->paths[idx])
+			free(data->paths[idx++]);
+		free(data->paths);
 	}
 	data->paths = ft_split(env_path, ':');
 }
@@ -52,4 +59,52 @@ int		execfile_in_path(t_data *data, char *path)
 	}
 	closedir(dir_ptr);
 	return (ret);
+}
+
+int		ft_relative_path_check(t_data *data, t_path_var *var)
+{
+	//ft_putstr_fd("reach???\n", 2);
+	char	original[1024];
+	char	*test;
+	char	abs_path[1024];
+	int		ret;
+	pid_t pid;
+	int status;
+	if ((pid = fork()) == 0)
+	{
+		test = getcwd(original, 1024);
+		//printf("original : %s\n", original);
+		//printf("original : %s\n", test);
+		char **split = ft_split(var->temp_dir, '/');//free필요없을듯?!!
+		int num;
+		int idx = 0;
+		while (split[idx])
+		{	num = chdir(var->temp_dir);
+			//printf("num = %d\n", num);
+			idx++;
+		}
+		//printf("var->temp_dir = %s\n", var->temp_dir);
+		getcwd(abs_path, 1024);
+		//printf("abs_path = %s\n", abs_path);
+		if (ft_strncmp(abs_path, data->paths[var->idx], 1024) == 0)//일치하면
+			ret = 1;
+		else if (ft_strncmp(var->temp_dir, data->paths[var->idx], 300) == 0)
+			ret = 1;
+		else//일치하지않으면
+			ret = 0;
+		/*ft_putchar_fd(ret + '0', 2);
+		ft_putstr_fd("\n", 2);
+		ft_putstr_fd(abs_path, 2);
+		ft_putstr_fd("\n", 2);
+		ft_putstr_fd(data->paths[var->idx], 2);
+		ft_putstr_fd("\n", 2);
+		//chdir(original);//절대 지우면 안됨.
+		printf("original : %s\n", original);*/
+		exit(ret);
+	}
+	else
+	{
+		waitpid(pid, &status, 0);
+	}
+	return (status);
 }

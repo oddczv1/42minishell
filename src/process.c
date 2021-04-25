@@ -6,7 +6,7 @@
 /*   By: huchoi <huchoi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/24 15:03:40 by huchoi            #+#    #+#             */
-/*   Updated: 2021/04/25 12:54:27 by huchoi           ###   ########.fr       */
+/*   Updated: 2021/04/25 16:01:26 by huchoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	process_builtin(t_data *data)
 	else if (!ft_strncmp(data->cmd[0], "unset", 6))
 		process_unset(data);
 	else if (!ft_strncmp(data->cmd[0], "exit", 5))
-		exit(0);
+		process_exit(data);
 	else
 		process_bash(data);
 	if (!data->flag)

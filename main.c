@@ -6,7 +6,7 @@
 /*   By: huchoi <huchoi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 14:40:55 by youngrch          #+#    #+#             */
-/*   Updated: 2021/04/22 14:57:55 by huchoi           ###   ########.fr       */
+/*   Updated: 2021/04/25 16:08:28 by huchoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void		init_data(t_data *d, char **argv, char **env)
 	d->env = ft_get_env(env);
 	d->ft_std[0] = dup(0);
 	d->ft_std[1] = dup(1);
+	d->paths = NULL;
 	g_t.buf[1] = 0;
 	g_t.index = 0;
 	g_t.history = (char **)malloc(sizeof(char *) * 101);
@@ -81,6 +82,7 @@ void		signal_handler(int signum)
 int			main(int argc, char **argv, char **env)
 {
 	t_data	d;
+	char	b[2];
 
 	if (argc != 1)
 		return (1);
@@ -90,14 +92,15 @@ int			main(int argc, char **argv, char **env)
 		write(2, ">>> ~% ", 7);
 		signal(SIGINT, signal_handler);
 		signal(SIGQUIT, signal_handler);
-		tcsetattr(0, TCSANOW, &g_t.new_termi);
-		init_term();
-		while ((read(0, &g_t.c, sizeof(g_t.c))) > 0)
+		//tcsetattr(0, TCSANOW, &g_t.new_termi);
+		//init_term();
+		while ((read(0, &b, 1)) && b[0] != '\n')
 		{
-			if (ft_read_term() == 1)
-				break ;
+		ft_read_str(b);
+			//if (ft_read_term() == 1)
+				//break ;
 		}
-		tcsetattr(0, TCSANOW, &g_t.termi);
+		//tcsetattr(0, TCSANOW, &g_t.termi);
 		parse(&d);
 		free(g_t.str);
 		g_t.str = 0;
