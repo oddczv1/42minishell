@@ -78,7 +78,34 @@ void		signal_handler(int signum)
 			ft_putstr_fd("Quit : 3 \n", 2);
 	}
 }
+/*
+int			main(int argc, char **argv, char **env)
+{
+	t_data	d;
 
+	if (argc != 1)
+		return (1);
+	init_data(&d, argv, env);
+	while (!g_t.d_flag)
+	{
+		write(2, ">>> ~% ", 7);
+		signal(SIGINT, signal_handler);
+		signal(SIGQUIT, signal_handler);
+		tcsetattr(0, TCSANOW, &g_t.new_termi);
+		init_term();
+		while ((read(0, &g_t.c, sizeof(g_t.c))) > 0)
+		{
+			if (ft_read_term() == 1)
+				break ;
+		}
+		tcsetattr(0, TCSANOW, &g_t.termi);
+		parse(&d);
+		free(g_t.str);
+		g_t.str = 0;
+	}
+	return (g_t.status);
+}
+*/
 int			main(int argc, char **argv, char **env)
 {
 	t_data	d;
@@ -92,18 +119,12 @@ int			main(int argc, char **argv, char **env)
 		write(2, ">>> ~% ", 7);
 		signal(SIGINT, signal_handler);
 		signal(SIGQUIT, signal_handler);
-		//tcsetattr(0, TCSANOW, &g_t.new_termi);
-		//init_term();
-		while ((read(0, &b, 1)) && b[0] != '\n')
-		{
-		ft_read_str(b);
-			//if (ft_read_term() == 1)
-				//break ;
-		}
-		//tcsetattr(0, TCSANOW, &g_t.termi);
+		while (read(0, &b, 1) && b[0] != '\n')
+			ft_read_str(b);
 		parse(&d);
 		free(g_t.str);
 		g_t.str = 0;
 	}
 	return (g_t.status);
 }
+
