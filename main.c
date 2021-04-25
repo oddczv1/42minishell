@@ -6,7 +6,7 @@
 /*   By: huchoi <huchoi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 14:40:55 by youngrch          #+#    #+#             */
-/*   Updated: 2021/04/22 14:57:55 by huchoi           ###   ########.fr       */
+/*   Updated: 2021/04/25 16:08:28 by huchoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void		init_data(t_data *d, char **argv, char **env)
 	d->env = ft_get_env(env);
 	d->ft_std[0] = dup(0);
 	d->ft_std[1] = dup(1);
+	d->paths = NULL;
 	g_t.buf[1] = 0;
 	g_t.index = 0;
 	g_t.history = (char **)malloc(sizeof(char *) * 101);
