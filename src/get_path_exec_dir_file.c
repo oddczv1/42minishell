@@ -6,7 +6,7 @@
 /*   By: huchoi <huchoi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/24 15:05:34 by huchoi            #+#    #+#             */
-/*   Updated: 2021/04/25 19:49:47 by huchoi           ###   ########.fr       */
+/*   Updated: 2021/04/26 12:54:05 by huchoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,6 @@ int				get_exec_dir_file(t_data *data)
 	{
 		if (execfile_in_path(data, data->paths[var.idx]) == 1)
 		{
-			//ft_putstr_fd("???????\n", 2);
 			if (path_err(data, &var) == 1)
 				return (0);
 			break ;
