@@ -6,7 +6,7 @@
 /*   By: huchoi <huchoi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/24 15:07:09 by huchoi            #+#    #+#             */
-/*   Updated: 2021/04/26 12:50:32 by huchoi           ###   ########.fr       */
+/*   Updated: 2021/04/26 15:50:41 by huchoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ int		execfile_in_path(t_data *data, char *path)
 int		ft_relative_path_check(t_data *data, t_path_var *var)
 {
 	char	original[1024];
-	char	*test;
 	char	abs_path[1024];
 	int		ret;
 	pid_t	pid;
@@ -72,7 +71,7 @@ int		ft_relative_path_check(t_data *data, t_path_var *var)
 
 	if ((pid = fork()) == 0)
 	{
-		test = getcwd(original, 1024);
+		getcwd(original, 1024);
 		chdir(var->temp_dir);
 		getcwd(abs_path, 1024);
 		if (ft_strncmp(abs_path, data->paths[var->idx], 1024) == 0)

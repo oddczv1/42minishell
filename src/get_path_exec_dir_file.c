@@ -6,7 +6,7 @@
 /*   By: huchoi <huchoi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/24 15:05:34 by huchoi            #+#    #+#             */
-/*   Updated: 2021/04/26 12:54:05 by huchoi           ###   ########.fr       */
+/*   Updated: 2021/04/26 15:50:10 by huchoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ static	void	path_to_file(t_data *data, t_path_var *var)
 	ft_strlcpy(var->str, data->cmd[0], 300);
 	*(var->p) = 0;
 	ft_strlcpy(var->temp_dir, data->cmd[0], 300);
-	//printf("var->temp_dir = %s\n", var->temp_dir);//
 	var->temp_file = ft_strdup(var->p + 1);
 	free(data->cmd[0]);
 	data->cmd[0] = var->temp_file;
@@ -27,11 +26,9 @@ static	void	path_to_file(t_data *data, t_path_var *var)
 static	int		path_err(t_data *data, t_path_var *var)
 {
 	char	*temp;
-	//ft_putstr_fd("???????\n", 2);
-	//printf("var->flag = %d\n", var->flag);
+
 	if (!ft_relative_path_check(data, var) && var->flag == 1)
 	{
-		//ft_putstr_fd("reach???\n", 2);
 		ft_putstr_fd("bash: ", 2);
 		ft_putstr_fd(var->str, 2);
 		ft_putstr_fd(": No such file or directory", 2);
