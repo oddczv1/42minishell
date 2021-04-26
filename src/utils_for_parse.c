@@ -64,13 +64,13 @@ void		ft_removechar_3(char *str, int *i, int *dquote)
 
 void		ft_removechar_2(char *str, int *i, int *quote, int *dquote)
 {
-	if (str[*i] == '\\' && (str[(*i) + 1] != '\\'
+	/*if (str[*i] == '\\' && (str[(*i) + 1] != '\\'
 		|| str[(*i) + 1] != '\'' || str[(*i) + 1] != '\"'))
 	{
 		ft_memmove(str + (*i), str + (*i) + 1, ft_strlen(str + (*i) + 1));
 		str[ft_strlen(str) - 1] = 0;
 	}
-	else if (!ft_check_escape_num(str, *i) && str[*i] == '\'')
+	else*/ if (!ft_check_escape_num(str, *i) && str[*i] == '\'')
 	{
 		ft_memmove(str + (*i), str + (*i) + 1, ft_strlen(str + (*i) + 1));
 		str[ft_strlen(str) - 1] = 0;

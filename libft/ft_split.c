@@ -12,7 +12,7 @@
 
 #include "libft.h"
 
-void		ft_find_char(char const *s, int *i, int *token, char c)
+void		ft_find_char(char const *s, int *i, char c)
 {
 	int start;
 
@@ -21,7 +21,7 @@ void		ft_find_char(char const *s, int *i, int *token, char c)
 	{
 		if (s[start] == c)
 		{
-			*token = 0;
+			(*i)++;
 			break ;
 		}
 		start++;
@@ -29,15 +29,30 @@ void		ft_find_char(char const *s, int *i, int *token, char c)
 	}
 }
 
+void		ft_pass_word(char const *s, char c, int *i)
+{
+	while (s[(*i)] != c && s[(*i)])
+	{
+		if (s[(*i)] == '\'')
+		{
+			(*i)++;
+			ft_find_char(s, i, '\'');
+		}
+		else if (s[(*i)] == '\"')
+		{
+			(*i)++;
+			ft_find_char(s, i, '\"');
+		}
+		else
+			(*i)++;
+	}
+}
+
 int			ft_count2(char const *s, char c)
 {
 	int		count;
-	int		q;
-	int		dq;
 	int		i;
 
-	q = 0;
-	dq= 0;
 	i = 0;
 	if (!s)
 		return (0);
@@ -48,25 +63,7 @@ int			ft_count2(char const *s, char c)
 			i++;
 		if (!s[i])
 			break ;
-		while (s[i] != c && s[i])
-		{
-			if (s[i] == '\'' && q == 0 && dq == 0)
-			{
-				q = 1;
-				i++;
-			}
-			if (s[i] == '\"' && q == 0 && dq == 0)
-			{
-				dq = 1;
-				i++;
-			}
-			if (q == 1 && dq == 0)
-				ft_find_char(s, &i, &q, '\'');
-			else if (q == 0 && dq == 1)
-				ft_find_char(s, &i, &dq, '\"');	
-			else
-				i++;
-		}
+		ft_pass_word(s, c, &i);
 		count++;
 	}
 	return (count);
@@ -93,14 +90,10 @@ char		**ft_split(char const *s, char c)
 	const int	count = ft_count2(s, c);
 	int			x;
 	char		**array;
-	int		word_start;
-	int		q;
-	int		dq;
-	int		i;
+	int			word_start;
+	int			i;
 
 	i = 0;
-	q = 0;
-	dq = 0;
 	if (!s)
 		return (0);
 	x = -1;
@@ -113,36 +106,9 @@ char		**ft_split(char const *s, char c)
 		if (!s[i])
 			break ;
 		word_start = i;
-		while (s[i] != c && s[i])
-		{
-			if (s[i] == '\'' && q == 0 && dq == 0)
-				q = 1;
-			if (s[i] == '\"' && q == 0 && dq == 0)
-				dq = 1;
-			if (q == 1 && dq == 0)
-				ft_find_char(s, &i, &q, '\'');
-			else if (q == 0 && dq == 1)
-				ft_find_char(s, &i, &dq, '\"');	
-			else
-				i++;
-		}
+		ft_pass_word(s, c, &i);
 		array[++x] = ft_split_dump(s + word_start, i - word_start);
 	}
 	array[++x] = 0;
 	return (array);
-}
-
-#include <stdio.h>
-
-int main()
-{
-	char *a = "   aaaa;     bbbb;     '   ;   ';      ";
-	char **b;
-	b = ft_split(a, ';');
-	int j = -1;
-	while (b[++j])
-	{
-		printf("%s\n", b[j]);
-	}
-	return 0;
 }

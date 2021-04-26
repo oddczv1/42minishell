@@ -105,7 +105,7 @@ void				ft_check_redirection_two(char *str, int *i);
 void				ft_remove_mark(t_data *d);
 void				ft_check_redirection(t_data *d);
 int					ft_check_escape_num(char *str, int i);
-void				ft_check_word(t_data *d, char *str, int *i);
+void				ft_check_word(t_data *d, char *str);
 void				ft_check_argv(t_data *d, char *str);
 void				ft_check_pipe(t_data *d, char *str);
 

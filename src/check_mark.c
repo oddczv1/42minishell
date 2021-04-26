@@ -81,23 +81,25 @@ void		ft_check_redirection_one(char *str, int *i)
 	if (!ft_isspace(str[(*i) - 1]) && ft_isspace(str[(*i) + 1]))
 	{
 		ft_memmove(str + *i + 1, str + *i, ft_strlen(str + *i));
-		str[*i] = '|';
+		str[*i] = ' ';
 		*i += 2;
 	}
 	else if (ft_isspace(str[(*i) - 1]) && !ft_isspace(str[(*i) + 1]))
 	{
 		ft_memmove(str + *i + 2, str + *i + 1, ft_strlen(str + *i + 1));
-		str[*i + 1] = '|';
+		str[*i + 1] = ' ';
 		*i += 2;
 	}
 	else if (!ft_isspace(str[(*i) - 1]) && !ft_isspace(str[(*i) + 1]))
 	{
 		ft_memmove(str + *i + 1, str + *i, ft_strlen(str + *i));
-		str[*i] = '|';
+		str[*i] = ' ';
 		ft_memmove(str + *i + 2, str + *i + 1, ft_strlen(str + *i + 1));
-		str[*i + 2] = '|';
+		str[*i + 2] = ' ';
 		*i += 3;
 	}
+	else
+		(*i)++;
 }
 
 void		ft_check_redirection_two(char *str, int *i)
@@ -105,21 +107,23 @@ void		ft_check_redirection_two(char *str, int *i)
 	if (!ft_isspace(str[(*i) - 1]) && ft_isspace(str[(*i) + 2]))
 	{
 		ft_memmove(str + *i + 1, str + *i, ft_strlen(str + *i));
-		str[*i] = '|';
+		str[*i] = ' ';
 		*i += 3;
 	}
 	else if (ft_isspace(str[(*i) - 1]) && !ft_isspace(str[(*i) + 2]))
 	{
 		ft_memmove(str + *i + 3, str + *i + 2, ft_strlen(str + *i + 2));
-		str[*i + 2] = '|';
+		str[*i + 2] = ' ';
 		*i += 3;
 	}
 	else if (!ft_isspace(str[(*i) - 1]) && !ft_isspace(str[(*i) + 2]))
 	{
 		ft_memmove(str + *i + 1, str + *i, ft_strlen(str + *i));
-		str[*i] = '|';
+		str[*i] = ' ';
 		ft_memmove(str + *i + 3, str + *i + 2, ft_strlen(str + *i + 2));
-		str[*i + 3] = '|';
+		str[*i + 3] = ' ';
 		*i += 4;
 	}
+	else
+		(*i) += 2;
 }
