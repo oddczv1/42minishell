@@ -6,7 +6,7 @@
 /*   By: huchoi <huchoi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/25 15:54:45 by huchoi            #+#    #+#             */
-/*   Updated: 2021/04/26 19:33:08 by huchoi           ###   ########.fr       */
+/*   Updated: 2021/04/26 20:50:16 by huchoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,29 +50,6 @@ void	many_arg(t_data *data)
 	}
 }
 
-int		is_inside(long long num)
-{
-	//printf("%")
-	if (num > 0)
-	{
-		if (num <= (long long)(9223372036854775807LL))
-			return (1);
-	}
-	else
-	{
-		//num *= -1;
-		if (num >= (long long)(0xFFFFFFFFFFFFFFFF))
-			return (1);
-	}
-	return (0);
-
-
-	//if ((long long)(9223372036854775808LL) * (-1LL)<= num && num <= (long long)9223372036854775807LL)
-//		return (1);
-//	else
-//		return (0);
-}
-
 void	process_exit(t_data *data)
 {
 	int		idx;
@@ -87,7 +64,7 @@ void	process_exit(t_data *data)
 	else
 	{
 		str = data->cmd[1];
-		if (is_numeric(str) && is_inside(ft_atoi(str)))
+		if (is_numeric(str) && is_inside(str))
 			exit(ft_atoi(data->cmd[1]));
 		else
 		{

@@ -6,7 +6,7 @@
 /*   By: huchoi <huchoi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 14:56:36 by youngrch          #+#    #+#             */
-/*   Updated: 2021/04/25 17:00:43 by huchoi           ###   ########.fr       */
+/*   Updated: 2021/04/26 20:49:28 by huchoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,4 +197,5 @@ int					cur(int x);
 void				process_exit(t_data *data);
 int					ft_relative_path_check(t_data *data, t_path_var *var);
 void				error_cd_message(t_data *data);
+int					is_inside(char *str);
 #endif
