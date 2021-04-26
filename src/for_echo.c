@@ -6,7 +6,7 @@
 /*   By: huchoi <huchoi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/24 15:31:52 by huchoi            #+#    #+#             */
-/*   Updated: 2021/04/24 15:31:54 by huchoi           ###   ########.fr       */
+/*   Updated: 2021/04/26 19:36:57 by huchoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void			porcess_echo(t_data *data)
 			write(1, "\n", 1);
 		return ;
 	}
-	if (!ft_strncmp(data->cmd[idx], "-n", 3))
+	while (!ft_strncmp(data->cmd[idx], "-n", 3))
 		idx++;
 	while (data->cmd[idx + 1] && data->cmd[idx])
 	{
