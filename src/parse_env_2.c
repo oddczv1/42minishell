@@ -92,7 +92,7 @@ void		ft_put_env(t_data *d, char *str, int *i)
 	{
 		d->env_start = *i;
 		while (str[*i] != ' ' && str[*i] != '\0' && str[*i] != '\"'
-			&& str[*i] != '$' && str[*i] != '=')
+			&& str[*i] != '$' && str[*i] != '=' && str[*i] != '}')
 			(*i)++;
 		ft_put_env_value_1(d, str, i, d->env_start);
 	}

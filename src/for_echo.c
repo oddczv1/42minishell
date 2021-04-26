@@ -40,12 +40,6 @@ int				is_newline(char *str)
 	return (0);
 }
 
-static	void	ft_white_space(char *str, int *p_idx)
-{
-	write(1, str, 1);
-	*(p_idx) += 2;
-}
-
 void			my_putstr_fd(char *str, int fd)
 {
 	int idx;
@@ -53,21 +47,8 @@ void			my_putstr_fd(char *str, int fd)
 	idx = 0;
 	while (str[idx])
 	{
-		if (!ft_strncmp(&str[idx], "\\n", 2))
-			ft_white_space("\n", &idx);
-		else if (!ft_strncmp(&str[idx], "\\f", 2))
-			ft_white_space("\f", &idx);
-		else if (!ft_strncmp(&str[idx], "\\t", 2))
-			ft_white_space("\t", &idx);
-		else if (!ft_strncmp(&str[idx], "\\v", 2))
-			ft_white_space("\v", &idx);
-		else if (!ft_strncmp(&str[idx], "\\r", 2))
-			ft_white_space("\r", &idx);
-		else
-		{
-			write(fd, &str[idx], 1);
-			idx++;
-		}
+		write(fd, &str[idx], 1);
+		idx++;
 	}
 }
 
