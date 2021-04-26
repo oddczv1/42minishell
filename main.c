@@ -48,6 +48,7 @@ void		init_term(void)
 	g_t.down = 0;
 	g_t.pids = 0;
 	g_t.temindex = g_t.index - 1;
+	g_t.err = 0;
 	g_t.num = ft_history_len();
 }
 
@@ -78,7 +79,7 @@ void		signal_handler(int signum)
 			ft_putstr_fd("Quit : 3 \n", 2);
 	}
 }
-/*
+
 int			main(int argc, char **argv, char **env)
 {
 	t_data	d;
@@ -105,8 +106,8 @@ int			main(int argc, char **argv, char **env)
 	}
 	return (g_t.status);
 }
-*/
 
+/*
 int			main(int argc, char **argv, char **env)
 {
 	t_data	d;
@@ -120,6 +121,7 @@ int			main(int argc, char **argv, char **env)
 		write(2, ">>> ~% ", 7);
 		signal(SIGINT, signal_handler);
 		signal(SIGQUIT, signal_handler);
+		init_term();
 		while (read(0, &b, 1) && b[0] != '\n')
 			ft_read_str(b);
 		parse(&d);
@@ -128,3 +130,4 @@ int			main(int argc, char **argv, char **env)
 	}
 	return (g_t.status);
 }
+*/

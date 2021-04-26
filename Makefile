@@ -41,7 +41,6 @@ SRCS		= ./main.c \
 				./src/for_export_2.c ./src/pipe_line_2.c \
 				./src/for_exit.c
 
-
 OBJS		= $(SRCS:.c=.o)
 
 RM			= rm -f

@@ -61,7 +61,6 @@ typedef struct		s_data{
 	int				is_cmd;
 	int				check_open;
 	int				start;
-	int				max_idx;
 	char			*env_tem;
 	int				env_start;
 }					t_data;
@@ -85,6 +84,9 @@ typedef struct		s_termcap{
 	int				status;
 	int				d_flag;
 	int				rs_len;
+	int				err;
+	int				idx;
+	int				max_idx;
 }					t_termcap;
 
 t_termcap			g_t;

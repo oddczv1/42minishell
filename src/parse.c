@@ -60,9 +60,12 @@ void		ft_check_split(t_data *d, int idx)
 	d->flag = 0;
 	ft_check_word(d, d->argv[idx]);
 	d->cmd = ft_split(d->argv[idx], ' ');
-	ft_check_env(d);
-	ft_remove_mark(d);
 	ft_get_cmdlen(d);
+	ft_check_env(d);
+	if (!d->enable)
+		ft_remove_mark(d);
+	if (g_t.err == 1)
+		d->enable = 1;
 	ft_check_redirection(d);
 	ft_check_upper(d);
 }
