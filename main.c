@@ -106,28 +106,3 @@ int			main(int argc, char **argv, char **env)
 	}
 	return (g_t.status);
 }
-
-/*
-int			main(int argc, char **argv, char **env)
-{
-	t_data	d;
-	char	b[2];
-
-	if (argc != 1)
-		return (1);
-	init_data(&d, argv, env);
-	while (!g_t.d_flag)
-	{
-		write(2, ">>> ~% ", 7);
-		signal(SIGINT, signal_handler);
-		signal(SIGQUIT, signal_handler);
-		init_term();
-		while (read(0, &b, 1) && b[0] != '\n')
-			ft_read_str(b);
-		parse(&d);
-		free(g_t.str);
-		g_t.str = 0;
-	}
-	return (g_t.status);
-}
-*/

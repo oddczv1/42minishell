@@ -6,7 +6,7 @@
 /*   By: huchoi <huchoi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/24 15:28:37 by huchoi            #+#    #+#             */
-/*   Updated: 2021/04/24 15:29:12 by huchoi           ###   ########.fr       */
+/*   Updated: 2021/04/26 11:38:07 by huchoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,15 +68,23 @@ static	void	delete_one(t_data *data, char **new_env, char *key)
 
 static	void	add_one(t_data *data, char **new_env, char *str)
 {
-	int idx;
-	int count;
+	int		idx;
+	int		count;
+	char	*p;
 
 	idx = 0;
 	count = 0;
 	while (data->env[idx])
 		new_env[count++] = data->env[idx++];
-	if (ft_strchr(str, '='))
+	p = ft_strchr(str, '=');
+	if (p && *(p - 1) != '+')
 		new_env[count++] = ft_strdup(str);
+	else if (p && *(p - 1) == '+')
+	{
+		*(p - 1) = 0;
+		new_env[count++] = ft_strjoin(str, p);
+		*(p - 1) = '+';
+	}
 	new_env[count] = NULL;
 }
 

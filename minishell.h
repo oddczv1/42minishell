@@ -122,6 +122,8 @@ void				ft_put_env_value_2
 void				ft_put_env_value_1
 						(t_data *d, char *str, int *end, int start);
 char				**ft_get_env(char **env);
+void				ft_check_rs(char *str, int *i);
+void				ft_check_rs_err(char *str, int *i, int num);
 
 int					ft_iscmd(t_data *d, int i);
 void				ft_put_echo(t_data *d);
@@ -194,4 +196,5 @@ void				ready_for_execute(int *fx, int fd, int idx);
 int					cur(int x);
 void				process_exit(t_data *data);
 int					ft_relative_path_check(t_data *data, t_path_var *var);
+void				error_cd_message(t_data *data);
 #endif

@@ -14,7 +14,7 @@
 
 void		ft_get_cmdlen(t_data *d)
 {
-	g_t.max_idx= -1;
+	g_t.max_idx = -1;
 	while (d->cmd[++g_t.max_idx])
 		;
 }

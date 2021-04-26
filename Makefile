@@ -14,7 +14,8 @@ NAME		= minishell
 
 SRCS		= ./main.c \
 				./src/util.c \
-				./src/utils_for_parse.c \
+				./src/utils_for_parse_1.c \
+				./src/utils_for_parse_2.c \
 				./src/utils_for_free.c \
 				./src/check_mark.c \
 				./src/parse_env_1.c \
