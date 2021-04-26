@@ -71,18 +71,20 @@ int			ft_count2(char const *s, char c)
 
 char		*ft_split_dump(char const *s, int len)
 {
-	char	d[len + 1];
+	char	*d;
 	char	*str;
 	int		i;
 
 	i = -1;
 	str = (char*)s;
+	d = (char *)malloc(sizeof(char) * (len + 100));
+	ft_memset(d, 0, len + 100);
 	while (++i < len)
 	{
 		d[i] = str[i];
 	}
 	d[i] = 0;
-	return (ft_strdup(d));
+	return (d);
 }
 
 char		**ft_split(char const *s, char c)
