@@ -64,7 +64,7 @@ int			ft_two_right(t_data *d, int *i)
 	return (0);
 }
 
-void		ft_onf_left_2(t_data *d, int *i)
+void		ft_one_left_2(t_data *d, int *i)
 {
 	if (d->fd[0] != 0)
 	{
@@ -86,7 +86,7 @@ int			ft_one_left(t_data *d, int *i)
 		d->enable = 1;
 		return (1);
 	}
-	ft_onf_left_2(d, i);
+	ft_one_left_2(d, i);
 	if (d->fd[0] < 0)
 	{
 		ft_putstr_fd("bash: ", 2);
