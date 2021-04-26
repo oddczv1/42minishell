@@ -75,34 +75,14 @@ void		ft_put_env_value_2(t_data *d, char *str, int *end, int start)
 	return ;
 }
 
-void		ft_put_env_2(t_data *d, char *str, int *i)
-{
-	int start;
-
-	(*i)++;
-	start = *i;
-	while (str[*i] && !(str[(*i) - 1] != '\\' && str[*i] == '}'))
-		(*i)++;
-	if (!str[*i])
-	{
-		ft_putstr_fd("Non finished braceparam\n", 2);
-		g_t.status = 1;
-		d->enable = 1;
-	}
-	else
-		ft_put_env_value_2(d, str, i, start);
-}
-
 void		ft_put_env(t_data *d, char *str, int *i)
 {
 	(*i)++;
 	d->env_tem = ft_itoa(g_t.status);
-	if (str[*i] == '?' && (str[(*i) + 1] == '\0'
-		|| str[(*i) + 1] == '\"' || str[(*i) + 1] == '$'))
-	{
-		d->cmd[d->num] = ft_meminsert(str, d->env_tem, *i + 1, *i);
-		*i += ft_strlen(d->env_tem) - 1;
-	}
+	if (str[*i] == '?')
+		ft_put_env_0(d, str, i);
+	else if (ft_isdigit(str[*i]))
+		ft_put_env_1(str, i);
 	else if (str[*i] == '{' && str[(*i) + 1] == '?' && str[(*i) + 2] == '}')
 	{
 		d->cmd[d->num] = ft_meminsert(str, d->env_tem, *i + 3, *i);
@@ -111,8 +91,8 @@ void		ft_put_env(t_data *d, char *str, int *i)
 	else if (str[*i] != '{')
 	{
 		d->env_start = *i;
-		while (str[*i] != ' ' && str[*i] != '\0'
-				&& str[*i] != '\"' && str[*i] != '$')
+		while (str[*i] != ' ' && str[*i] != '\0' && str[*i] != '\"'
+			&& str[*i] != '$' && str[*i] != '=')
 			(*i)++;
 		ft_put_env_value_1(d, str, i, d->env_start);
 	}

@@ -30,7 +30,7 @@ void		ft_cmd_free(t_data *d)
 	int i;
 
 	i = 0;
-	while (i < d->max_idx)
+	while (i < g_t.max_idx)
 	{
 		if (d->cmd[i])
 			free(d->cmd[i]);

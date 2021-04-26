@@ -33,9 +33,6 @@ SRCS	=	ft_atoi.c \
 			ft_putnbr_fd.c \
 			ft_putstr_fd.c \
 			ft_split.c \
-			ft_split_pipe.c \
-			ft_split_space.c \
-			ft_split_semi.c \
 			ft_strchr.c \
 			ft_strrchr.c \
 			ft_strdup.c \

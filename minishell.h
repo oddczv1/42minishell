@@ -6,7 +6,7 @@
 /*   By: huchoi <huchoi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 14:56:36 by youngrch          #+#    #+#             */
-/*   Updated: 2021/04/26 12:42:09 by huchoi           ###   ########.fr       */
+/*   Updated: 2021/04/25 17:00:43 by huchoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ typedef struct		s_data{
 	int				is_cmd;
 	int				check_open;
 	int				start;
-	int				max_idx;
 	char			*env_tem;
 	int				env_start;
 }					t_data;
@@ -85,12 +84,14 @@ typedef struct		s_termcap{
 	int				status;
 	int				d_flag;
 	int				rs_len;
+	int				err;
+	int				idx;
+	int				max_idx;
 }					t_termcap;
 
 t_termcap			g_t;
 
 int					ft_read_str(char *buf);
-char				**ft_get_env(char **env);
 void				ft_free(char **array);
 void				ft_cmd_free(t_data *d);
 void				ft_get_cmdlen(t_data *d);
@@ -105,11 +106,22 @@ void				ft_check_redirection_one(char *str, int *i);
 void				ft_check_redirection_two(char *str, int *i);
 void				ft_remove_mark(t_data *d);
 void				ft_check_redirection(t_data *d);
-void				ft_check_env(t_data *d);
 int					ft_check_escape_num(char *str, int i);
-void				ft_check_word(t_data *d, char *str, int *i);
+void				ft_check_word(t_data *d, char *str);
 void				ft_check_argv(t_data *d, char *str);
 void				ft_check_pipe(t_data *d, char *str);
+
+void				ft_check_env(t_data *d);
+void				ft_put_env(t_data *d, char *str, int *i);
+void				ft_put_env_0(t_data *d, char *str, int *i);
+void				ft_put_env_1(char *str, int *i);
+void				ft_put_env_2(t_data *d, char *str, int *i);
+void				ft_check_env_rs(char *str, int *j);
+void				ft_put_env_value_2
+						(t_data *d, char *str, int *end, int start);
+void				ft_put_env_value_1
+						(t_data *d, char *str, int *end, int start);
+char				**ft_get_env(char **env);
 
 int					ft_iscmd(t_data *d, int i);
 void				ft_put_echo(t_data *d);

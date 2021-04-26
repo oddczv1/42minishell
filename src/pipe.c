@@ -42,12 +42,20 @@ void		is_pipe(t_data *d)
 
 void		non_pipe(t_data *d)
 {
+	int i;
+
 	d->p_j = -1;
 	while (d->argv[++d->p_j])
 	{
-		ft_check_split(d, d->p_j);
-		if (!d->enable)
-			process(d);
-		ft_cmd_free(d);
+		i = 0;
+		while (ft_isspace(d->argv[d->p_j][i]))
+			(i)++;
+		if (d->argv[d->p_j][i])
+		{
+			ft_check_split(d, d->p_j);
+			if (!d->enable)
+				process(d);
+			ft_cmd_free(d);
+		}
 	}
 }

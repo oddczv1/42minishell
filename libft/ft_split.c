@@ -12,21 +12,58 @@
 
 #include "libft.h"
 
+void		ft_find_char(char const *s, int *i, char c)
+{
+	int start;
+
+	start = *i;
+	while (s[start])
+	{
+		if (s[start] == c)
+		{
+			(*i)++;
+			break ;
+		}
+		start++;
+		(*i)++;
+	}
+}
+
+void		ft_pass_word(char const *s, char c, int *i)
+{
+	while (s[(*i)] != c && s[(*i)])
+	{
+		if (s[(*i)] == '\'')
+		{
+			(*i)++;
+			ft_find_char(s, i, '\'');
+		}
+		else if (s[(*i)] == '\"')
+		{
+			(*i)++;
+			ft_find_char(s, i, '\"');
+		}
+		else
+			(*i)++;
+	}
+}
+
 int			ft_count2(char const *s, char c)
 {
 	int		count;
+	int		i;
 
+	i = 0;
 	if (!s)
 		return (0);
 	count = 0;
-	while (*s)
+	while (s[i])
 	{
-		while (*s == c)
-			s++;
-		if (!*s)
+		while (s[i] == c)
+			i++;
+		if (!s[i])
 			break ;
-		while (*s != c && *s)
-			s++;
+		ft_pass_word(s, c, &i);
 		count++;
 	}
 	return (count);
@@ -51,26 +88,27 @@ char		*ft_split_dump(char const *s, int len)
 char		**ft_split(char const *s, char c)
 {
 	const int	count = ft_count2(s, c);
-	int			i;
+	int			x;
 	char		**array;
-	char		*word_start;
+	int			word_start;
+	int			i;
 
+	i = 0;
 	if (!s)
 		return (0);
-	i = -1;
+	x = -1;
 	if (!(array = (char**)malloc((count + 1) * sizeof(char*))))
 		return (0);
 	while (*s)
 	{
-		while (*s == c)
-			s++;
-		if (!*s)
+		while (s[i] == c)
+			i++;
+		if (!s[i])
 			break ;
-		word_start = (char*)s;
-		while (*s != c && *s)
-			s++;
-		array[++i] = ft_split_dump(word_start, s - word_start);
+		word_start = i;
+		ft_pass_word(s, c, &i);
+		array[++x] = ft_split_dump(s + word_start, i - word_start);
 	}
-	array[++i] = 0;
+	array[++x] = 0;
 	return (array);
 }
