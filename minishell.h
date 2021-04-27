@@ -198,4 +198,6 @@ void				process_exit(t_data *data);
 int					ft_relative_path_check(t_data *data, t_path_var *var);
 void				error_cd_message(t_data *data);
 int					is_inside(char *str);
+void				process_single_builtin(t_data *d, int *fx, int fd, int idx);
+void				process_single_exec(t_data *d, int *fx, int fd, int idx);
 #endif

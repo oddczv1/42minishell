@@ -12,32 +12,13 @@
 
 #include "../minishell.h"
 
-void	single_builtin(t_data *d, int *fx, int fd, int idx)
-{
-	dup2(fx[cur(idx) + 1], 1);
-	process_builtin(d);
-	close(fd);
-	close(fx[cur(idx) + 1]);
-}
-
 int		pipe_func(t_data *d, int *fx, int fd, int idx)
 {
 	pipe(&fx[cur(idx)]);
 	if (is_builtin(d))
-		single_builtin(d, fx, fd, idx);
+		process_single_builtin(d, fx, fd, idx);
 	else if (get_exec_dir_file(d))
-	{
-		if (0 == (d->pids[idx] = fork()))
-		{
-			ready_for_execute(fx, fd, idx);
-			execve(d->exec_file, d->cmd, d->env);
-		}
-		else
-		{
-			if (idx != 0)
-				close(fd);
-		}
-	}
+		process_single_exec(d, fx, fd, idx);
 	else if (!d->flag)
 	{
 		err_messag(d, fx, fd, idx);
